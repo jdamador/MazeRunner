@@ -22,6 +22,9 @@ public class DrawMapController extends JPanel {
     Frame startMaze = MazeController.startMaze;
     BufferedImage imageWall;
     BufferedImage imageFloor;
+    /**
+     * Defaul constuctor
+     */
     public DrawMapController()  {
         try{
         this.imageWall = ImageIO.read(new File("src/pk/codeapp/view/tools/Wall.jpg"));
@@ -32,12 +35,13 @@ public class DrawMapController extends JPanel {
         this.setBackground(Color.LIGHT_GRAY);
 
     }
-
+    /**
+     * Paint the elements in the windows
+     * @param g 
+     */
     @Override
     public void paint(Graphics g) {
-
         super.paint(g);
-
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame reco = startMaze;
@@ -61,7 +65,11 @@ public class DrawMapController extends JPanel {
         }
     }
 
-
+    /**
+     * Calculate the real position in graphic matrix
+     * @param pos
+     * @return 
+     */
     public Dupla calculatePosition(Dupla pos) {
         int x = (int) (pos.getPosX() * 80 + 0.0);
         int y = (int) (pos.getPosY() * 80 + 0.0);
