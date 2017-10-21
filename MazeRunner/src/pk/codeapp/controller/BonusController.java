@@ -13,7 +13,7 @@ import java.util.Random;
 import pk.codeapp.model.Bonus;
 
 /**
- * This class is in charge of the all methods to edit different things
+ * This class is in charge of the all methods to edit different things in the tree
  *
  * @author amador
  */
