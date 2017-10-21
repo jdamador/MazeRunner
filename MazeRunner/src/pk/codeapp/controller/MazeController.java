@@ -17,7 +17,7 @@ import pk.codeapp.model.Link;
  */
 public class MazeController {
 
-    private Frame startMaze;
+    static Frame startMaze;
     private Random randomGenerator = new Random();
 
     /**
@@ -25,6 +25,7 @@ public class MazeController {
      */
     public MazeController() {
         this.startMaze = null;
+         generateMap();
     }
 
     /**

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pk.codeapp.view.tools;
+package pk.codeapp.controller;
 
 import pk.codeapp.controller.MazeController;
+import pk.codeapp.view.GameWindows;
 
 /**
  *
@@ -19,7 +20,8 @@ public class RunApp {
     public static void main(String[] args) {
         // TODO code application logic here
         MazeController maze= new MazeController();
-        maze.generateMap();
+        GameWindows windowGame = new GameWindows();
+        windowGame.setVisible(true);
     }
     
 }
