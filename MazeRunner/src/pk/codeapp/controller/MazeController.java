@@ -60,7 +60,7 @@ public class MazeController {
         }
         makeLinks();
         mark();
-        imprimir();
+       // imprimir();
     }
 
     /**
