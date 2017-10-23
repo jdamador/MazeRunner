@@ -71,8 +71,8 @@ public class DrawMapController extends JPanel {
      * @return 
      */
     public Dupla calculatePosition(Dupla pos) {
-        int x = (int) (pos.getPosX() * 80 + 0.0);
-        int y = (int) (pos.getPosY() * 80 + 0.0);
+        int x = (int) (pos.getPosX() * size + 0.0);
+        int y = (int) (pos.getPosY() * size + 0.0);
         return new Dupla(x, y);
     }
 }
