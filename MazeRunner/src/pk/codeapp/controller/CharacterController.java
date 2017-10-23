@@ -8,19 +8,27 @@ package pk.codeapp.controller;
 import java.util.Random;
 
 /**
- *This method is charge of all character's functions
+ * This method is charge of all character's functions
+ *
  * @author amador
  */
 public class CharacterController {
-    private Random randomGenerator = new Random();
+
+    private int numberCharacters;
+
     /**
      * This method calc a random number
+     *
      * @param limit
-     * @return 
+     * @return
      */
-    public int getRandom(int limit){
-          int randomInt = randomGenerator.nextInt(limit);
+    public int getRandom(int minimum, int maximum) {
+        int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
     }
     
+    public void numbreCharacters() {
+        numberCharacters=getRandom(2, 3);
+    }
+
 }

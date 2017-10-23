@@ -84,6 +84,8 @@ public class BonusController {
      */
     public void createBonus() {
         String[] names = {"Acceleration", "Teleportation", "Wait N seconds ", "Slow down the other players", "Change location target", "Random"};
+        String [] path= {"src/pk/codeapp/view/tools/Acceleration.png","src/pk/codeapp/view/tools/teletransport.png","src/pk/codeapp/view/tools/wait.png"
+        ,"src/pk/codeapp/view/tools/slow.png","src/pk/codeapp/view/tools/slow.png"};
         for (int i = 0; i < 6; i++) {
             int id = getRandom(50);
             int weight = getRandom(100);
