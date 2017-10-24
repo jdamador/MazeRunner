@@ -221,8 +221,8 @@ public class MazeController {
            
            while(running){
                
-               int row=getRandom(5);
-               int column=getRandom(5);
+               int row=getRandom(10);
+               int column=getRandom(10);
                
                if(!exist(row+""+column,beforePositions)){
                    Frame found=search(row+ "," + column);
@@ -260,4 +260,5 @@ public class MazeController {
         int numBonus=getRandom(6);
         return bonusController.searchInTree(numBonus);
     }
+    
 }
