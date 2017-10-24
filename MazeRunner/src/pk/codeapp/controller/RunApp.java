@@ -19,7 +19,7 @@ public class RunApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MazeController maze= new MazeController();
+
         GameWindows windowGame = new GameWindows();
         windowGame.setVisible(true);
     }

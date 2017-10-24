@@ -7,8 +7,10 @@ package pk.codeapp.controller;
 
 import java.util.Random;
 import pk.codeapp.model.Bonus;
+import pk.codeapp.model.Dupla;
 import pk.codeapp.model.Frame;
 import pk.codeapp.model.Link;
+import pk.codeapp.view.GameWindows;
 
 /**
  * This class is in charge of the all methods to edit different things in the
@@ -21,11 +23,17 @@ public class MazeController {
     static Frame startMaze;
     private Random randomGenerator = new Random();
     private BonusController bonusController= new BonusController();
+    private Dupla positionCharacter1;
+    private Dupla positionCharacter2;
+    private Dupla positionCharacter3;
+    private GameWindows window;
     /**
      * Iniitialize the root in null
      */
-    public MazeController() {
+    public MazeController(GameWindows window) {
         this.startMaze = null;
+        this.window=window;
+  
         generateMap();
     }
 
@@ -62,6 +70,7 @@ public class MazeController {
         makeLinks();
         mark();
         initializeBonus();
+        setCharactersInMap();
         // imprimir();
     }
 
@@ -213,7 +222,7 @@ public class MazeController {
     }
 
     public void initializeBonus() {
-        int quantityBonus= getRandom(3,10);
+        int quantityBonus= getRandom(3,6);
         String[] beforePositions= new String[quantityBonus];
         
         for (int i = 0; i < quantityBonus; i++) {
@@ -260,5 +269,13 @@ public class MazeController {
         int numBonus=getRandom(6);
         return bonusController.searchInTree(numBonus);
     }
-    
+    public void setCharactersInMap(){
+        int numCharacters= getRandom(2,3);
+        if(numCharacters!=3){
+            window.getImageCharacter3().setVisible(false);
+        }
+     
+    }
+
+ 
 }

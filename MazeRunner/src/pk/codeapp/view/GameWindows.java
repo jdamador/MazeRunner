@@ -5,10 +5,9 @@
  */
 package pk.codeapp.view;
 
+import javax.swing.JLabel;
 import pk.codeapp.controller.DrawMapController;
 import pk.codeapp.controller.MazeController;
-
-
 
 public class GameWindows extends javax.swing.JFrame {
 
@@ -17,24 +16,25 @@ public class GameWindows extends javax.swing.JFrame {
      */
     DrawMapController mapGame;
     MazeController maze;
+
     public GameWindows() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        maze = new MazeController();
+        maze = new MazeController(this);
         mapGame = new DrawMapController();
         this.add(mapGame);
-       }
-
    
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        imageCharacter2 = new javax.swing.JLabel();
+        imageCharacter3 = new javax.swing.JLabel();
+        imageCharacter1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,17 +42,17 @@ public class GameWindows extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
-        jLabel2.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, -1, -1));
+        imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
+        imageCharacter2.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.add(imageCharacter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
-        jLabel1.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, 70, 70));
+        imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
+        imageCharacter3.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.add(imageCharacter3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, 70, 70));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
-        jLabel3.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 70));
+        imageCharacter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
+        imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.add(imageCharacter1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 70, 70));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,8 +94,6 @@ public class GameWindows extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GameWindows.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-   
-
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -105,10 +103,28 @@ public class GameWindows extends javax.swing.JFrame {
         });
     }
 
+    //<editor-fold desc="getter and setter" defaultstate="collapsed">
+   
+
+    //</editor-fold>
+    
+    public JLabel getImageCharacter1() {
+        return imageCharacter1;
+    }
+
+    public JLabel getImageCharacter2() {
+        return imageCharacter2;
+    }
+
+    //</editor-fold>
+    public JLabel getImageCharacter3() {
+        return imageCharacter3;
+    }    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel imageCharacter1;
+    private javax.swing.JLabel imageCharacter2;
+    private javax.swing.JLabel imageCharacter3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
