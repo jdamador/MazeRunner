@@ -243,6 +243,7 @@ public class MazeController {
                         found.setBonus(bonus);
                         beforePositions[i] = row + "" + column;
                         running = false;
+                        
                     }
                 }
             }
@@ -270,7 +271,7 @@ public class MazeController {
     }
 
     private Bonus getBonus() {
-        int numBonus = getRandom(6);
+        int numBonus = getRandom(5);
         return bonusController.searchInTree(numBonus);
     }
 
@@ -294,8 +295,9 @@ public class MazeController {
                 if (!exist(row + "" + column, beforePositions)) {
                     Frame found = search(row + "," + column);
                     if (found.isAllow()) {
+                        
                         if (found.getBonus() == null) {
-                            setChacterLocation(i, found);
+                            setChacterLocation(i,row,column, found);
                             beforePositions[i] = row + "" + column;
                             running = false;
                         }
@@ -306,26 +308,28 @@ public class MazeController {
         }
     }
 
-    public void setChacterLocation(int option, Frame found) {
-        
+    public void setChacterLocation(int option, int row, int column, Frame found) {
+         System.out.println(row+" -------------- "+column);
+        System.out.println(found.getName()+" Name");
+        System.out.println(found.getBonus());
         switch (option) {
             case 0: {
               
                 positionCharacter1=found;
-                GameWindows.imageCharacter1.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                GameWindows.imageCharacter1.setLocation(row * 80,column * 80);
                  
                 break;
             }
             case 1: {
               
                 positionCharacter2=found;
-                GameWindows.imageCharacter2.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                GameWindows.imageCharacter2.setLocation(row * 80,column* 80);
                 break;
             }
             case 2: {
                 
                 positionCharacter3=found;
-                GameWindows.imageCharacter3.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                GameWindows.imageCharacter3.setLocation(row * 80,column* 80);
                 break;
             }
         }

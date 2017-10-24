@@ -41,19 +41,28 @@ public class GameWindows extends javax.swing.JFrame {
 
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null);
 
+        imageCharacter2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
         imageCharacter2.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, -1, -1));
+        imageCharacter2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(imageCharacter2);
+        imageCharacter2.setBounds(540, 100, 72, 72);
 
-        imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/teletransport.png"))); // NOI18N
+        imageCharacter3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
         imageCharacter3.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 70, 70));
+        imageCharacter3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(imageCharacter3);
+        imageCharacter3.setBounds(70, 120, 80, 80);
 
+        imageCharacter1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
         imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 70, 70));
+        imageCharacter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(imageCharacter1);
+        imageCharacter1.setBounds(340, 270, 80, 80);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

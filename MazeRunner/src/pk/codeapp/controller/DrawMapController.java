@@ -46,7 +46,7 @@ public class DrawMapController extends JPanel {
             for (int j = 0; j < 10; j++) {
                 Frame reco = startMaze;
                 while (reco != null) {
-                    Dupla XY = new Dupla(reco.getColumn(), reco.getRow());
+                    Dupla XY = new Dupla(reco.getRow(),reco.getColumn());
                     if (reco.getRow() == i && reco.getColumn() == j) {
                        // System.out.println("Posicion en X: " + reco.getColumn() + "Posicion en Y: " + reco.getRow());
                         if (reco.isAllow()) {
