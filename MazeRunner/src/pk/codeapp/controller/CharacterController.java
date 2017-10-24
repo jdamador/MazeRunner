@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package pk.codeapp.controller;
 
+package pk.codeapp.controller;
 import java.util.ArrayList;
-import java.util.Random;
 import pk.codeapp.model.Frame;
 import pk.codeapp.model.Link;
 
@@ -143,6 +137,38 @@ public class CharacterController {
 
     public void setGlobalOriginP1(Frame GlobalOrigin) {
         this.GlobalOriginP1 = GlobalOrigin;
+    }
+
+    public ArrayList<Frame> getListRoute() {
+        return listRoute;
+    }
+
+    public void setListRoute(ArrayList<Frame> listRoute) {
+        this.listRoute = listRoute;
+    }
+
+    public ArrayList<Frame> getListRouteShort() {
+        return listRouteShort;
+    }
+
+    public void setListRouteShort(ArrayList<Frame> listRouteShort) {
+        this.listRouteShort = listRouteShort;
+    }
+
+    public ArrayList<Frame> getListRoadRoute() {
+        return listRoadRoute;
+    }
+
+    public void setListRoadRoute(ArrayList<Frame> listRoadRoute) {
+        this.listRoadRoute = listRoadRoute;
+    }
+
+    public ArrayList<Frame> getListRoadRouteShort() {
+        return listRoadRouteShort;
+    }
+
+    public void setListRoadRouteShort(ArrayList<Frame> listRoadRouteShort) {
+        this.listRoadRouteShort = listRoadRouteShort;
     }
 
 
