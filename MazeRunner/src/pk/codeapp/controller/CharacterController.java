@@ -22,9 +22,7 @@ public class CharacterController {
     ArrayList<Frame> listRouteShort = new ArrayList();
         ArrayList<Frame> listRoadRoute = new ArrayList();
     ArrayList<Frame> listRoadRouteShort = new ArrayList();
-    private Frame pointerCharacter1; //Character number 1
-    private Frame pointerCharacter2; //Character number 2
-    private Frame pointerCharacter3; //Character number 3
+
     private int counterWeight = 0;
     private int Weight = 0;
     /**
@@ -126,7 +124,7 @@ public class CharacterController {
             temp = temp.getNextFrame();
         }
     }
- public void addCharacter1Frame(String name, boolean token, int row, int column, boolean allow,Frame rootPointer) {
+ public void addCharacterFrame(String name, boolean token, int row, int column, boolean allow,Frame rootPointer) {
         Frame square = new Frame(name, token, row, column);
         square.setAllow(allow);
         square.setNextFrame(null);
@@ -146,5 +144,6 @@ public class CharacterController {
     public void setGlobalOriginP1(Frame GlobalOrigin) {
         this.GlobalOriginP1 = GlobalOrigin;
     }
+
 
 }
