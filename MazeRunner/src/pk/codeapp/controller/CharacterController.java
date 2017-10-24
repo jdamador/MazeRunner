@@ -22,7 +22,9 @@ public class CharacterController {
     ArrayList<Frame> listRouteShort = new ArrayList();
         ArrayList<Frame> listRoadRoute = new ArrayList();
     ArrayList<Frame> listRoadRouteShort = new ArrayList();
-    private Frame pointerCharacter1;
+    private Frame pointerCharacter1; //Character number 1
+    private Frame pointerCharacter2; //Character number 2
+    private Frame pointerCharacter3; //Character number 3
     private int counterWeight = 0;
     private int Weight = 0;
     /**
@@ -43,7 +45,7 @@ public class CharacterController {
         numberCharacters = getRandom(2, 3);
     }
 
-    public void shortRouteJumps(Frame origin, Frame destination,Frame GlobalOrigin) {
+    public void shortRouteJumps(Frame origin, Frame destination,Frame GlobalOrigin,Frame pointerCharacter) {
         if (origin == null) {
             System.out.println("Nulo");
             return;
@@ -51,7 +53,7 @@ public class CharacterController {
         if (origin.isMark() == true) {
             System.out.println("marca");
             if (origin == GlobalOrigin) {
-                clean_Mark();
+                clean_Mark(pointerCharacter);
             }
         }
         origin.setMark(true);
@@ -75,12 +77,12 @@ public class CharacterController {
                     return;
                 }
             }
-            shortRouteJumps(aux.getDestiny(), destination,GlobalOrigin);
+            shortRouteJumps(aux.getDestiny(), destination,GlobalOrigin,pointerCharacter);
             aux = aux.getNextLink();
 
         }
     }
-    public void roadShortJumps(Frame origin, Frame destination,Frame globalOrigin)
+    public void roadShortJumps(Frame origin, Frame destination,Frame globalOrigin,Frame pointerCharacter)
         {
              if (origin == null){
                  System.out.println("Nulo");
@@ -88,7 +90,7 @@ public class CharacterController {
              if (origin.isMark() == true){
                  System.out.println("marca");
               if(origin==globalOrigin){
-                    clean_Mark();
+                    clean_Mark(pointerCharacter);
               }
                     } 
                 origin.setMark(true);
@@ -110,13 +112,13 @@ public class CharacterController {
                            }
                       listRoadRouteShort.add(globalOrigin);
                    }
-                   roadShortJumps(aux.getDestiny(), destination, globalOrigin);
+                   roadShortJumps(aux.getDestiny(), destination, globalOrigin,pointerCharacter);
                     aux = aux.getNextLink();
             }
     }
-    public void clean_Mark() {
-        Frame temp = pointerCharacter1;
-        if (pointerCharacter1 == null) {
+    public void clean_Mark(Frame pointerCharacter) {
+        Frame temp = pointerCharacter;
+        if (pointerCharacter == null) {
             return;
         }
         while (temp != null) {
@@ -124,15 +126,15 @@ public class CharacterController {
             temp = temp.getNextFrame();
         }
     }
- public void addCharacterFrame(String name, boolean token, int row, int column, boolean allow) {
+ public void addCharacter1Frame(String name, boolean token, int row, int column, boolean allow,Frame rootPointer) {
         Frame square = new Frame(name, token, row, column);
         square.setAllow(allow);
         square.setNextFrame(null);
-        if (pointerCharacter1 == null) {
-            pointerCharacter1 = square;
+        if (rootPointer == null) {
+            rootPointer = square;
         } else {
-            square.setNextFrame(pointerCharacter1);
-            pointerCharacter1 = square;
+            square.setNextFrame(rootPointer);
+            rootPointer = square;
         }
     }
  
