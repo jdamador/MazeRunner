@@ -18,6 +18,7 @@ public class Frame {
     private boolean mark;
     private boolean allow;
     private int row, column;
+    private Bonus bonus;
 
     /**
      * Default constructor, that make a instance of this class
@@ -93,5 +94,14 @@ public class Frame {
     public void setColumn(int column) {
         this.column = column;
     }
+     public Bonus getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Bonus bonus) {
+        this.bonus = bonus;
+    }
     //</editor-fold>
+
+   
 }

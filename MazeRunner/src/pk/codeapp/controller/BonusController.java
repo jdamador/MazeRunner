@@ -13,7 +13,8 @@ import java.util.Random;
 import pk.codeapp.model.Bonus;
 
 /**
- * This class is in charge of the all methods to edit different things in the tree
+ * This class is in charge of the all methods to edit different things in the
+ * tree
  *
  * @author amador
  */
@@ -28,8 +29,9 @@ public class BonusController {
      *
      * @param bonusRoot
      */
-    public BonusController(Bonus bonusRoot) {
+    public BonusController() {
         this.bonusRoot = bonusRoot;
+        createBonus();
     }
 
     /**
@@ -84,14 +86,13 @@ public class BonusController {
      */
     public void createBonus() {
         String[] names = {"Acceleration", "Teleportation", "Wait N seconds ", "Slow down the other players", "Change location target", "Random"};
-        String [] path= {"src/pk/codeapp/view/tools/Acceleration.png","src/pk/codeapp/view/tools/teletransport.png","src/pk/codeapp/view/tools/wait.png"
-        ,"src/pk/codeapp/view/tools/slow.png","src/pk/codeapp/view/tools/slow.png"};
+        String[] path = {"src/pk/codeapp/view/tools/Acceleration.png", "src/pk/codeapp/view/tools/teletransport.png", "src/pk/codeapp/view/tools/wait.png",
+             "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/slow.png","src/pk/codeapp/view/tools/change.png"};
         for (int i = 0; i < 6; i++) {
-            int id = getRandom(50);
+            int id = getRandom(6);
             int weight = getRandom(100);
-            Bonus aux = new Bonus(weight, id, names[i], "");
-            if (searchInTree(aux, bonusRoot) != true) {
-                addBonusInTree(aux, bonusRoot);
+            if (searchInTree(id) == null) {
+            insertIntoTree(weight,id,names[i], path[i]);
             }
         }
     }
@@ -100,54 +101,79 @@ public class BonusController {
      * Search in the tree to find if is already exist Receive this parameters
      *
      * @param aux
-     * @param reco
+     * @param id
      * @return true if exist and false if not
      */
-    public boolean searchInTree(Bonus aux, Bonus reco) {
-        if (reco.equals(aux)) {
-            return true;
-        } else {
-            if (aux.getId() < reco.getId()) {
-                searchInTree(aux, reco.getSigLeft());
-            } else {
-                searchInTree(aux, reco.getSigRight());
-            }
-        }
-        return false;
+
+    public Bonus searchInTree(int id) {
+        return exist(id);
     }
-    
+
     /**
      * Add a new element in their specific place
-     * @param reco
-     * @param father 
+     *
+     * @param newBonus
+     * @param root
      */
-    public void addBonusInTree(Bonus reco, Bonus father) {
-        if (bonusRoot == null) {
-            bonusRoot = reco;
-        } else {
-            if (reco.getId() < bonusRoot.getId()) {
-                if (father.getSigLeft() == null) {
-                    father.setSigLeft(reco);
-                } else {
-                    addBonusInTree(reco, father.getSigLeft());
-                }
-            } else {
-                if (father.getSigRight() == null) {
-                    father.setSigRight(reco);
-                } else {
-                    addBonusInTree(reco, father.getSigRight());
-                }
-            }
-        }
-    }
+    
     
     /**
      * Get a random num between 0 and the limit
+     *
      * @param limit
      * @return random num
      */
-      public int getRandom(int limit) {
+    public int getRandom(int limit) {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
+    }
+    
+    
+    public Bonus exist(int id)
+    {
+        Bonus reco = bonusRoot;
+        while (reco != null) {
+            
+            if (reco.getId() == id) {
+                return reco;
+            } else {
+                if (id > reco.getId()) {
+                    reco = reco.getSigRight();
+                } else {
+                    reco = reco.getSigLeft();
+                }
+            }
+        }
+        return null;
+    }
+    public void insertIntoTree(int weight,int id,String name, String path)
+    {
+        Bonus bonus = new Bonus(weight, id, name, path);
+        if (exist(bonus.getId()) == null) {
+            if (bonusRoot== null) { 
+                bonusRoot = bonus;
+            } else {
+                Bonus previous = null, reco; 
+                reco = bonusRoot;
+                while (reco != null) {
+                    previous = reco;
+                    if (bonus.getId() < reco.getId()) {
+                        reco = reco.getSigLeft();
+                    } else {
+                        reco = reco.getSigRight();
+                    }
+                }
+                if (bonus.getId() < previous.getId()) {
+                    previous.setSigLeft(bonus); 
+                    bonus.setFather(previous);
+                } else {
+                    previous.setSigRight(bonus);
+                  bonus.setFather(previous);
+                }
+            }
+        } else {
+
+        }
+
     }
 }

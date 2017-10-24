@@ -6,6 +6,7 @@
 package pk.codeapp.controller;
 
 import java.util.Random;
+import pk.codeapp.model.Bonus;
 import pk.codeapp.model.Frame;
 import pk.codeapp.model.Link;
 
@@ -19,13 +20,13 @@ public class MazeController {
 
     static Frame startMaze;
     private Random randomGenerator = new Random();
-
+    private BonusController bonusController= new BonusController();
     /**
      * Iniitialize the root in null
      */
     public MazeController() {
         this.startMaze = null;
-         generateMap();
+        generateMap();
     }
 
     /**
@@ -60,7 +61,8 @@ public class MazeController {
         }
         makeLinks();
         mark();
-       // imprimir();
+        initializeBonus();
+        // imprimir();
     }
 
     /**
@@ -208,5 +210,54 @@ public class MazeController {
 
             }
         }
+    }
+
+    public void initializeBonus() {
+        int quantityBonus= getRandom(3,10);
+        String[] beforePositions= new String[quantityBonus];
+        
+        for (int i = 0; i < quantityBonus; i++) {
+           boolean running=true;
+           
+           while(running){
+               
+               int row=getRandom(5);
+               int column=getRandom(5);
+               
+               if(!exist(row+""+column,beforePositions)){
+                   Frame found=search(row+ "," + column);
+                   if(found.isAllow()){
+                       Bonus bonus=getBonus();               
+                       found.setBonus(bonus);
+                       beforePositions[i] = row + "" + column;
+                       running = false; 
+                   }
+               }
+           }
+          
+        }
+    }
+    public boolean exist(String search,String[] beforePositions ){
+         boolean flag=false;
+            for (int i = 0; i < beforePositions.length; i++) {
+           
+                if(beforePositions[i]!=null){
+                    if(search.equals(beforePositions[i])){
+                        flag=true;
+                    }
+                };
+            
+        }
+        return flag;
+    }
+    
+    public int getRandom(int minimum, int maximum) {
+        int randomInt = minimum + (int) (Math.random() * maximum);
+        return randomInt;
+    }
+
+    private Bonus getBonus() {
+        int numBonus=getRandom(6);
+        return bonusController.searchInTree(numBonus);
     }
 }

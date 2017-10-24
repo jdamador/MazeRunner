@@ -54,7 +54,9 @@ public class DrawMapController extends JPanel {
                         } else {
                             g.drawImage(imageWall, calculatePosition(XY).getPosX(), calculatePosition(XY).getPosY(), this);
                         }
-                        
+                        if(reco.getBonus()!=null){
+                             g.drawImage(reco.getBonus().getBonusImage(), calculatePosition(XY).getPosX(), calculatePosition(XY).getPosY(), this);
+                        }
                         break;
                     } else {
                         reco = reco.getNextFrame();

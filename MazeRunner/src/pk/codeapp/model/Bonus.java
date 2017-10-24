@@ -5,6 +5,10 @@
  */
 package pk.codeapp.model;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,8 +19,8 @@ public class Bonus {
     private int  weight;
     private int id;
     private String name;
-    private ImageIcon icon;
-    private Bonus sigLeft,sigRight;
+     BufferedImage bonusImage;
+    private Bonus sigLeft,sigRight,father;
     /**
      * Create the instance of the class with:
      * @param weight
@@ -28,7 +32,12 @@ public class Bonus {
         this.weight = weight;
         this.id = id;
         this.name = name;
-        this.icon = new ImageIcon(path);
+        sigLeft=null;
+        sigRight=null;
+     
+        try{
+        this.bonusImage = ImageIO.read(new File(path));
+        }catch(IOException e){}
     }
     //<editor-fold desc="All getter and setter here" defaultstate="collapsed">
 
@@ -56,13 +65,14 @@ public class Bonus {
         this.name = name;
     }
 
-    public ImageIcon getIcon() {
-        return icon;
+    public BufferedImage getBonusImage() {
+        return bonusImage;
     }
 
-    public void setIcon(ImageIcon icon) {
-        this.icon = icon;
+    public void setBonusImage(BufferedImage bonusImage) {
+        this.bonusImage = bonusImage;
     }
+
 
     public Bonus getSigLeft() {
         return sigLeft;
@@ -80,4 +90,8 @@ public class Bonus {
         this.sigRight = sigRight;
     }
      //</editor-fold>
+
+    public void setFather(Bonus previous) {
+       this.father=previous;
+    }
 }
