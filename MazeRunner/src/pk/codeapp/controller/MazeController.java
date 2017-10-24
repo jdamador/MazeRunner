@@ -5,6 +5,7 @@
  */
 package pk.codeapp.controller;
 
+import java.awt.Point;
 import java.util.Random;
 import pk.codeapp.model.Bonus;
 import pk.codeapp.model.Dupla;
@@ -22,18 +23,20 @@ public class MazeController {
 
     static Frame startMaze;
     private Random randomGenerator = new Random();
-    private BonusController bonusController= new BonusController();
-    private Dupla positionCharacter1;
-    private Dupla positionCharacter2;
-    private Dupla positionCharacter3;
-    private GameWindows window;
+    private BonusController bonusController = new BonusController();
+    private Frame positionCharacter1;
+    private Frame positionCharacter2;
+    private Frame positionCharacter3;
+ 
+    private Frame cup;
+
     /**
      * Iniitialize the root in null
      */
-    public MazeController(GameWindows window) {
+    public MazeController() {
         this.startMaze = null;
-        this.window=window;
-  
+      
+
         generateMap();
     }
 
@@ -70,7 +73,7 @@ public class MazeController {
         makeLinks();
         mark();
         initializeBonus();
-        setCharactersInMap();
+        InitializeCharacters();
         // imprimir();
     }
 
@@ -222,60 +225,109 @@ public class MazeController {
     }
 
     public void initializeBonus() {
-        int quantityBonus= getRandom(3,6);
-        String[] beforePositions= new String[quantityBonus];
-        
+        int quantityBonus = getRandom(3, 6);
+        String[] beforePositions = new String[quantityBonus];
+
         for (int i = 0; i < quantityBonus; i++) {
-           boolean running=true;
-           
-           while(running){
-               
-               int row=getRandom(10);
-               int column=getRandom(10);
-               
-               if(!exist(row+""+column,beforePositions)){
-                   Frame found=search(row+ "," + column);
-                   if(found.isAllow()){
-                       Bonus bonus=getBonus();               
-                       found.setBonus(bonus);
-                       beforePositions[i] = row + "" + column;
-                       running = false; 
-                   }
-               }
-           }
-          
+            boolean running = true;
+
+            while (running) {
+
+                int row = getRandom(9);
+                int column = getRandom(9);
+
+                if (!exist(row + "" + column, beforePositions)) {
+                    Frame found = search(row + "," + column);
+                    if (found.isAllow()) {
+                        Bonus bonus = getBonus();
+                        found.setBonus(bonus);
+                        beforePositions[i] = row + "" + column;
+                        running = false;
+                    }
+                }
+            }
+
         }
     }
-    public boolean exist(String search,String[] beforePositions ){
-         boolean flag=false;
-            for (int i = 0; i < beforePositions.length; i++) {
-           
-                if(beforePositions[i]!=null){
-                    if(search.equals(beforePositions[i])){
-                        flag=true;
-                    }
-                };
-            
+
+    public boolean exist(String search, String[] beforePositions) {
+        boolean flag = false;
+        for (int i = 0; i < beforePositions.length; i++) {
+
+            if (beforePositions[i] != null) {
+                if (search.equals(beforePositions[i])) {
+                    flag = true;
+                }
+            };
+
         }
         return flag;
     }
-    
+
     public int getRandom(int minimum, int maximum) {
         int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
     }
 
     private Bonus getBonus() {
-        int numBonus=getRandom(6);
+        int numBonus = getRandom(6);
         return bonusController.searchInTree(numBonus);
     }
-    public void setCharactersInMap(){
-        int numCharacters= getRandom(2,3);
-        if(numCharacters!=3){
-            window.getImageCharacter3().setVisible(false);
+
+    public void InitializeCharacters() {
+        int numCharacters = getRandom(2, 3);
+        if (numCharacters != 3) {
+            GameWindows.imageCharacter3.setVisible(false);
         }
-     
+        setCharactersIMaze(numCharacters);
     }
 
- 
+    private void setCharactersIMaze(int limit) {
+        String[] beforePositions = new String[limit];
+        for (int i = 0; i < limit; i++) {
+            boolean running = true;
+            while (running) {
+
+                int row = getRandom(9);
+                int column = getRandom(9);
+
+                if (!exist(row + "" + column, beforePositions)) {
+                    Frame found = search(row + "," + column);
+                    if (found.isAllow()) {
+                        if (found.getBonus() == null) {
+                            setChacterLocation(i, found);
+                            beforePositions[i] = row + "" + column;
+                            running = false;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    public void setChacterLocation(int option, Frame found) {
+        
+        switch (option) {
+            case 0: {
+              
+                positionCharacter1=found;
+                GameWindows.imageCharacter1.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                 
+                break;
+            }
+            case 1: {
+              
+                positionCharacter2=found;
+                GameWindows.imageCharacter2.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                break;
+            }
+            case 2: {
+                
+                positionCharacter3=found;
+                GameWindows.imageCharacter3.setLocation(new Point(found.getRow() * 80, found.getColumn() * 80));
+                break;
+            }
+        }
+    }
 }

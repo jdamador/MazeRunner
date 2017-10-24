@@ -21,9 +21,10 @@ public class GameWindows extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        maze = new MazeController(this);
+        maze = new MazeController();
         mapGame = new DrawMapController();
         this.add(mapGame);
+       
    
     }
 
@@ -44,15 +45,15 @@ public class GameWindows extends javax.swing.JFrame {
 
         imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
         imageCharacter2.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, -1, -1));
+        jPanel1.add(imageCharacter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, -1, -1));
 
-        imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
+        imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/teletransport.png"))); // NOI18N
         imageCharacter3.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 170, 70, 70));
+        jPanel1.add(imageCharacter3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 70, 70));
 
         imageCharacter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
         imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
-        jPanel1.add(imageCharacter1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 70, 70));
+        jPanel1.add(imageCharacter1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 70, 70));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,9 +123,9 @@ public class GameWindows extends javax.swing.JFrame {
     }    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel imageCharacter1;
-    private javax.swing.JLabel imageCharacter2;
-    private javax.swing.JLabel imageCharacter3;
+    public static javax.swing.JLabel imageCharacter1;
+    public static javax.swing.JLabel imageCharacter2;
+    public static javax.swing.JLabel imageCharacter3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
