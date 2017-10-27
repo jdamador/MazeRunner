@@ -12,11 +12,9 @@ import pk.codeapp.model.Link;
 public class CharacterController {
 
     private int numberCharacters;
-    ArrayList<Frame> listRoute = new ArrayList();
-    ArrayList<Frame> listRouteShort = new ArrayList();
-        ArrayList<Frame> listRoadRoute = new ArrayList();
-    ArrayList<Frame> listRoadRouteShort = new ArrayList();
-
+    private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
+    private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
+    
     private int counterWeight = 0;
     private int Weight = 0;
     /**
@@ -26,8 +24,66 @@ public class CharacterController {
      * @return
      */
     
-    private Frame GlobalOriginP1;
-
+    private Frame rootTreeC1;
+    
+    public void crateTreeForCharacter(Frame rootG,Frame principalG){
+        insertFrameCharacter(rootG,principalG);
+        //Add Linken
+        Frame tempPrincipalG = principalG;
+        Frame root=rootG;
+        while(tempPrincipalG!=null){
+             if(tempPrincipalG.isAllow()==true){
+            Link aux=tempPrincipalG.getNextLink();
+            while(aux!=null){
+                Frame destiny= searchCharacter(aux.getDestiny().getName(),rootG);
+                insertLinkCharacter(root,);
+                aux=aux.getNextLink();
+            }
+        } tempPrincipalG=tempPrincipalG.getNextFrame();
+        }
+       
+        }
+    private void insertFrameCharacter(Frame rootG,Frame principalG){
+        //Add Frame
+        Frame tempPrincipalTree = principalG;
+        while(tempPrincipalTree!=null){
+            Frame newFrame = new Frame(tempPrincipalTree.getName(), false,tempPrincipalTree.getRow(),tempPrincipalTree.getColumn());
+            if(rootG ==null){
+                rootG=newFrame;
+            }else{
+                if(tempPrincipalTree.isAllow()==true){
+                    newFrame.setNextFrame(rootG);
+                    rootG=newFrame;
+                }
+            }
+            tempPrincipalTree = tempPrincipalTree.getNextFrame();
+        }
+    }
+    private void insertLinkCharacter(Frame origen, Frame destiny, int weight){
+     Link link = new Link(weight);
+        link.setDestiny(destiny);
+        if (origen.getNextLink() == null) {
+            origen.setNextLink(link);
+        } else {
+            Link temp = origen.getNextLink();
+            while (temp != null) {
+                if (temp.getDestiny() == destiny) {
+                }
+                temp = temp.getNextLink();
+            }
+            link.setNextLink(origen.getNextLink());
+            origen.setNextLink(link);
+        }
+    }
+    private Frame searchCharacter(String name,Frame rootCharacterG){
+        Frame recoG=rootCharacterG;
+        while(recoG!=null){
+            if(recoG.getName().equals(name))
+                return recoG;
+            recoG=recoG.getNextFrame();
+        }
+        return null;
+    }
     public int getRandom(int minimum, int maximum) {
         int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
@@ -37,77 +93,43 @@ public class CharacterController {
         numberCharacters = getRandom(2, 3);
     }
 
-    public void shortRouteJumps(Frame origin, Frame destination,Frame GlobalOrigin,Frame pointerCharacter) {
+    public void shortRouteJumps(Frame origin, Frame destination) {
         if (origin == null) {
-            System.out.println("Nulo");
             return;
         }
-        if (origin.isMark() == true) {
-            System.out.println("marca");
-            if (origin == GlobalOrigin) {
-                clean_Mark(pointerCharacter);
-            }
+        else  if (origin.isMark() == true) {
+            return;
         }
+        else{
         origin.setMark(true);
         Link aux = origin.getNextLink();
-        System.out.println("Agrego: " + origin.getName());
-        listRoute.add(origin);
-        while (aux != null) {
-            if (aux.getDestiny().equals(destination)) {
-                if (listRouteShort.size() == 0) {
-                    listRoute.add(aux.getDestiny());
-                    for (int i = 0; i < listRoute.size(); i++) {
-                        listRouteShort.add(listRoute.get(i));
-                    }
-                    return;
-                }
-                if (listRoute.size() < listRouteShort.size()) {
-                     listRoute.add(aux.getDestiny());
-                    for (int i = 0; i < listRoute.size(); i++) {
-                        listRouteShort.add(listRoute.get(i));
-                    }
-                    return;
-                }
-            }
-            shortRouteJumps(aux.getDestiny(), destination,GlobalOrigin,pointerCharacter);
-            aux = aux.getNextLink();
-
+        listRouteAux.add(origin);
+        if(aux==null){
+            listRouteAux.remove(listRouteAux.size()-1);
+            return;
         }
-    }
-    public void roadShortJumps(Frame origin, Frame destination,Frame globalOrigin,Frame pointerCharacter)
-        {
-             if (origin == null){
-                 System.out.println("Nulo");
-                return;}
-             if (origin.isMark() == true){
-                 System.out.println("marca");
-              if(origin==globalOrigin){
-                    clean_Mark(pointerCharacter);
-              }
-                    } 
-                origin.setMark(true);
-                Link aux = origin.getNextLink();
-                System.out.println("Agrego: "+origin.getName());
-                listRoadRouteShort.add(origin);
-                while (aux != null)
-                {
-                   if(aux.getDestiny().equals(destination)){
-                       listRoadRouteShort.add(destination);
-                         if(listRoadRoute.size()==0){ 
-                               listRoadRoute=listRoadRouteShort;
-                               listRoadRouteShort.add(globalOrigin);
-                           return;
-                       }
-                       if(listRoadRouteShort.size()> listRoadRoute.size()){
-                           System.out.println("Listas Iguales");
-                           listRoadRoute=listRoadRouteShort;
-                           }
-                      listRoadRouteShort.add(globalOrigin);
-                   }
-                   roadShortJumps(aux.getDestiny(), destination, globalOrigin,pointerCharacter);
-                    aux = aux.getNextLink();
+        while (aux != null) {
+            if(aux.getDestiny().isMark()==true){
+                aux.getDestiny().setMark(false);
             }
+            if (aux.getDestiny().equals(destination)) {
+                if (listRouteShort.isEmpty() || (listRouteAux.size() < listRouteShort.size())) {
+                    listRouteShort.clear();
+                    for (int i = 0; i < listRouteAux.size(); i++) {
+                        listRouteShort.add(listRouteAux.get(i));
+                    }
+                    listRouteShort.add(aux.getDestiny());
+                }
+            }
+            shortRouteJumps(aux.getDestiny(), destination);
+            aux = aux.getNextLink();
+            if(aux==null){
+                listRouteAux.remove(listRouteAux.size()-1);
+                return;
+        }
+        }}
     }
+    
     public void clean_Mark(Frame pointerCharacter) {
         Frame temp = pointerCharacter;
         if (pointerCharacter == null) {
@@ -129,22 +151,13 @@ public class CharacterController {
             rootPointer = square;
         }
     }
- 
-    
-    public Frame getGlobalOriginP1() {
-        return GlobalOriginP1;
-    }
-
-    public void setGlobalOriginP1(Frame GlobalOrigin) {
-        this.GlobalOriginP1 = GlobalOrigin;
-    }
 
     public ArrayList<Frame> getListRoute() {
-        return listRoute;
+        return listRouteAux;
     }
 
     public void setListRoute(ArrayList<Frame> listRoute) {
-        this.listRoute = listRoute;
+        this.listRouteAux = listRoute;
     }
 
     public ArrayList<Frame> getListRouteShort() {
@@ -155,21 +168,20 @@ public class CharacterController {
         this.listRouteShort = listRouteShort;
     }
 
-    public ArrayList<Frame> getListRoadRoute() {
-        return listRoadRoute;
+    public ArrayList<Frame> getListRouteAux() {
+        return listRouteAux;
     }
 
-    public void setListRoadRoute(ArrayList<Frame> listRoadRoute) {
-        this.listRoadRoute = listRoadRoute;
+    public void setListRouteAux(ArrayList<Frame> listRouteAux) {
+        this.listRouteAux = listRouteAux;
     }
 
-    public ArrayList<Frame> getListRoadRouteShort() {
-        return listRoadRouteShort;
+    public Frame getRootTreeC1() {
+        return rootTreeC1;
     }
 
-    public void setListRoadRouteShort(ArrayList<Frame> listRoadRouteShort) {
-        this.listRoadRouteShort = listRoadRouteShort;
+    public void setRootTreeC1(Frame rootTreeC1) {
+        this.rootTreeC1 = rootTreeC1;
     }
-
-
+    
 }
