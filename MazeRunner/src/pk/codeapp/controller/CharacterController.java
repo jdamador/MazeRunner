@@ -24,19 +24,21 @@ public class CharacterController {
      * @return
      */
     
-    private Frame rootTreeC1;
+    private Frame rootCharacter1; //Pointer for the first Character
+    private Frame rootCharacter2; //Pointer for the second Character
+    private Frame rootCharacter3; //Pointer for the third Character
     
-    public void crateTreeForCharacter(Frame rootG,Frame principalG){
+    public void crateGraphForCharacter(Frame rootG,Frame principalG){
         insertFrameCharacter(rootG,principalG);
         //Add Linken
         Frame tempPrincipalG = principalG;
         Frame root=rootG;
         while(tempPrincipalG!=null){
-             if(tempPrincipalG.isAllow()==true){
+             if(tempPrincipalG.isAllow()){
             Link aux=tempPrincipalG.getNextLink();
             while(aux!=null){
-                Frame destiny= searchCharacter(aux.getDestiny().getName(),rootG);
-                insertLinkCharacter(root,);
+                Frame destiny= searchCharacter(aux.getDestiny().getName(),root);
+                insertLinkCharacter(root,destiny,aux.getWeight());
                 aux=aux.getNextLink();
             }
         } tempPrincipalG=tempPrincipalG.getNextFrame();
@@ -176,12 +178,29 @@ public class CharacterController {
         this.listRouteAux = listRouteAux;
     }
 
-    public Frame getRootTreeC1() {
-        return rootTreeC1;
+    public Frame getRootCharacter1() {
+        return rootCharacter1;
     }
 
-    public void setRootTreeC1(Frame rootTreeC1) {
-        this.rootTreeC1 = rootTreeC1;
+    public void setRootCharacter1(Frame rootCharacter1) {
+        this.rootCharacter1 = rootCharacter1;
     }
+
+    public Frame getRootCharacter2() {
+        return rootCharacter2;
+    }
+
+    public void setRootCharacter2(Frame rootCharacter2) {
+        this.rootCharacter2 = rootCharacter2;
+    }
+
+    public Frame getRootCharacter3() {
+        return rootCharacter3;
+    }
+
+    public void setRootCharacter3(Frame rootCharacter3) {
+        this.rootCharacter3 = rootCharacter3;
+    }
+    
     
 }
