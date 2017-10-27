@@ -44,6 +44,7 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
+<<<<<<< HEAD
       <SubComponents>
         <Component class="javax.swing.JLabel" name="imageCharacter2">
           <Properties>
@@ -112,6 +113,8 @@
           </Constraints>
         </Component>
       </SubComponents>
+=======
+>>>>>>> developer
     </Container>
   </SubComponents>
 </Form>

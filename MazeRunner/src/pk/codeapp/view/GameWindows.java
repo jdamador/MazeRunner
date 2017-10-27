@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pk.codeapp.view;
 
 import javax.swing.JLabel;
@@ -33,14 +29,18 @@ public class GameWindows extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+<<<<<<< HEAD
         imageCharacter2 = new javax.swing.JLabel();
         imageCharacter3 = new javax.swing.JLabel();
         imageCharacter1 = new javax.swing.JLabel();
+=======
+>>>>>>> developer
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
+<<<<<<< HEAD
         jPanel1.setLayout(null);
 
         imageCharacter2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -63,6 +63,9 @@ public class GameWindows extends javax.swing.JFrame {
         imageCharacter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter1);
         imageCharacter1.setBounds(340, 270, 80, 80);
+=======
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+>>>>>>> developer
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,9 +135,12 @@ public class GameWindows extends javax.swing.JFrame {
     }    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+<<<<<<< HEAD
     public static javax.swing.JLabel imageCharacter1;
     public static javax.swing.JLabel imageCharacter2;
     public static javax.swing.JLabel imageCharacter3;
+=======
+>>>>>>> developer
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
