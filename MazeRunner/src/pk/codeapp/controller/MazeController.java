@@ -221,10 +221,8 @@ public class MazeController {
 
             }
         }
-       
-    }
 
-    
+    }
 
     public void initializeBonus() {
         int quantityBonus = getRandom(3, 6);
@@ -268,8 +266,9 @@ public class MazeController {
     }
 
     public int getRandom(int minimum, int maximum) {
-        int randomInt = minimum + (int) (Math.random() * maximum);
-        return randomInt;
+        Random rand = new Random();
+        int randomNum = rand.nextInt((maximum - minimum) + 1) + minimum;
+        return randomNum;
     }
 
     private Bonus getBonus() {
@@ -344,7 +343,7 @@ public class MazeController {
             Frame auxFrame = search(row + "," + column);
             if (auxFrame.getBonus() == null && auxFrame != positionCharacter1 && auxFrame != positionCharacter2 && auxFrame != positionCharacter3 && auxFrame.isAllow() == true) {
                 GameWindows.objective.setLocation(row * 80, column * 80);
-                cup=auxFrame;
+                cup = auxFrame;
                 break;
             }
         }
@@ -352,10 +351,10 @@ public class MazeController {
 
     public void startThread() {
 
-        new Thread(new CharacterController(GameWindows.imageCharacter1, 100, positionCharacter1.getRow() * 80, positionCharacter1.getColumn() * 80, positionCharacter1, startMaze, cup), "character1").start();
-//        new Thread(new CharacterController(GameWindows.imageCharacter2, 100, positionCharacter2.getRow() * 80, positionCharacter2.getColumn() * 80, positionCharacter2, startMaze, cup), "character2").start();
-//        if (positionCharacter3 != null) {
-//            new Thread(new CharacterController(GameWindows.imageCharacter3, 100, positionCharacter3.getRow() * 80, positionCharacter3.getColumn() * 80, positionCharacter3, startMaze, cup), "character3").start();
-//        }
+        new Thread(new CharacterController(GameWindows.imageCharacter1,1100, positionCharacter1.getRow() * 80, positionCharacter1.getColumn() * 80, positionCharacter1, startMaze, cup), "character1").start();
+        new Thread(new CharacterController(GameWindows.imageCharacter2, 1100, positionCharacter2.getRow() * 80, positionCharacter2.getColumn() * 80, positionCharacter2, startMaze, cup), "character2").start();
+        if (positionCharacter3 != null) {
+            new Thread(new CharacterController(GameWindows.imageCharacter3, 1100, positionCharacter3.getRow() * 80, positionCharacter3.getColumn() * 80, positionCharacter3, startMaze, cup), "character3").start();
+        }
     }
 }

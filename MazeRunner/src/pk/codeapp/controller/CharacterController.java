@@ -22,7 +22,7 @@ public class CharacterController implements Runnable {
     private int posY;
     private JLabel characterActual;
     private int sleep;
-    private Frame characterRoot, backupRoot;
+    private Frame characterRoot, backupRoot,end;
     private Frame graphRoot;
     private Frame destiny;
 
@@ -46,7 +46,7 @@ public class CharacterController implements Runnable {
         this.posX = posX;
         this.posY = posY;
 
-        this.characterRoot = new Frame(characterRoot.getName(), false, characterRoot.getRow(), characterRoot.getColumn());
+        this.characterRoot = null;
         this.backupRoot = characterRoot;
         this.graphRoot = graphRoot;
         this.destiny = new Frame(destiny.getName(), false, destiny.getRow(), destiny.getColumn());
@@ -54,47 +54,80 @@ public class CharacterController implements Runnable {
 
     public void movingImage() throws InterruptedException {
 
-        createGraphForCharacter(graphRoot);
-
-        System.out.println("moving");
-
+        createGraphForCharacter();
         clean_Mark();
+        listRouteAux.clear();
+        listRouteShort.clear();
         Frame destiny = searchCharacter(this.destiny.getName());
         Frame origin = searchCharacter(backupRoot.getName());
-       
-        under(characterRoot);
-//        shortRouteJumps(origin, destiny);
-//        System.out.println(listRouteShort.size());
-//        System.out.println("moving");
-//        int cont = 0;
-//        while (true) {
-//            characterActual.setLocation(listRouteShort.get(cont).getRow() * 80, listRouteShort.get(cont).getColumn() * 80);
-//            Thread.sleep(sleep);
-//            cont += 1;
-//        }
+        System.out.println("Origen: "+origin.getName()+" Destino: "+destiny.getName());
+        shortRouteJumps(origin, destiny);
+        int cont = 0;
+        System.out.println(listRouteShort.size());
+        for (int i = 0; i < listRouteShort.size(); i++) {
+            characterActual.setLocation(listRouteShort.get(i).getRow()*80,listRouteShort.get(i).getColumn()*80);
+            Thread.sleep(sleep);
+        }
+            
+
+        
 
     }
 
-    public void under(Frame reco) {
+    public void insertFramesGraph(Frame reco) {
         if (reco == null) {
             return;
         }
         if (reco.isMark()) {
             return;
-        } else {
+        } 
+        if(reco.isAllow()==false){
+            return;
+        }
+        else {
+            reco.setMark(true);
+            Link aux = reco.getNextLink();
+            Frame newFrame=new Frame(reco.getName(), false, reco.getRow(), reco.getColumn());
+            if(characterRoot==null){
+                characterRoot=end=newFrame;
+                
+            }else{
+                newFrame.setNextFrame(characterRoot);
+                characterRoot=newFrame;
+                
+            }
+            while (aux != null) {
+                insertFramesGraph(aux.getDestiny());
+                aux = aux.getNextLink();
+            }
+        }
+    }
+    public void depth(Frame reco) {
+       
+        if (reco == null) {
+            return;
+        }
+        if (reco.isMark()) {
+            return;
+        }
+        else {
             reco.setMark(true);
             Link aux = reco.getNextLink();
             while (aux != null) {
-                System.out.println("Origin: " + reco.getName() + " " + "Destiny: " + aux.getDestiny().getName());
-                under(aux.getDestiny());
+                System.out.println("Origin "+reco.getName()+" Destiny: "+aux.getDestiny().getName());
+                
+                depth(aux.getDestiny());
                 aux = aux.getNextLink();
             }
         }
     }
 
-    public void createGraphForCharacter(Frame graphRoot) {
-        insertFrameCharacter(graphRoot);
+    public void createGraphForCharacter() {
+        
+        insertFramesGraph(backupRoot);
         makeLink(graphRoot);
+        Frame aux=searchCharacter(backupRoot.getName());
+        depth(aux);
         
     }
 
@@ -118,6 +151,7 @@ public class CharacterController implements Runnable {
             tempGraph=tempGraph.getNextFrame();
         }
     }
+
     private void insertFrameCharacter(Frame rootGraph) {
         //Add Frame
         Frame tempGraph = rootGraph;
@@ -134,6 +168,7 @@ public class CharacterController implements Runnable {
             tempGraph = tempGraph.getNextFrame();
         }
     }
+
 
     private void insertLinkCharacter(Frame origen, Frame destiny, int weight) {
         Link link = new Link(weight);
@@ -170,42 +205,39 @@ public class CharacterController implements Runnable {
      * @param destination
      */
     public void shortRouteJumps(Frame origin, Frame destination) {
-        if (origin == null) {
-            System.out.println("ENTRO NULO");
+        if (origin==null) {
+            System.out.println("CAYO NULO");
             return;
         }
-        if (origin.isMark() == true) {
-            System.out.println("ENTRO MARCA");
+        else if (origin.isMark()) {
+            System.out.println("CAYO MARCA");
             return;
         } else {
             origin.setMark(true);
-            Link aux = origin.getNextLink();
             listRouteAux.add(origin);
-            System.out.println("AGREGO EN LIST AUX: " + origin.getName());
+            System.out.println("AGREGO EN AUX: "+origin.getName());
+            Link aux = origin.getNextLink();
             if (aux == null) {
-                System.out.println("ELIMINO ARRIBA");
                 listRouteAux.remove(listRouteAux.size() - 1);
                 return;
             }
             while (aux != null) {
-                if (aux.getDestiny().isMark() == true) {
-                    aux.getDestiny().setMark(false);
-                }
+                
                 if (aux.getDestiny().equals(destination)) {
                     if (listRouteShort.isEmpty() || (listRouteAux.size() < listRouteShort.size())) {
                         listRouteShort.clear();
                         for (int i = 0; i < listRouteAux.size(); i++) {
+                            System.out.println("AGREGO: "+listRouteAux.get(i).getName());
                             listRouteShort.add(listRouteAux.get(i));
-                            System.out.println("AGREGO EN LIST: " + listRouteShort.get(i).getName());
                         }
-                        listRouteShort.add(aux.getDestiny());
-                        System.out.println("AGREGO EN LIST: " + aux.getDestiny().getName());
+                        listRouteShort.add(destination);    
                     }
                 }
+                System.out.println("SALTO  RECURSIVO");
                 shortRouteJumps(aux.getDestiny(), destination);
                 aux = aux.getNextLink();
                 if (aux == null) {
-                    System.out.println("ELIMINO: " + listRouteAux.get(listRouteAux.size() - 1).getName());
+                    System.out.println("ELIMINO: "+listRouteAux.get(listRouteAux.size()-1).getName());
                     listRouteAux.remove(listRouteAux.size() - 1);
                     return;
                 }
