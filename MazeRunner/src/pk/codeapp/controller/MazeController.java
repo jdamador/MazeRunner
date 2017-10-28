@@ -353,9 +353,9 @@ public class MazeController {
     public void startThread() {
 
         new Thread(new CharacterController(GameWindows.imageCharacter1, 100, positionCharacter1.getRow() * 80, positionCharacter1.getColumn() * 80, positionCharacter1, startMaze, cup), "character1").start();
-        new Thread(new CharacterController(GameWindows.imageCharacter2, 100, positionCharacter2.getRow() * 80, positionCharacter2.getColumn() * 80, positionCharacter2, startMaze, cup), "character2").start();
-        if (positionCharacter3 != null) {
-            new Thread(new CharacterController(GameWindows.imageCharacter3, 100, positionCharacter3.getRow() * 80, positionCharacter3.getColumn() * 80, positionCharacter3, startMaze, cup), "character3").start();
-        }
+//        new Thread(new CharacterController(GameWindows.imageCharacter2, 100, positionCharacter2.getRow() * 80, positionCharacter2.getColumn() * 80, positionCharacter2, startMaze, cup), "character2").start();
+//        if (positionCharacter3 != null) {
+//            new Thread(new CharacterController(GameWindows.imageCharacter3, 100, positionCharacter3.getRow() * 80, positionCharacter3.getColumn() * 80, positionCharacter3, startMaze, cup), "character3").start();
+//        }
     }
 }

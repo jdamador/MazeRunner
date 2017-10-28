@@ -57,17 +57,21 @@ public class CharacterController implements Runnable {
         createGraphForCharacter(graphRoot);
 
         System.out.println("moving");
-        System.out.println("Origen: " + backupRoot.getName() + " Destino: " + destiny.getName());
+
         clean_Mark();
-        shortRouteJumps(backupRoot, destiny);
-        System.out.println(listRouteShort.size());
-        System.out.println("moving");
-        int cont = 0;
-        while (true) {
-            characterActual.setLocation(listRouteShort.get(cont).getRow() * 80, listRouteShort.get(cont).getColumn() * 80);
-            Thread.sleep(sleep);
-            cont += 1;
-        }
+        Frame destiny = searchCharacter(this.destiny.getName());
+        Frame origin = searchCharacter(backupRoot.getName());
+       
+        under(characterRoot);
+//        shortRouteJumps(origin, destiny);
+//        System.out.println(listRouteShort.size());
+//        System.out.println("moving");
+//        int cont = 0;
+//        while (true) {
+//            characterActual.setLocation(listRouteShort.get(cont).getRow() * 80, listRouteShort.get(cont).getColumn() * 80);
+//            Thread.sleep(sleep);
+//            cont += 1;
+//        }
 
     }
 
@@ -91,45 +95,44 @@ public class CharacterController implements Runnable {
     public void createGraphForCharacter(Frame graphRoot) {
         insertFrameCharacter(graphRoot);
         makeLink(graphRoot);
+        
     }
 
     private void makeLink(Frame graphRoot) {
-        if (graphRoot == null) {
-            return;
-        }
-        if (graphRoot.isMark()) {
-            return;
-        } else {
-            graphRoot.setMark(true);
-            Link aux = graphRoot.getNextLink();
-            Frame origin = searchCharacter(graphRoot.getName());
-            if (origin != null) {
-                while (aux != null) {
-                    if (aux.getDestiny().isAllow()) {
-                        Frame destiny = searchCharacter(aux.getDestiny().getName());
-                        insertLinkCharacter(origin, destiny, aux.getWeight());
-                    }
-                    makeLink(aux.getDestiny());
-                    aux = aux.getNextLink();
-                }
+        Frame tempGraph = graphRoot;
+        while (tempGraph != null) {
+            Frame originGraph = null;
+            if (tempGraph.isAllow()) {
+                originGraph = searchCharacter(tempGraph.getName());
             }
+            Link aux = tempGraph.getNextLink();
+            while(aux!=null){
+                if(aux.getDestiny().isAllow()){
+                    Frame linkGraph = searchCharacter(aux.getDestiny().getName());
+                    if(originGraph != null & linkGraph!=null){
+                        insertLinkCharacter(originGraph, linkGraph,aux.getWeight());
+                    }
+                }
+                aux = aux.getNextLink();
+            }
+            tempGraph=tempGraph.getNextFrame();
         }
     }
 
     private void insertFrameCharacter(Frame rootGraph) {
         //Add Frame
-        Frame tempPrincipalTree = rootGraph;
-        while (tempPrincipalTree != null) {
-            Frame newFrame = new Frame(tempPrincipalTree.getName(), false, tempPrincipalTree.getRow(), tempPrincipalTree.getColumn());
+        Frame tempGraph = rootGraph;
+        while (tempGraph != null) {
+            Frame newFrame = new Frame(tempGraph.getName(), false, tempGraph.getRow(), tempGraph.getColumn());
             if (characterRoot == null) {
                 characterRoot = newFrame;
             } else {
-                if (tempPrincipalTree.isAllow() == true) {
+                if (tempGraph.isAllow() == true) {
                     newFrame.setNextFrame(characterRoot);
                     characterRoot = newFrame;
                 }
             }
-            tempPrincipalTree = tempPrincipalTree.getNextFrame();
+            tempGraph = tempGraph.getNextFrame();
         }
     }
 
@@ -150,7 +153,7 @@ public class CharacterController implements Runnable {
         }
     }
 
-    private Frame searchCharacter(String name) {
+    public Frame searchCharacter(String name) {
         Frame recoG = characterRoot;
         while (recoG != null) {
             if (recoG.getName().equals(name)) {
@@ -171,15 +174,17 @@ public class CharacterController implements Runnable {
         if (origin == null) {
             System.out.println("ENTRO NULO");
             return;
-        } else if (origin.isMark() == true) {
-            System.out.println("ENTRO MARCA");    
+        }
+        if (origin.isMark() == true) {
+            System.out.println("ENTRO MARCA");
             return;
         } else {
             origin.setMark(true);
             Link aux = origin.getNextLink();
             listRouteAux.add(origin);
-            System.out.println("AGREGO EN LIST AUX: "+origin);
+            System.out.println("AGREGO EN LIST AUX: " + origin.getName());
             if (aux == null) {
+                System.out.println("ELIMINO ARRIBA");
                 listRouteAux.remove(listRouteAux.size() - 1);
                 return;
             }
@@ -192,15 +197,16 @@ public class CharacterController implements Runnable {
                         listRouteShort.clear();
                         for (int i = 0; i < listRouteAux.size(); i++) {
                             listRouteShort.add(listRouteAux.get(i));
-                            System.out.println("AGREGO EN LIST: "+listRouteShort.get(i).getName());
+                            System.out.println("AGREGO EN LIST: " + listRouteShort.get(i).getName());
                         }
                         listRouteShort.add(aux.getDestiny());
-                        System.out.println("AGREGO EN LIST: "+aux.getDestiny().getName());
+                        System.out.println("AGREGO EN LIST: " + aux.getDestiny().getName());
                     }
                 }
                 shortRouteJumps(aux.getDestiny(), destination);
                 aux = aux.getNextLink();
                 if (aux == null) {
+                    System.out.println("ELIMINO: " + listRouteAux.get(listRouteAux.size() - 1).getName());
                     listRouteAux.remove(listRouteAux.size() - 1);
                     return;
                 }
