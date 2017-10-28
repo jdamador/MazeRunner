@@ -344,6 +344,7 @@ public class MazeController {
             Frame auxFrame = search(row + "," + column);
             if (auxFrame.getBonus() == null && auxFrame != positionCharacter1 && auxFrame != positionCharacter2 && auxFrame != positionCharacter3 && auxFrame.isAllow() == true) {
                 GameWindows.objective.setLocation(row * 80, column * 80);
+                cup=auxFrame;
                 break;
             }
         }

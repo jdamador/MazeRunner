@@ -56,7 +56,7 @@ public class CharacterController implements Runnable
         
         createGraphForCharacter(characterRoot, graphRoot);
         System.out.println("moving");
-        shortRouteJumps(graphRoot,destiny);
+        //shortRouteJumps(graphRoot,destiny);
         System.out.println(listRouteShort.size());
         System.out.println("moving");
         int cont=0;
@@ -69,7 +69,14 @@ public class CharacterController implements Runnable
            
         
     }
-
+    public void under(Frame reco){
+        if(reco==null){
+            return;
+        }
+        if(reco.isMark()){
+            
+        }
+    }
     public void createGraphForCharacter(Frame characterRoot, Frame graphRoot)
     {
         insertFrameCharacter(characterRoot, graphRoot);
