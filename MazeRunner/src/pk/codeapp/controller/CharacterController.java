@@ -169,13 +169,16 @@ public class CharacterController implements Runnable {
      */
     public void shortRouteJumps(Frame origin, Frame destination) {
         if (origin == null) {
+            System.out.println("ENTRO NULO");
             return;
         } else if (origin.isMark() == true) {
+            System.out.println("ENTRO MARCA");    
             return;
         } else {
             origin.setMark(true);
             Link aux = origin.getNextLink();
             listRouteAux.add(origin);
+            System.out.println("AGREGO EN LIST AUX: "+origin);
             if (aux == null) {
                 listRouteAux.remove(listRouteAux.size() - 1);
                 return;
@@ -189,8 +192,10 @@ public class CharacterController implements Runnable {
                         listRouteShort.clear();
                         for (int i = 0; i < listRouteAux.size(); i++) {
                             listRouteShort.add(listRouteAux.get(i));
+                            System.out.println("AGREGO EN LIST: "+listRouteShort.get(i).getName());
                         }
                         listRouteShort.add(aux.getDestiny());
+                        System.out.println("AGREGO EN LIST: "+aux.getDestiny().getName());
                     }
                 }
                 shortRouteJumps(aux.getDestiny(), destination);
