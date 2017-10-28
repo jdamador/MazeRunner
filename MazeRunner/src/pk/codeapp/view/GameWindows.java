@@ -26,8 +26,7 @@ public class GameWindows extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         imageCharacter2 = new javax.swing.JLabel();
@@ -44,25 +43,25 @@ public class GameWindows extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         imageCharacter2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
+        imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character2.gif"))); // NOI18N
         imageCharacter2.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter2);
-        imageCharacter2.setBounds(440, 150, 72, 72);
+        imageCharacter2.setBounds(440, 150, 80, 80);
 
         imageCharacter3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
         imageCharacter3.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter3);
-        imageCharacter3.setBounds(110, 140, 80, 80);
+        imageCharacter3.setBounds(120, 240, 80, 80);
 
         imageCharacter1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
         imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter1);
-        imageCharacter1.setBounds(210, 140, 80, 80);
+        imageCharacter1.setBounds(140, 120, 80, 80);
 
         objective.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         objective.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/trofeo.png"))); // NOI18N

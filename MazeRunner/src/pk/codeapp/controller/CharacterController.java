@@ -46,7 +46,7 @@ public class CharacterController implements Runnable
         this.sleep = sleep;
         this.posX = posX;
         this.posY = posY;
-        this.characterRoot = characterRoot;
+        this.characterRoot = new Frame(characterRoot.getName(), false, characterRoot.getRow(), characterRoot.getColumn());
         this.graphRoot = graphRoot;
         this.destiny=destiny;
     }
@@ -59,11 +59,11 @@ public class CharacterController implements Runnable
         shortRouteJumps(graphRoot,destiny);
         System.out.println(listRouteShort.size());
         System.out.println("moving");
+        int cont=0;
         while(true){
-            
-            
-            characterActual.setLocation(posX++,posY);
+            characterActual.setLocation(listRouteShort.get(cont).getRow()*80,listRouteShort.get(cont).getColumn()*80);
             Thread.sleep(sleep);
+            cont+=1;
         }
             
            
@@ -244,7 +244,7 @@ public class CharacterController implements Runnable
     public void run()
     {
         try {
-          
+            
             movingImage();
         } catch (Exception e) {
 

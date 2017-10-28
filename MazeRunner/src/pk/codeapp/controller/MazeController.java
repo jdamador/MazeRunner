@@ -19,8 +19,7 @@ import pk.codeapp.view.GameWindows;
  *
  * @author amador
  */
-public class MazeController
-{
+public class MazeController {
 
     static Frame startMaze;
     private Random randomGenerator = new Random();
@@ -33,8 +32,7 @@ public class MazeController
     /**
      * Iniitialize the root in null
      */
-    public MazeController()
-    {
+    public MazeController() {
         this.startMaze = null;
         generateMap();
 
@@ -49,8 +47,7 @@ public class MazeController
      * @param column
      * @param allow
      */
-    public void addFrame(String name, boolean token, int row, int column, boolean allow)
-    {
+    public void addFrame(String name, boolean token, int row, int column, boolean allow) {
         Frame square = new Frame(name, token, row, column);
         square.setAllow(allow);
         square.setNextFrame(null);
@@ -65,8 +62,7 @@ public class MazeController
     /**
      * This method call all functions that create the map
      */
-    public void generateMap()
-    {
+    public void generateMap() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 addFrame(i + "," + j, false, i, j, false);
@@ -89,8 +85,7 @@ public class MazeController
      * @param weight
      * @return true or false if is attache succesfull
      */
-    public boolean addLink(Frame origen, Frame destiny, int weight)
-    {
+    public boolean addLink(Frame origen, Frame destiny, int weight) {
         Link link = new Link(weight);
         link.setDestiny(destiny);
         if (origen.getNextLink() == null) {
@@ -113,8 +108,7 @@ public class MazeController
     /**
      * This method help the developer, when it want to show the matrix
      */
-    public void imprimir()
-    {
+    public void imprimir() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame reco = startMaze;
@@ -142,8 +136,7 @@ public class MazeController
      * @param limit
      * @return random num
      */
-    public int getRandom(int limit)
-    {
+    public int getRandom(int limit) {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
@@ -151,8 +144,7 @@ public class MazeController
     /**
      * make marks in if move is allow or if is denied
      */
-    public void mark()
-    {
+    public void mark() {
         int walk = 1;
         for (int i = 0; i < 10; i++) {
             if (i == 0) {
@@ -198,8 +190,7 @@ public class MazeController
         }
     }
 
-    public Frame search(String name)
-    {
+    public Frame search(String name) {
         if (startMaze == null) {
             return null;
         }
@@ -213,29 +204,29 @@ public class MazeController
         return null;
     }
 
-    public void makeLinks()
-    {
+    public void makeLinks() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                
                 Frame actual = search(i + "," + j);
                 Frame right = search(i + "," + (j + 1));
-                if(right!=null){
-                   addLink(actual, right, 1);
-                   addLink(right,actual,1);
+                if (right != null) {
+                    addLink(actual, right, 1);
+                    addLink(right, actual, 1);
                 }
                 Frame down = search((i + 1) + "," + j);
-                if(down!=null){
+                if (down != null) {
                     addLink(actual, down, 1);
                     addLink(down, actual, 1);
                 }
 
             }
         }
+       
     }
 
-    public void initializeBonus()
-    {
+    
+
+    public void initializeBonus() {
         int quantityBonus = getRandom(3, 6);
         String[] beforePositions = new String[quantityBonus];
 
@@ -262,8 +253,7 @@ public class MazeController
         }
     }
 
-    public boolean exist(String search, String[] beforePositions)
-    {
+    public boolean exist(String search, String[] beforePositions) {
         boolean flag = false;
         for (int i = 0; i < beforePositions.length; i++) {
 
@@ -277,20 +267,17 @@ public class MazeController
         return flag;
     }
 
-    public int getRandom(int minimum, int maximum)
-    {
+    public int getRandom(int minimum, int maximum) {
         int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
     }
 
-    private Bonus getBonus()
-    {
+    private Bonus getBonus() {
         int numBonus = getRandom(5);
         return bonusController.searchInTree(numBonus);
     }
 
-    public void InitializeCharacters()
-    {
+    public void InitializeCharacters() {
         int numCharacters = getRandom(2, 3);
 
         if (numCharacters != 3) {
@@ -300,8 +287,7 @@ public class MazeController
 
     }
 
-    private void setCharactersIMaze(int limit)
-    {
+    private void setCharactersIMaze(int limit) {
         String[] beforePositions = new String[limit];
         for (int i = 0; i < limit; i++) {
             boolean running = true;
@@ -326,8 +312,7 @@ public class MazeController
         }
     }
 
-    public void setChacterLocation(int option, int row, int column, Frame found)
-    {
+    public void setChacterLocation(int option, int row, int column, Frame found) {
         switch (option) {
             case 0: {
 
@@ -351,8 +336,7 @@ public class MazeController
         }
     }
 
-    public void setObjectiveLocation()
-    {
+    public void setObjectiveLocation() {
         while (true) {
 
             int row = getRandom(9);
@@ -364,12 +348,13 @@ public class MazeController
             }
         }
     }
-    public void startThread(){
-        
-        new Thread(new CharacterController(GameWindows.imageCharacter1,100,positionCharacter1.getRow()*80, positionCharacter1.getColumn()*80,positionCharacter1,startMaze,cup),"character1").start();
-        new Thread(new CharacterController(GameWindows.imageCharacter2,100,positionCharacter2.getRow()*80, positionCharacter2.getColumn()*80,positionCharacter2,startMaze,cup),"character2").start();
-        if(positionCharacter3!=null){
-            new Thread(new CharacterController(GameWindows.imageCharacter3,100,positionCharacter3.getRow()*80, positionCharacter3.getColumn()*80,positionCharacter3,startMaze,cup),"character3").start();
+
+    public void startThread() {
+
+        new Thread(new CharacterController(GameWindows.imageCharacter1, 100, positionCharacter1.getRow() * 80, positionCharacter1.getColumn() * 80, positionCharacter1, startMaze, cup), "character1").start();
+        new Thread(new CharacterController(GameWindows.imageCharacter2, 100, positionCharacter2.getRow() * 80, positionCharacter2.getColumn() * 80, positionCharacter2, startMaze, cup), "character2").start();
+        if (positionCharacter3 != null) {
+            new Thread(new CharacterController(GameWindows.imageCharacter3, 100, positionCharacter3.getRow() * 80, positionCharacter3.getColumn() * 80, positionCharacter3, startMaze, cup), "character3").start();
         }
     }
 }
