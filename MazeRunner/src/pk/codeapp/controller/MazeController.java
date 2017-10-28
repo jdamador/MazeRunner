@@ -217,17 +217,17 @@ public class MazeController
     {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
+                
                 Frame actual = search(i + "," + j);
                 Frame right = search(i + "," + (j + 1));
-                addLink(actual, right, 45);
-                if (j != 9) {
-                    addLink(right, actual, i);
+                if(right!=null){
+                   addLink(actual, right, 1);
+                   addLink(right,actual,1);
                 }
-
                 Frame down = search((i + 1) + "," + j);
-                addLink(actual, down, 45);
-                if (i != 9) {
-                    addLink(down, actual, i);
+                if(down!=null){
+                    addLink(actual, down, 1);
+                    addLink(down, actual, 1);
                 }
 
             }
