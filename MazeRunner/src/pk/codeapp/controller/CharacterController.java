@@ -70,7 +70,14 @@ public class CharacterController implements Runnable
            
         
     }
-
+    public void under(Frame reco){
+        if(reco==null){
+            return;
+        }
+        if(reco.isMark()){
+            
+        }
+    }
     public void createGraphForCharacter(Frame characterRoot, Frame graphRoot)
     {
         insertFrameCharacter(characterRoot, graphRoot);
