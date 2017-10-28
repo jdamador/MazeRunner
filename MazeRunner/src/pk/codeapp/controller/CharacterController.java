@@ -22,7 +22,7 @@ public class CharacterController implements Runnable {
     private int posY;
     private JLabel characterActual;
     private int sleep;
-    private Frame characterRoot,bakcupRoot;
+    private Frame characterRoot, backupRoot;
     private Frame graphRoot;
     private Frame destiny;
 
@@ -45,24 +45,21 @@ public class CharacterController implements Runnable {
         this.sleep = sleep;
         this.posX = posX;
         this.posY = posY;
-        
+
         this.characterRoot = new Frame(characterRoot.getName(), false, characterRoot.getRow(), characterRoot.getColumn());
-        this.bakcupRoot=characterRoot;
+        this.backupRoot = characterRoot;
         this.graphRoot = graphRoot;
-<<<<<<< HEAD
-        this.destiny=destiny= new Frame(destiny.getName(), false, destiny.getRow(), destiny.getColumn());
-=======
-        this.destiny = destiny;
->>>>>>> developer
+        this.destiny = new Frame(destiny.getName(), false, destiny.getRow(), destiny.getColumn());
     }
 
     public void movingImage() throws InterruptedException {
 
-        createGraphForCharacter(characterRoot, graphRoot);
+        createGraphForCharacter(graphRoot);
 
         System.out.println("moving");
-        System.out.println("Origen: "+characterRoot.getName()+ " Destino: "+destiny.getName());
-        shortRouteJumps(characterRoot,destiny);
+        System.out.println("Origen: " + backupRoot.getName() + " Destino: " + destiny.getName());
+        clean_Mark();
+        shortRouteJumps(backupRoot, destiny);
         System.out.println(listRouteShort.size());
         System.out.println("moving");
         int cont = 0;
@@ -91,21 +88,31 @@ public class CharacterController implements Runnable {
         }
     }
 
-    public void createGraphForCharacter(Frame characterRoot, Frame graphRoot) {
+    public void createGraphForCharacter(Frame graphRoot) {
         insertFrameCharacter(graphRoot);
-        //Add Linken
-        Frame tempPrincipalG = graphRoot;
-        Frame root = characterRoot;
-        while (tempPrincipalG != null) {
-            if (tempPrincipalG.isAllow()) {
-                Link aux = tempPrincipalG.getNextLink();
+        makeLink(graphRoot);
+    }
+
+    private void makeLink(Frame graphRoot) {
+        if (graphRoot == null) {
+            return;
+        }
+        if (graphRoot.isMark()) {
+            return;
+        } else {
+            graphRoot.setMark(true);
+            Link aux = graphRoot.getNextLink();
+            Frame origin = searchCharacter(graphRoot.getName());
+            if (origin != null) {
                 while (aux != null) {
-                    Frame destiny = searchCharacter(aux.getDestiny().getName());
-                    insertLinkCharacter(root, destiny, aux.getWeight());
+                    if (aux.getDestiny().isAllow()) {
+                        Frame destiny = searchCharacter(aux.getDestiny().getName());
+                        insertLinkCharacter(origin, destiny, aux.getWeight());
+                    }
+                    makeLink(aux.getDestiny());
                     aux = aux.getNextLink();
                 }
             }
-            tempPrincipalG = tempPrincipalG.getNextFrame();
         }
     }
 
@@ -201,9 +208,9 @@ public class CharacterController implements Runnable {
      *
      * @param pointerCharacter
      */
-    public void clean_Mark(Frame pointerCharacter) {
-        Frame temp = pointerCharacter;
-        if (pointerCharacter == null) {
+    public void clean_Mark() {
+        Frame temp = characterRoot;
+        if (characterRoot == null) {
             return;
         }
         while (temp != null) {
