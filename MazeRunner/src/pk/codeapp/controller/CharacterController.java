@@ -48,7 +48,7 @@ public class CharacterController implements Runnable
         this.posY = posY;
         this.characterRoot = new Frame(characterRoot.getName(), false, characterRoot.getRow(), characterRoot.getColumn());
         this.graphRoot = graphRoot;
-        this.destiny=destiny;
+        this.destiny=destiny= new Frame(destiny.getName(), false, destiny.getRow(), destiny.getColumn());
     }
 
     public void movingImage() throws InterruptedException
@@ -56,7 +56,8 @@ public class CharacterController implements Runnable
         
         createGraphForCharacter(characterRoot, graphRoot);
         System.out.println("moving");
-        shortRouteJumps(graphRoot,destiny);
+        System.out.println("Origen: "+characterRoot.getName()+ " Destino: "+destiny.getName());
+        shortRouteJumps(characterRoot,destiny);
         System.out.println(listRouteShort.size());
         System.out.println("moving");
         int cont=0;
