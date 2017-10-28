@@ -10,8 +10,7 @@ import pk.codeapp.model.Link;
  *
  * @author amador
  */
-public class CharacterController implements Runnable
-{
+public class CharacterController implements Runnable {
 
     private int numberCharacters;
     private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
@@ -23,9 +22,10 @@ public class CharacterController implements Runnable
     private int posY;
     private JLabel characterActual;
     private int sleep;
-    private Frame characterRoot;
+    private Frame characterRoot,bakcupRoot;
     private Frame graphRoot;
     private Frame destiny;
+
     /**
      * This method calc a random number
      *
@@ -40,46 +40,54 @@ public class CharacterController implements Runnable
      * @param posX
      * @param posY
      */
-    public CharacterController(JLabel image, int sleep, int posX, int posY, Frame characterRoot, Frame graphRoot,Frame destiny)
-    {
+    public CharacterController(JLabel image, int sleep, int posX, int posY, Frame characterRoot, Frame graphRoot, Frame destiny) {
         this.characterActual = image;
         this.sleep = sleep;
         this.posX = posX;
         this.posY = posY;
+        
         this.characterRoot = new Frame(characterRoot.getName(), false, characterRoot.getRow(), characterRoot.getColumn());
+        this.bakcupRoot=characterRoot;
         this.graphRoot = graphRoot;
-        this.destiny=destiny;
+        this.destiny = destiny;
     }
 
-    public void movingImage() throws InterruptedException
-    {
-        
+    public void movingImage() throws InterruptedException {
+
         createGraphForCharacter(characterRoot, graphRoot);
+
         System.out.println("moving");
         //shortRouteJumps(graphRoot,destiny);
         System.out.println(listRouteShort.size());
         System.out.println("moving");
-        int cont=0;
-        while(true){
-            characterActual.setLocation(listRouteShort.get(cont).getRow()*80,listRouteShort.get(cont).getColumn()*80);
+        int cont = 0;
+        while (true) {
+            characterActual.setLocation(listRouteShort.get(cont).getRow() * 80, listRouteShort.get(cont).getColumn() * 80);
             Thread.sleep(sleep);
-            cont+=1;
+            cont += 1;
         }
-            
-           
-        
+
     }
-    public void under(Frame reco){
-        if(reco==null){
+
+    public void under(Frame reco) {
+        if (reco == null) {
             return;
         }
-        if(reco.isMark()){
-            
+        if (reco.isMark()) {
+            return;
+        } else {
+            reco.setMark(true);
+            Link aux = reco.getNextLink();
+            while (aux != null) {
+                System.out.println("Origin: " + reco.getName() + " " + "Destiny: " + aux.getDestiny().getName());
+                under(aux.getDestiny());
+                aux = aux.getNextLink();
+            }
         }
     }
-    public void createGraphForCharacter(Frame characterRoot, Frame graphRoot)
-    {
-        insertFrameCharacter(characterRoot, graphRoot);
+
+    public void createGraphForCharacter(Frame characterRoot, Frame graphRoot) {
+        insertFrameCharacter(graphRoot);
         //Add Linken
         Frame tempPrincipalG = graphRoot;
         Frame root = characterRoot;
@@ -87,7 +95,7 @@ public class CharacterController implements Runnable
             if (tempPrincipalG.isAllow()) {
                 Link aux = tempPrincipalG.getNextLink();
                 while (aux != null) {
-                    Frame destiny = searchCharacter(aux.getDestiny().getName(), root);
+                    Frame destiny = searchCharacter(aux.getDestiny().getName());
                     insertLinkCharacter(root, destiny, aux.getWeight());
                     aux = aux.getNextLink();
                 }
@@ -96,26 +104,24 @@ public class CharacterController implements Runnable
         }
     }
 
-    private void insertFrameCharacter(Frame rootG, Frame principalG)
-    {
+    private void insertFrameCharacter(Frame rootGraph) {
         //Add Frame
-        Frame tempPrincipalTree = principalG;
+        Frame tempPrincipalTree = rootGraph;
         while (tempPrincipalTree != null) {
             Frame newFrame = new Frame(tempPrincipalTree.getName(), false, tempPrincipalTree.getRow(), tempPrincipalTree.getColumn());
-            if (rootG == null) {
-                rootG = newFrame;
+            if (characterRoot == null) {
+                characterRoot = newFrame;
             } else {
                 if (tempPrincipalTree.isAllow() == true) {
-                    newFrame.setNextFrame(rootG);
-                    rootG = newFrame;
+                    newFrame.setNextFrame(characterRoot);
+                    characterRoot = newFrame;
                 }
             }
             tempPrincipalTree = tempPrincipalTree.getNextFrame();
         }
     }
 
-    private void insertLinkCharacter(Frame origen, Frame destiny, int weight)
-    {
+    private void insertLinkCharacter(Frame origen, Frame destiny, int weight) {
         Link link = new Link(weight);
         link.setDestiny(destiny);
         if (origen.getNextLink() == null) {
@@ -132,9 +138,8 @@ public class CharacterController implements Runnable
         }
     }
 
-    private Frame searchCharacter(String name, Frame rootCharacterG)
-    {
-        Frame recoG = rootCharacterG;
+    private Frame searchCharacter(String name) {
+        Frame recoG = characterRoot;
         while (recoG != null) {
             if (recoG.getName().equals(name)) {
                 return recoG;
@@ -144,19 +149,13 @@ public class CharacterController implements Runnable
         return null;
     }
 
-    public int getRandom(int minimum, int maximum)
-    {
-        int randomInt = minimum + (int) (Math.random() * maximum);
-        return randomInt;
-    }
-
-    public void numbreCharacters()
-    {
-        numberCharacters = getRandom(2, 3);
-    }
-
-    public void shortRouteJumps(Frame origin, Frame destination)
-    {
+    /**
+     * short route
+     *
+     * @param origin
+     * @param destination
+     */
+    public void shortRouteJumps(Frame origin, Frame destination) {
         if (origin == null) {
             return;
         } else if (origin.isMark() == true) {
@@ -192,8 +191,12 @@ public class CharacterController implements Runnable
         }
     }
 
-    public void clean_Mark(Frame pointerCharacter)
-    {
+    /**
+     * Clean marks in each Frame
+     *
+     * @param pointerCharacter
+     */
+    public void clean_Mark(Frame pointerCharacter) {
         Frame temp = pointerCharacter;
         if (pointerCharacter == null) {
             return;
@@ -204,54 +207,34 @@ public class CharacterController implements Runnable
         }
     }
 
-    public void addCharacterFrame(String name, boolean token, int row, int column, boolean allow, Frame rootPointer)
-    {
-        Frame square = new Frame(name, token, row, column);
-        square.setAllow(allow);
-        square.setNextFrame(null);
-        if (rootPointer == null) {
-            rootPointer = square;
-        } else {
-            square.setNextFrame(rootPointer);
-            rootPointer = square;
-        }
-    }
-
-    public ArrayList<Frame> getListRoute()
-    {
+    public ArrayList<Frame> getListRoute() {
         return listRouteAux;
     }
 
-    public void setListRoute(ArrayList<Frame> listRoute)
-    {
+    public void setListRoute(ArrayList<Frame> listRoute) {
         this.listRouteAux = listRoute;
     }
 
-    public ArrayList<Frame> getListRouteShort()
-    {
+    public ArrayList<Frame> getListRouteShort() {
         return listRouteShort;
     }
 
-    public void setListRouteShort(ArrayList<Frame> listRouteShort)
-    {
+    public void setListRouteShort(ArrayList<Frame> listRouteShort) {
         this.listRouteShort = listRouteShort;
     }
 
-    public ArrayList<Frame> getListRouteAux()
-    {
+    public ArrayList<Frame> getListRouteAux() {
         return listRouteAux;
     }
 
-    public void setListRouteAux(ArrayList<Frame> listRouteAux)
-    {
+    public void setListRouteAux(ArrayList<Frame> listRouteAux) {
         this.listRouteAux = listRouteAux;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
-            
+
             movingImage();
         } catch (Exception e) {
 
