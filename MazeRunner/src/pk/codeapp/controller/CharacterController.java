@@ -23,7 +23,9 @@ public class CharacterController implements Runnable
     private int posY;
     private JLabel characterActual;
     private int sleep;
-
+    private Frame characterRoot;
+    private Frame graphRoot;
+    private Frame destiny;
     /**
      * This method calc a random number
      *
@@ -32,33 +34,48 @@ public class CharacterController implements Runnable
      */
     /**
      * Inicialize the instance of controllerCharacter
+     *
      * @param image
      * @param sleep
      * @param posX
-     * @param posY 
+     * @param posY
      */
-    public CharacterController(JLabel image, int sleep, int posX, int posY)
+    public CharacterController(JLabel image, int sleep, int posX, int posY, Frame characterRoot, Frame graphRoot,Frame destiny)
     {
         this.characterActual = image;
         this.sleep = sleep;
         this.posX = posX;
         this.posY = posY;
+        this.characterRoot = characterRoot;
+        this.graphRoot = graphRoot;
+        this.destiny=destiny;
+    }
+
+    public void movingImage() throws InterruptedException
+    {
+        
+        createGraphForCharacter(characterRoot, graphRoot);
+        System.out.println("moving");
+        shortRouteJumps(graphRoot,destiny);
+        System.out.println(listRouteShort.size());
+        System.out.println("moving");
+        while(true){
+            
+            
+            characterActual.setLocation(posX++,posY);
+            Thread.sleep(sleep);
+        }
+            
+           
         
     }
 
-    public void movingImage() throws InterruptedException{
-        while(true){
-            System.out.println("moving");
-            characterActual.setLocation(posX, posY++);
-            Thread.sleep(sleep);
-        }
-    }
-    public void crateGraphForCharacter(Frame rootG, Frame principalG)
+    public void createGraphForCharacter(Frame characterRoot, Frame graphRoot)
     {
-        insertFrameCharacter(rootG, principalG);
+        insertFrameCharacter(characterRoot, graphRoot);
         //Add Linken
-        Frame tempPrincipalG = principalG;
-        Frame root = rootG;
+        Frame tempPrincipalG = graphRoot;
+        Frame root = characterRoot;
         while (tempPrincipalG != null) {
             if (tempPrincipalG.isAllow()) {
                 Link aux = tempPrincipalG.getNextLink();
@@ -226,11 +243,12 @@ public class CharacterController implements Runnable
     @Override
     public void run()
     {
-        try{
-             movingImage();
-        }catch(Exception e){
-            
+        try {
+          
+            movingImage();
+        } catch (Exception e) {
+
         }
-       
+
     }
 }
