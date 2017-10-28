@@ -26,44 +26,64 @@ public class GameWindows extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         imageCharacter2 = new javax.swing.JLabel();
         imageCharacter3 = new javax.swing.JLabel();
         imageCharacter1 = new javax.swing.JLabel();
+        objective = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 800));
+        setSize(new java.awt.Dimension(800, 800));
+
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 800));
         jPanel1.setLayout(null);
+
         imageCharacter2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/Character2.gif"))); // NOI18N
         imageCharacter2.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter2);
-        imageCharacter2.setBounds(540, 100, 72, 72);
+        imageCharacter2.setBounds(440, 150, 72, 72);
+
         imageCharacter3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character3.gif"))); // NOI18N
         imageCharacter3.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter3);
-        imageCharacter3.setBounds(70, 120, 80, 80);
+        imageCharacter3.setBounds(110, 140, 80, 80);
+
         imageCharacter1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageCharacter1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/character1.gif"))); // NOI18N
         imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter1);
-        imageCharacter1.setBounds(340, 270, 80, 80);
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        imageCharacter1.setBounds(210, 140, 80, 80);
+
+        objective.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        objective.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/trofeo.png"))); // NOI18N
+        objective.setBorder(new javax.swing.border.MatteBorder(null));
+        objective.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(objective);
+        objective.setBounds(320, 140, 80, 80);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -127,5 +147,6 @@ public class GameWindows extends javax.swing.JFrame {
     public static javax.swing.JLabel imageCharacter2;
     public static javax.swing.JLabel imageCharacter3;
     private javax.swing.JPanel jPanel1;
+    public static javax.swing.JLabel objective;
     // End of variables declaration//GEN-END:variables
 }

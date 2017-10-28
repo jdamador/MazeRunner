@@ -1,6 +1,7 @@
-
 package pk.codeapp.controller;
+
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import pk.codeapp.model.Frame;
 import pk.codeapp.model.Link;
 
@@ -9,60 +10,89 @@ import pk.codeapp.model.Link;
  *
  * @author amador
  */
-public class CharacterController {
+public class CharacterController implements Runnable
+{
 
     private int numberCharacters;
     private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
     private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
-    
+
     private int counterWeight = 0;
     private int Weight = 0;
+    private int posX;
+    private int posY;
+    private JLabel characterActual;
+    private int sleep;
+
     /**
      * This method calc a random number
      *
      * @param limit
      * @return
      */
-    
-    private Frame rootCharacter1; //Pointer for the first Character
-    private Frame rootCharacter2; //Pointer for the second Character
-    private Frame rootCharacter3; //Pointer for the third Character
-    
-    public void crateGraphForCharacter(Frame rootG,Frame principalG){
-        insertFrameCharacter(rootG,principalG);
+    /**
+     * Inicialize the instance of controllerCharacter
+     * @param image
+     * @param sleep
+     * @param posX
+     * @param posY 
+     */
+    public CharacterController(JLabel image, int sleep, int posX, int posY)
+    {
+        this.characterActual = image;
+        this.sleep = sleep;
+        this.posX = posX;
+        this.posY = posY;
+        
+    }
+
+    public void movingImage() throws InterruptedException{
+        while(true){
+            System.out.println("moving");
+            characterActual.setLocation(posX, posY++);
+            Thread.sleep(sleep);
+        }
+    }
+    public void crateGraphForCharacter(Frame rootG, Frame principalG)
+    {
+        insertFrameCharacter(rootG, principalG);
         //Add Linken
         Frame tempPrincipalG = principalG;
-        Frame root=rootG;
-        while(tempPrincipalG!=null){
-             if(tempPrincipalG.isAllow()){
-            Link aux=tempPrincipalG.getNextLink();
-            while(aux!=null){
-                Frame destiny= searchCharacter(aux.getDestiny().getName(),root);
-                insertLinkCharacter(root,destiny,aux.getWeight());
-                aux=aux.getNextLink();
+        Frame root = rootG;
+        while (tempPrincipalG != null) {
+            if (tempPrincipalG.isAllow()) {
+                Link aux = tempPrincipalG.getNextLink();
+                while (aux != null) {
+                    Frame destiny = searchCharacter(aux.getDestiny().getName(), root);
+                    insertLinkCharacter(root, destiny, aux.getWeight());
+                    aux = aux.getNextLink();
+                }
             }
-        } tempPrincipalG=tempPrincipalG.getNextFrame();
+            tempPrincipalG = tempPrincipalG.getNextFrame();
         }
-       
-        }
-    private void insertFrameCharacter(Frame rootG,Frame principalG){
+    }
+
+    private void insertFrameCharacter(Frame rootG, Frame principalG)
+    {
         //Add Frame
         Frame tempPrincipalTree = principalG;
-        while(tempPrincipalTree!=null){
-            Frame newFrame = new Frame(tempPrincipalTree.getName(), false,tempPrincipalTree.getRow(),tempPrincipalTree.getColumn());
-            if(rootG ==null){
-                rootG=newFrame;
-            }else{
-                if(tempPrincipalTree.isAllow()==true){
+        while (tempPrincipalTree != null) {
+            Frame newFrame = new Frame(tempPrincipalTree.getName(), false, tempPrincipalTree.getRow(), tempPrincipalTree.getColumn());
+            if (rootG == null) {
+                rootG = newFrame;
+            } else {
+                if (tempPrincipalTree.isAllow() == true) {
                     newFrame.setNextFrame(rootG);
-                    rootG=newFrame;
+                    rootG = newFrame;
                 }
             }
             tempPrincipalTree = tempPrincipalTree.getNextFrame();
         }
     }
-    private void insertLinkCharacter(Frame origen, Frame destiny, int weight){
-     Link link = new Link(weight);
+
+    private void insertLinkCharacter(Frame origen, Frame destiny, int weight)
+    {
+        Link link = new Link(weight);
         link.setDestiny(destiny);
         if (origen.getNextLink() == null) {
             origen.setNextLink(link);
@@ -77,62 +107,69 @@ public class CharacterController {
             origen.setNextLink(link);
         }
     }
-    private Frame searchCharacter(String name,Frame rootCharacterG){
-        Frame recoG=rootCharacterG;
-        while(recoG!=null){
-            if(recoG.getName().equals(name))
+
+    private Frame searchCharacter(String name, Frame rootCharacterG)
+    {
+        Frame recoG = rootCharacterG;
+        while (recoG != null) {
+            if (recoG.getName().equals(name)) {
                 return recoG;
-            recoG=recoG.getNextFrame();
+            }
+            recoG = recoG.getNextFrame();
         }
         return null;
     }
-    public int getRandom(int minimum, int maximum) {
+
+    public int getRandom(int minimum, int maximum)
+    {
         int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
     }
 
-    public void numbreCharacters() {
+    public void numbreCharacters()
+    {
         numberCharacters = getRandom(2, 3);
     }
 
-    public void shortRouteJumps(Frame origin, Frame destination) {
+    public void shortRouteJumps(Frame origin, Frame destination)
+    {
         if (origin == null) {
             return;
-        }
-        else  if (origin.isMark() == true) {
+        } else if (origin.isMark() == true) {
             return;
-        }
-        else{
-        origin.setMark(true);
-        Link aux = origin.getNextLink();
-        listRouteAux.add(origin);
-        if(aux==null){
-            listRouteAux.remove(listRouteAux.size()-1);
-            return;
-        }
-        while (aux != null) {
-            if(aux.getDestiny().isMark()==true){
-                aux.getDestiny().setMark(false);
+        } else {
+            origin.setMark(true);
+            Link aux = origin.getNextLink();
+            listRouteAux.add(origin);
+            if (aux == null) {
+                listRouteAux.remove(listRouteAux.size() - 1);
+                return;
             }
-            if (aux.getDestiny().equals(destination)) {
-                if (listRouteShort.isEmpty() || (listRouteAux.size() < listRouteShort.size())) {
-                    listRouteShort.clear();
-                    for (int i = 0; i < listRouteAux.size(); i++) {
-                        listRouteShort.add(listRouteAux.get(i));
+            while (aux != null) {
+                if (aux.getDestiny().isMark() == true) {
+                    aux.getDestiny().setMark(false);
+                }
+                if (aux.getDestiny().equals(destination)) {
+                    if (listRouteShort.isEmpty() || (listRouteAux.size() < listRouteShort.size())) {
+                        listRouteShort.clear();
+                        for (int i = 0; i < listRouteAux.size(); i++) {
+                            listRouteShort.add(listRouteAux.get(i));
+                        }
+                        listRouteShort.add(aux.getDestiny());
                     }
-                    listRouteShort.add(aux.getDestiny());
+                }
+                shortRouteJumps(aux.getDestiny(), destination);
+                aux = aux.getNextLink();
+                if (aux == null) {
+                    listRouteAux.remove(listRouteAux.size() - 1);
+                    return;
                 }
             }
-            shortRouteJumps(aux.getDestiny(), destination);
-            aux = aux.getNextLink();
-            if(aux==null){
-                listRouteAux.remove(listRouteAux.size()-1);
-                return;
         }
-        }}
     }
-    
-    public void clean_Mark(Frame pointerCharacter) {
+
+    public void clean_Mark(Frame pointerCharacter)
+    {
         Frame temp = pointerCharacter;
         if (pointerCharacter == null) {
             return;
@@ -142,7 +179,9 @@ public class CharacterController {
             temp = temp.getNextFrame();
         }
     }
- public void addCharacterFrame(String name, boolean token, int row, int column, boolean allow,Frame rootPointer) {
+
+    public void addCharacterFrame(String name, boolean token, int row, int column, boolean allow, Frame rootPointer)
+    {
         Frame square = new Frame(name, token, row, column);
         square.setAllow(allow);
         square.setNextFrame(null);
@@ -154,53 +193,44 @@ public class CharacterController {
         }
     }
 
-    public ArrayList<Frame> getListRoute() {
+    public ArrayList<Frame> getListRoute()
+    {
         return listRouteAux;
     }
 
-    public void setListRoute(ArrayList<Frame> listRoute) {
+    public void setListRoute(ArrayList<Frame> listRoute)
+    {
         this.listRouteAux = listRoute;
     }
 
-    public ArrayList<Frame> getListRouteShort() {
+    public ArrayList<Frame> getListRouteShort()
+    {
         return listRouteShort;
     }
 
-    public void setListRouteShort(ArrayList<Frame> listRouteShort) {
+    public void setListRouteShort(ArrayList<Frame> listRouteShort)
+    {
         this.listRouteShort = listRouteShort;
     }
 
-    public ArrayList<Frame> getListRouteAux() {
+    public ArrayList<Frame> getListRouteAux()
+    {
         return listRouteAux;
     }
 
-    public void setListRouteAux(ArrayList<Frame> listRouteAux) {
+    public void setListRouteAux(ArrayList<Frame> listRouteAux)
+    {
         this.listRouteAux = listRouteAux;
     }
 
-    public Frame getRootCharacter1() {
-        return rootCharacter1;
+    @Override
+    public void run()
+    {
+        try{
+             movingImage();
+        }catch(Exception e){
+            
+        }
+       
     }
-
-    public void setRootCharacter1(Frame rootCharacter1) {
-        this.rootCharacter1 = rootCharacter1;
-    }
-
-    public Frame getRootCharacter2() {
-        return rootCharacter2;
-    }
-
-    public void setRootCharacter2(Frame rootCharacter2) {
-        this.rootCharacter2 = rootCharacter2;
-    }
-
-    public Frame getRootCharacter3() {
-        return rootCharacter3;
-    }
-
-    public void setRootCharacter3(Frame rootCharacter3) {
-        this.rootCharacter3 = rootCharacter3;
-    }
-    
-    
 }

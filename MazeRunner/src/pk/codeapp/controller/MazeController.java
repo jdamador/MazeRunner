@@ -19,7 +19,8 @@ import pk.codeapp.view.GameWindows;
  *
  * @author amador
  */
-public class MazeController {
+public class MazeController
+{
 
     static Frame startMaze;
     private Random randomGenerator = new Random();
@@ -27,17 +28,16 @@ public class MazeController {
     private Frame positionCharacter1;
     private Frame positionCharacter2;
     private Frame positionCharacter3;
- 
     private Frame cup;
 
     /**
      * Iniitialize the root in null
      */
-    public MazeController() {
+    public MazeController()
+    {
         this.startMaze = null;
-      
-
         generateMap();
+
     }
 
     /**
@@ -49,7 +49,8 @@ public class MazeController {
      * @param column
      * @param allow
      */
-    public void addFrame(String name, boolean token, int row, int column, boolean allow) {
+    public void addFrame(String name, boolean token, int row, int column, boolean allow)
+    {
         Frame square = new Frame(name, token, row, column);
         square.setAllow(allow);
         square.setNextFrame(null);
@@ -64,7 +65,8 @@ public class MazeController {
     /**
      * This method call all functions that create the map
      */
-    public void generateMap() {
+    public void generateMap()
+    {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 addFrame(i + "," + j, false, i, j, false);
@@ -74,6 +76,8 @@ public class MazeController {
         mark();
         initializeBonus();
         InitializeCharacters();
+        setObjectiveLocation();
+        startThread();
         // imprimir();
     }
 
@@ -85,7 +89,8 @@ public class MazeController {
      * @param weight
      * @return true or false if is attache succesfull
      */
-    public boolean addLink(Frame origen, Frame destiny, int weight) {
+    public boolean addLink(Frame origen, Frame destiny, int weight)
+    {
         Link link = new Link(weight);
         link.setDestiny(destiny);
         if (origen.getNextLink() == null) {
@@ -108,7 +113,8 @@ public class MazeController {
     /**
      * This method help the developer, when it want to show the matrix
      */
-    public void imprimir() {
+    public void imprimir()
+    {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame reco = startMaze;
@@ -136,7 +142,8 @@ public class MazeController {
      * @param limit
      * @return random num
      */
-    public int getRandom(int limit) {
+    public int getRandom(int limit)
+    {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
@@ -144,7 +151,8 @@ public class MazeController {
     /**
      * make marks in if move is allow or if is denied
      */
-    public void mark() {
+    public void mark()
+    {
         int walk = 1;
         for (int i = 0; i < 10; i++) {
             if (i == 0) {
@@ -190,7 +198,8 @@ public class MazeController {
         }
     }
 
-    public Frame search(String name) {
+    public Frame search(String name)
+    {
         if (startMaze == null) {
             return null;
         }
@@ -204,7 +213,8 @@ public class MazeController {
         return null;
     }
 
-    public void makeLinks() {
+    public void makeLinks()
+    {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame actual = search(i + "," + j);
@@ -224,7 +234,8 @@ public class MazeController {
         }
     }
 
-    public void initializeBonus() {
+    public void initializeBonus()
+    {
         int quantityBonus = getRandom(3, 6);
         String[] beforePositions = new String[quantityBonus];
 
@@ -243,7 +254,7 @@ public class MazeController {
                         found.setBonus(bonus);
                         beforePositions[i] = row + "" + column;
                         running = false;
-                        
+
                     }
                 }
             }
@@ -251,7 +262,8 @@ public class MazeController {
         }
     }
 
-    public boolean exist(String search, String[] beforePositions) {
+    public boolean exist(String search, String[] beforePositions)
+    {
         boolean flag = false;
         for (int i = 0; i < beforePositions.length; i++) {
 
@@ -265,25 +277,31 @@ public class MazeController {
         return flag;
     }
 
-    public int getRandom(int minimum, int maximum) {
+    public int getRandom(int minimum, int maximum)
+    {
         int randomInt = minimum + (int) (Math.random() * maximum);
         return randomInt;
     }
 
-    private Bonus getBonus() {
+    private Bonus getBonus()
+    {
         int numBonus = getRandom(5);
         return bonusController.searchInTree(numBonus);
     }
 
-    public void InitializeCharacters() {
+    public void InitializeCharacters()
+    {
         int numCharacters = getRandom(2, 3);
+
         if (numCharacters != 3) {
             GameWindows.imageCharacter3.setVisible(false);
         }
         setCharactersIMaze(numCharacters);
+
     }
 
-    private void setCharactersIMaze(int limit) {
+    private void setCharactersIMaze(int limit)
+    {
         String[] beforePositions = new String[limit];
         for (int i = 0; i < limit; i++) {
             boolean running = true;
@@ -295,9 +313,9 @@ public class MazeController {
                 if (!exist(row + "" + column, beforePositions)) {
                     Frame found = search(row + "," + column);
                     if (found.isAllow()) {
-                        
+
                         if (found.getBonus() == null) {
-                            setChacterLocation(i,row,column, found);
+                            setChacterLocation(i, row, column, found);
                             beforePositions[i] = row + "" + column;
                             running = false;
                         }
@@ -308,30 +326,50 @@ public class MazeController {
         }
     }
 
-    public void setChacterLocation(int option, int row, int column, Frame found) {
-         System.out.println(row+" -------------- "+column);
-        System.out.println(found.getName()+" Name");
-        System.out.println(found.getBonus());
+    public void setChacterLocation(int option, int row, int column, Frame found)
+    {
         switch (option) {
             case 0: {
-              
-                positionCharacter1=found;
-                GameWindows.imageCharacter1.setLocation(row * 80,column * 80);
-                 
+
+                positionCharacter1 = found;
+                GameWindows.imageCharacter1.setLocation(row * 80, column * 80);
+
                 break;
             }
             case 1: {
-              
-                positionCharacter2=found;
-                GameWindows.imageCharacter2.setLocation(row * 80,column* 80);
+
+                positionCharacter2 = found;
+                GameWindows.imageCharacter2.setLocation(row * 80, column * 80);
                 break;
             }
             case 2: {
-                
-                positionCharacter3=found;
-                GameWindows.imageCharacter3.setLocation(row * 80,column* 80);
+
+                positionCharacter3 = found;
+                GameWindows.imageCharacter3.setLocation(row * 80, column * 80);
                 break;
             }
+        }
+    }
+
+    public void setObjectiveLocation()
+    {
+        while (true) {
+
+            int row = getRandom(9);
+            int column = getRandom(9);
+            Frame auxFrame = search(row + "," + column);
+            if (auxFrame.getBonus() == null && auxFrame != positionCharacter1 && auxFrame != positionCharacter2 && auxFrame != positionCharacter3 && auxFrame.isAllow() == true) {
+                GameWindows.objective.setLocation(row * 80, column * 80);
+                break;
+            }
+        }
+    }
+    public void startThread(){
+        CharacterController controller1 =new CharacterController(GameWindows.imageCharacter1,100,positionCharacter1.getRow()*80, positionCharacter1.getColumn()*80);
+        new Thread(controller1,"character1").start();
+        new Thread(new CharacterController(GameWindows.imageCharacter2,100,positionCharacter2.getRow()*80, positionCharacter2.getColumn()*80),"character2").start();
+        if(positionCharacter3!=null){
+            new Thread(new CharacterController(GameWindows.imageCharacter3,100,positionCharacter3.getRow()*80, positionCharacter3.getColumn()*80),"character3").start();
         }
     }
 }
