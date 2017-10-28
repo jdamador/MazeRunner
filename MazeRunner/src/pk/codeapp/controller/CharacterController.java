@@ -118,7 +118,6 @@ public class CharacterController implements Runnable {
             tempGraph=tempGraph.getNextFrame();
         }
     }
-
     private void insertFrameCharacter(Frame rootGraph) {
         //Add Frame
         Frame tempGraph = rootGraph;
