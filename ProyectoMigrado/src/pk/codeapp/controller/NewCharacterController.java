@@ -13,8 +13,7 @@ import pk.codeapp.model.Link;
  *
  * @author Daniel Amador
  */
-public class NewCharacterController
-{
+public class NewCharacterController {
 
     private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
     private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
@@ -23,8 +22,7 @@ public class NewCharacterController
     private Frame backup;
     private Frame destiny;
 
-    public NewCharacterController(Frame characterLocation, Frame graphRoot, Frame destiny)
-    {
+    public NewCharacterController(Frame characterLocation, Frame graphRoot, Frame destiny) {
 
         this.backup = characterLocation;
         this.graphRoot = graphRoot;
@@ -32,23 +30,21 @@ public class NewCharacterController
         controllerMethods();
     }
 
-    public void controllerMethods()
-    {
+    public void controllerMethods() {
         /*Clean Marks*/
         cleanMark();
         /*Search the short route*/
         shortRouteJumps(backup, destiny);
         System.out.println(listRouteShort.size());
         for (int i = 0; i < listRouteShort.size(); i++) {
-            System.out.println("Lista: "+ listRouteShort.get(i).getName());
+            System.out.println("Lista: " + listRouteShort.get(i).getName());
         }
     }
 
     /**
      * Clean mark for each frame
      */
-    public void cleanMark()
-    {
+    public void cleanMark() {
         Frame temp = graphRoot;
         if (graphRoot == null) {
             return;
@@ -58,31 +54,32 @@ public class NewCharacterController
             temp = temp.getNextFrame();
         }
     }
+
     /**
      * Search the short route
+     *
      * @param origin
-     * @param destination 
+     * @param destination
      */
-    public void shortRouteJumps(Frame origin, Frame destination)
-    {
-        if (origin == null) {
+    public void shortRouteJumps(Frame origin, Frame destination) {
+        
+        if (origin.isMark() | origin==null) {
+            System.out.println("retorno 1");
             return;
         }
-        if (origin.isMark()) {
+        if (origin.equals(destination)) {
+            System.out.println("retorno 2");
             return;
         }
         origin.setMark(true);
         listRouteAux.add(origin);
         Link aux = origin.getNextLink();
+
         if (aux == null) {
             listRouteAux.remove(listRouteAux.size() - 1);
             return;
         }
         while (aux != null) {
-            if (aux.getDestiny().isMark()) {
-                aux.getDestiny().setMark(false);
-            }
-
             if (aux.getDestiny().equals(destination)) {
                 if ((listRouteShort.isEmpty()) || (listRouteAux.size() < listRouteShort.size())) {
                     listRouteShort.clear();
@@ -95,6 +92,7 @@ public class NewCharacterController
             shortRouteJumps(aux.getDestiny(), destination);
             aux = aux.getNextLink();
             if (aux == null) {
+                origin.setMark(false);
                 listRouteAux.remove(listRouteAux.size() - 1);
                 return;
             }
