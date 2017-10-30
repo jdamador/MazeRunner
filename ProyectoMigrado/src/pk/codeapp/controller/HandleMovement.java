@@ -31,12 +31,8 @@ public class HandleMovement implements Runnable
     {
         for (int i = 0; i < walk.size(); i++) {
             lblImage.setLocation(walk.get(i).getRow()*80, walk.get(i).getColumn()*80);
-<<<<<<< HEAD
-            Thread.sleep(sleep);
 
-=======
-            Thread.sleep(1650);
->>>>>>> developer
+            Thread.sleep(sleep);
         }
     }
 
