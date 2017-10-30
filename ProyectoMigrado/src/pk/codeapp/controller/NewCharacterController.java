@@ -98,4 +98,10 @@ public class NewCharacterController {
             }
         }
     }
+
+    public ArrayList<Frame> getListRouteShort()
+    {
+        return listRouteShort;
+    }
+    
 }

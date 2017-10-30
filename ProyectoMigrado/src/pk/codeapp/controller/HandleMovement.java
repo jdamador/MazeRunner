@@ -29,7 +29,6 @@ public class HandleMovement implements Runnable
 
     public void mover() throws InterruptedException
     {
-        
         for (int i = 0; i < walk.size(); i++) {
             lblImage.setLocation(walk.get(i).getRow()*80, walk.get(i).getColumn()*80);
             Thread.sleep(1100);

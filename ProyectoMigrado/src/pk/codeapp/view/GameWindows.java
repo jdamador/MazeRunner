@@ -1,28 +1,46 @@
-
 package pk.codeapp.view;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import pk.codeapp.controller.DrawMapController;
 import pk.codeapp.controller.MazeController;
 import pk.codeapp.controller.NewMazeController;
 
-public class GameWindows extends javax.swing.JFrame {
+public class GameWindows extends javax.swing.JFrame
+{
 
     /**
      * Creates new form windowGame
      */
     DrawMapController mapGame;
     NewMazeController maze;
-     
-    public GameWindows() {
+    AudioClip sound;
+    File audio = new File("src/pk/codeapp/view/tools/song.wav");
+    public GameWindows()
+    {
         initComponents();
+        URL u = null;
+        try {
+            u = audio.toURL();
+            
+        } catch (MalformedURLException ex) {
+            
+        }
+        sound = Applet.newAudioClip(u);
+        sound.play();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         maze = new NewMazeController();
         mapGame = new DrawMapController();
         this.add(mapGame);
-       
-   
+        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +111,8 @@ public class GameWindows extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[])
+    {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -119,31 +138,33 @@ public class GameWindows extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
                 new GameWindows().setVisible(true);
             }
         });
     }
 
     //<editor-fold desc="getter and setter" defaultstate="collapsed">
-   
-
     //</editor-fold>
-    
-    public JLabel getImageCharacter1() {
+    public JLabel getImageCharacter1()
+    {
         return imageCharacter1;
     }
 
-    public JLabel getImageCharacter2() {
+    public JLabel getImageCharacter2()
+    {
         return imageCharacter2;
     }
 
     //</editor-fold>
-    public JLabel getImageCharacter3() {
+    public JLabel getImageCharacter3()
+    {
         return imageCharacter3;
-    }    
-    
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JLabel imageCharacter1;
     public static javax.swing.JLabel imageCharacter2;

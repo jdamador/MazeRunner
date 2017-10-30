@@ -17,14 +17,16 @@ import pk.codeapp.view.GameWindows;
  */
 public class NewMazeController
 {
+
     private Random randomGenerator = new Random();
-    static Frame startMaze,endMaze;
+    static Frame startMaze, endMaze;
     private Frame positionCharacter1;
     private Frame positionCharacter2;
     private Frame positionCharacter3;
     private Frame cup;
     /*Bonus controller*/
     private BonusController bonusController = new BonusController();
+
     /**
      * Defaullt constructor
      */
@@ -46,11 +48,12 @@ public class NewMazeController
         //printMatrix();
         /*Set objective*/
         setObjectiveLocation();
-        
-        /*Call character controller*/
-        NewCharacterController controler= new NewCharacterController(positionCharacter1, endMaze, cup);
-        
+
+        /*Call character movement method*/
+        startMovement();
+
     }
+
     /**
      * Add Frames into the graph
      *
@@ -64,7 +67,7 @@ public class NewMazeController
         Frame frame = new Frame(name, token, row, column);
         frame.setAllow(false);
         if (startMaze == null) {
-            startMaze =endMaze= frame;
+            startMaze = endMaze = frame;
         } else {
             if (search(name) == null) {
                 frame.setNextFrame(startMaze);
@@ -72,6 +75,7 @@ public class NewMazeController
             }
         }
     }
+
     /**
      * Generate Frames
      */
@@ -107,17 +111,17 @@ public class NewMazeController
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame actual = search(i + "" + j);
-                if (actual.isAllow()==true) {
+                if (actual.isAllow() == true) {
                     Frame right = search(i + "" + (j + 1));
                     if (right != null) {
-                        if (right.isAllow()==true) {
+                        if (right.isAllow() == true) {
                             addLink(actual, right, 1);
                             addLink(right, actual, 1);
                         }
                     }
                     Frame down = search((i + 1) + "" + j);
                     if (down != null) {
-                        if (down.isAllow()==true) {
+                        if (down.isAllow() == true) {
                             addLink(actual, down, 1);
                             addLink(down, actual, 1);
                         }
@@ -320,28 +324,32 @@ public class NewMazeController
             }
         }
     }
-    public void depth(Frame reco){
-        
-        if(reco==null | reco.isMark()){
+
+    public void depth(Frame reco)
+    {
+
+        if (reco == null | reco.isMark()) {
             return;
         }
         reco.setMark(true);
-        Link aux=reco.getNextLink();
-        while(aux!=null){
-           
-              System.out.println("Origin: "+reco.getName()+" Destiny: "+aux.getDestiny().getName());  
-            
+        Link aux = reco.getNextLink();
+        while (aux != null) {
+
+            System.out.println("Origin: " + reco.getName() + " Destiny: " + aux.getDestiny().getName());
+
             depth(aux.getDestiny());
-            aux=aux.getNextLink();
-            
+            aux = aux.getNextLink();
+
         }
     }
+
     //<editor-fold defaultstate="collapsed" desc="Generate marks">
-     public int getRandom(int limit)
+    public int getRandom(int limit)
     {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
+
     /**
      * make marks in if move is allow or if is denied
      */
@@ -393,4 +401,18 @@ public class NewMazeController
     }
 
     //</editor-fold>
+    private void startMovement()
+    {
+        NewCharacterController controler = new NewCharacterController(positionCharacter1, startMaze, cup);
+        new Thread(new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1)).start();
+
+        NewCharacterController controler1 = new NewCharacterController(positionCharacter2, startMaze, cup);
+        new Thread(new HandleMovement(controler1.getListRouteShort(), GameWindows.imageCharacter2)).start();
+        
+        if (positionCharacter3 != null) {
+            NewCharacterController controler2 = new NewCharacterController(positionCharacter3, startMaze, cup);
+            new Thread(new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3)).start();
+        }
+
+    }
 }
