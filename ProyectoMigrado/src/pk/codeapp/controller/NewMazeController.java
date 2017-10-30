@@ -342,7 +342,7 @@ public class NewMazeController
 
         }
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Generate marks">
     public int getRandom(int limit)
     {
@@ -401,24 +401,36 @@ public class NewMazeController
     }
 
     //</editor-fold>
-    static HandleMovement move1,move2,move3;
-    
-    
-    private void startMovement()
-    {
-        NewCharacterController controler = new NewCharacterController(positionCharacter1, startMaze, cup);
-        move1=new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1,"Character 1");
-        new Thread(move1).start();
+    static HandleMovement move1, move2, move3;
+    static NewCharacterController controler, controler1, controler2;
+    Thread thread1, thread2, thread3;
 
-        NewCharacterController controler1 = new NewCharacterController(positionCharacter2, startMaze, cup);
-        move2=new HandleMovement(controler1.getListRouteShort(), GameWindows.imageCharacter2,"Character 2");
-        new Thread(move2).start();
-        
+    public void startMovement()
+    {
+        controler = new NewCharacterController(positionCharacter1, startMaze, cup);
+        move1 = new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1, "Character 1", this, positionCharacter1);
+        thread1 = new Thread(move1);
+        thread1.start();
+
+        controler1 = new NewCharacterController(positionCharacter2, startMaze, cup);
+        move2 = new HandleMovement(controler1.getListRouteShort(), GameWindows.imageCharacter2, "Character 2", this, positionCharacter2);
+        thread2 = new Thread(move2);
+        thread2.start();
         if (positionCharacter3 != null) {
-            NewCharacterController controler2 = new NewCharacterController(positionCharacter3, startMaze, cup);
-            move3=new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3,"Character 3");
-            new Thread(move3).start();
+            controler2 = new NewCharacterController(positionCharacter3, startMaze, cup);
+            move3 = new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3, "Character 3", this, positionCharacter3);
+            thread3 = new Thread(move3);
+            thread3.start();
         }
 
     }
+
+//    public void stopAndRestar()
+//    {
+//        setObjectiveLocation();
+//        move1.stop();
+//        move2.stop();
+//        move3.stop();
+//        startMovement();
+//    }
 }

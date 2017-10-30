@@ -98,7 +98,7 @@ public class BonusController
         String[] names = {"Acceleration", "Teleportation", "Wait N seconds", "Slow down the other players", "Change location target", "Random"};
         String[] path = {"src/pk/codeapp/view/tools/Acceleration.png", "src/pk/codeapp/view/tools/teletransport.png", "src/pk/codeapp/view/tools/wait.png",
             "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/change.png", "src/pk/codeapp/view/tools/random.png"};
-       String[] sounds={"src/pk/codeapp/view/tools/acceleration.wav","src/pk/codeapp/view/tools/teleport.wav","src/pk/codeapp/view/tools/timesleep.wav",
+        String[] sounds={"src/pk/codeapp/view/tools/acceleration.wav","src/pk/codeapp/view/tools/teleport.wav","src/pk/codeapp/view/tools/timesleep.wav",
        "src/pk/codeapp/view/tools/slow.wav","src/pk/codeapp/view/tools/change.wav","src/pk/codeapp/view/tools/random.wav"};
         for (int i = 0; i < 6; i++) {
             int id = getRandom(6);
@@ -190,8 +190,6 @@ public class BonusController
                     bonus.setFather(previous);
                 }
             }
-        } else {
-
         }
 
     }

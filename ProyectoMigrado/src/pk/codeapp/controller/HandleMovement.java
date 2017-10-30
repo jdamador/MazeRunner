@@ -24,18 +24,22 @@ public class HandleMovement implements Runnable
     private ArrayList<Frame> walk;
     private JLabel lblImage;
     private String name;
+    private NewMazeController master;
+    private Frame character;
 
     /**
-     * Default constructor
+     * Default
      *
      * @param walk
      * @param lblImage
      */
-    public HandleMovement(ArrayList<Frame> walk, JLabel lblImage, String name)
+    public HandleMovement(ArrayList<Frame> walk, JLabel lblImage, String name, NewMazeController master, Frame character)
     {
         this.walk = walk;
         this.lblImage = lblImage;
         this.name = name;
+        this.master = master;
+        this.character = character;
     }
 
     /**
@@ -47,51 +51,55 @@ public class HandleMovement implements Runnable
     public void mover() throws InterruptedException
     {
         for (int i = 0; i < walk.size(); i++) {
+            character = walk.get(i);
             lblImage.setLocation(walk.get(i).getRow() * 80, walk.get(i).getColumn() * 80);
             if (walk.get(i).getBonus() != null) {
                 Bonus bonus = walk.get(i).getBonus();
-
-                if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
-                    sleep = 1000;
-                    walk.get(i).getBonus().getSound().play();
-                    walk.get(i).setBonus(null);
-                } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {
-                    walk.get(i).getBonus().getSound().play();
-                    walk.get(i).setBonus(null);
-                } else /*Wait N seconds*/ if (bonus.getName().equals("Wait N seconds")) {
-                    walk.get(i).getBonus().getSound().play();
-                    int timeSleep = getRandom(3000, 4000);
-                    Thread.sleep(timeSleep - sleep);
-                    walk.get(i).getBonus().getSound().stop();
-                    walk.get(i).setBonus(null);
-                } else /*Slow down the other players*/ if (bonus.getName().equals("Slow down the other players")) {
-                    walk.get(i).getBonus().getSound().play();
-                    /*If character #1*/
-                    if (name.equals("Character 1")) {
-                        NewMazeController.move2.setSleep(2000);
-                        if (NewMazeController.move3 != null) {
-                            NewMazeController.move3.setSleep(2000);
-                        }
-                    } else /*If character #2*/ if (name.equals("Character 2")) {
-                        NewMazeController.move1.setSleep(2000);
-                        if (NewMazeController.move3 != null) {
-                            NewMazeController.move3.setSleep(2000);
-                        }
-                    } else /*If character #3*/ if (name.equals("Character 3")) {
-                        NewMazeController.move1.setSleep(2000);
-                        NewMazeController.move2.setSleep(2000);
-                    }
-                    walk.get(i).setBonus(null);
-                } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {
-                    System.out.println("change objective");
-                } else /*Random*/ if (bonus.getName().equals("Random")) {
-                    walk.get(i).getBonus().getSound().play();
-                    walk.get(i).setBonus(null);
-                }
-
+                validate(bonus, walk.get(i));
             }
             System.out.println(sleep + " " + name);
             Thread.sleep(sleep);
+        }
+    }
+
+    public void validate(Bonus bonus, Frame frame) throws InterruptedException
+    {
+        if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
+            sleep = 1000;
+            frame.getBonus().getSound().play();
+            frame.setBonus(null);
+        } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {
+           frame.getBonus().getSound().play();
+            frame.setBonus(null);
+        } else /*Wait N seconds*/ if (bonus.getName().equals("Wait N seconds")) {
+            frame.getBonus().getSound().play();
+            int timeSleep = getRandom(3000, 4000);
+            Thread.sleep(timeSleep - sleep);
+            frame.getBonus().getSound().stop();
+            frame.setBonus(null);
+        } else /*Slow down the other players*/ if (bonus.getName().equals("Slow down the other players")) {
+            frame.getBonus().getSound().play();
+            /*If character #1*/
+            if (name.equals("Character 1")) {
+                NewMazeController.move2.setSleep(2500);
+                if (NewMazeController.move3 != null) {
+                    NewMazeController.move3.setSleep(2500);
+                }
+            } else /*If character #2*/ if (name.equals("Character 2")) {
+                NewMazeController.move1.setSleep(2500);
+                if (NewMazeController.move3 != null) {
+                    NewMazeController.move3.setSleep(2500);
+                }
+            } else /*If character #3*/ if (name.equals("Character 3")) {
+                NewMazeController.move1.setSleep(2500);
+                NewMazeController.move2.setSleep(2500);
+            }
+           frame.setBonus(null);
+        } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {
+            //master.stopAndRestar();
+        } else /*Random*/ if (bonus.getName().equals("Random")) {
+            frame.getBonus().getSound().play();
+            frame.setBonus(null);
         }
 
     }
@@ -124,6 +132,11 @@ public class HandleMovement implements Runnable
             mover();
         } catch (Exception e) {
         }
+    }
+
+    public void stop()
+    {
+        this.stop();
     }
 
 }
