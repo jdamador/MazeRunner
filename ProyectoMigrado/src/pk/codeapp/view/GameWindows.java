@@ -3,10 +3,17 @@ package pk.codeapp.view;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import pk.codeapp.controller.DrawMapController;
 import pk.codeapp.controller.MazeController;
@@ -22,23 +29,35 @@ public class GameWindows extends javax.swing.JFrame
     NewMazeController maze;
     AudioClip sound;
     File audio = new File("src/pk/codeapp/view/tools/song.wav");
+
     public GameWindows()
     {
         initComponents();
-        URL u = null;
+        AudioInputStream audioInputStream = null;
         try {
-            u = audio.toURL();
-        } catch (MalformedURLException ex) {
-            
+            audioInputStream = AudioSystem.getAudioInputStream(audio);
+        } catch (UnsupportedAudioFileException ex) {
+          
+        } catch (IOException ex) { 
+           
         }
-        sound = Applet.newAudioClip(u);
-        sound.play();
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+              clip.open(audioInputStream);
+              FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+              gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+        } catch (LineUnavailableException ex) {
+            
+        } catch (IOException ex) {
+           
+        }
+        clip.start();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         maze = new NewMazeController();
         mapGame = new DrawMapController();
         this.add(mapGame);
-        
 
     }
 

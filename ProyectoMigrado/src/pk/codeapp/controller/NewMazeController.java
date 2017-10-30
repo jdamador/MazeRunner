@@ -342,7 +342,7 @@ public class NewMazeController
 
         }
     }
-
+    
     //<editor-fold defaultstate="collapsed" desc="Generate marks">
     public int getRandom(int limit)
     {
@@ -401,17 +401,23 @@ public class NewMazeController
     }
 
     //</editor-fold>
+    static HandleMovement move1,move2,move3;
+    
+    
     private void startMovement()
     {
         NewCharacterController controler = new NewCharacterController(positionCharacter1, startMaze, cup);
-        new Thread(new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1)).start();
+        move1=new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1,"Character 1");
+        new Thread(move1).start();
 
         NewCharacterController controler1 = new NewCharacterController(positionCharacter2, startMaze, cup);
-        new Thread(new HandleMovement(controler1.getListRouteShort(), GameWindows.imageCharacter2)).start();
+        move2=new HandleMovement(controler1.getListRouteShort(), GameWindows.imageCharacter2,"Character 2");
+        new Thread(move2).start();
         
         if (positionCharacter3 != null) {
             NewCharacterController controler2 = new NewCharacterController(positionCharacter3, startMaze, cup);
-            new Thread(new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3)).start();
+            move3=new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3,"Character 3");
+            new Thread(move3).start();
         }
 
     }

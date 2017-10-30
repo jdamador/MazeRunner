@@ -333,7 +333,7 @@ public class MazeController
 //            walkCharacter3 = element3.createGraphForCharacter();
 //            new Thread(new HandleMovement(walkCharacter3, GameWindows.imageCharacter3)).start();
 //        }
-          new Thread(new HandleMovement(walkCharacter1, GameWindows.imageCharacter1)).start();
+//          new Thread(new HandleMovement(walkCharacter1, GameWindows.imageCharacter1)).start();
 //        new Thread(new HandleMovement(walkCharacter2, GameWindows.imageCharacter2)).start();
 
     }

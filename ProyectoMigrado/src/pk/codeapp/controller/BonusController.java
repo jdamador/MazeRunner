@@ -5,10 +5,14 @@
  */
 package pk.codeapp.controller;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 import pk.codeapp.model.Bonus;
 
@@ -18,7 +22,8 @@ import pk.codeapp.model.Bonus;
  *
  * @author amador
  */
-public class BonusController {
+public class BonusController
+{
 
     private File bonusFile = new File("src/pk/codeapp/model/data/bonusFile.ser");
     private Bonus bonusRoot;
@@ -29,7 +34,8 @@ public class BonusController {
      *
      * @param bonusRoot
      */
-    public BonusController() {
+    public BonusController()
+    {
         this.bonusRoot = bonusRoot;
         createBonus();
     }
@@ -39,7 +45,8 @@ public class BonusController {
      *
      * @param aux
      */
-    public void writeBinaryFile(Bonus aux) {
+    public void writeBinaryFile(Bonus aux)
+    {
         FileOutputStream file = null;
         ObjectOutputStream output = null;
         try {
@@ -64,7 +71,8 @@ public class BonusController {
      *
      * @param reco
      */
-    private void readTreeInPostOrden(Bonus reco) {
+    private void readTreeInPostOrden(Bonus reco)
+    {
         if (reco == null) {
             return;
         } else {
@@ -77,22 +85,34 @@ public class BonusController {
     /**
      * Method aux to call the private
      */
-    public void readTreeInPostOrden() {
+    public void readTreeInPostOrden()
+    {
         readTreeInPostOrden(bonusRoot);
     }
 
     /**
      * Method that create elements in the tree
      */
-    public void createBonus() {
-        String[] names = {"Acceleration", "Teleportation", "Wait N seconds ", "Slow down the other players", "Change location target", "Random"};
+    public void createBonus()
+    {
+        String[] names = {"Acceleration", "Teleportation", "Wait N seconds", "Slow down the other players", "Change location target", "Random"};
         String[] path = {"src/pk/codeapp/view/tools/Acceleration.png", "src/pk/codeapp/view/tools/teletransport.png", "src/pk/codeapp/view/tools/wait.png",
-             "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/slow.png","src/pk/codeapp/view/tools/change.png"};
+            "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/change.png", "src/pk/codeapp/view/tools/random.png"};
+       String[] sounds={"src/pk/codeapp/view/tools/acceleration.wav","src/pk/codeapp/view/tools/teleport.wav","src/pk/codeapp/view/tools/timesleep.wav",
+       "src/pk/codeapp/view/tools/slow.wav","src/pk/codeapp/view/tools/change.wav","src/pk/codeapp/view/tools/random.wav"};
         for (int i = 0; i < 6; i++) {
             int id = getRandom(6);
             int weight = getRandom(100);
             if (searchInTree(id) == null) {
-            insertIntoTree(weight,id,names[i], path[i]);
+                URL u = null;
+                try {
+                    u = new File(sounds[i]).toURL();
+                } catch (Exception ex) {
+
+                }
+                AudioClip sound = Applet.newAudioClip(u);
+                
+                insertIntoTree(weight, id, names[i], path[i],sound);
             }
         }
     }
@@ -104,8 +124,8 @@ public class BonusController {
      * @param id
      * @return true if exist and false if not
      */
-
-    public Bonus searchInTree(int id) {
+    public Bonus searchInTree(int id)
+    {
         return exist(id);
     }
 
@@ -115,25 +135,23 @@ public class BonusController {
      * @param newBonus
      * @param root
      */
-    
-    
     /**
      * Get a random num between 0 and the limit
      *
      * @param limit
      * @return random num
      */
-    public int getRandom(int limit) {
+    public int getRandom(int limit)
+    {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
-    
-    
+
     public Bonus exist(int id)
     {
         Bonus reco = bonusRoot;
         while (reco != null) {
-            
+
             if (reco.getId() == id) {
                 return reco;
             } else {
@@ -146,14 +164,15 @@ public class BonusController {
         }
         return null;
     }
-    public void insertIntoTree(int weight,int id,String name, String path)
+
+    public void insertIntoTree(int weight, int id, String name, String path,AudioClip sound)
     {
-        Bonus bonus = new Bonus(weight, id, name, path);
+        Bonus bonus = new Bonus(weight, id, name, path,sound);
         if (exist(bonus.getId()) == null) {
-            if (bonusRoot== null) { 
+            if (bonusRoot == null) {
                 bonusRoot = bonus;
             } else {
-                Bonus previous = null, reco; 
+                Bonus previous = null, reco;
                 reco = bonusRoot;
                 while (reco != null) {
                     previous = reco;
@@ -164,11 +183,11 @@ public class BonusController {
                     }
                 }
                 if (bonus.getId() < previous.getId()) {
-                    previous.setSigLeft(bonus); 
+                    previous.setSigLeft(bonus);
                     bonus.setFather(previous);
                 } else {
                     previous.setSigRight(bonus);
-                  bonus.setFather(previous);
+                    bonus.setFather(previous);
                 }
             }
         } else {

@@ -5,6 +5,7 @@
  */
 package pk.codeapp.model;
 
+import java.applet.AudioClip;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javax.swing.ImageIcon;
 public class Bonus {
     private int  weight;
     private int id;
+    private AudioClip sound;
     private String name;
      BufferedImage bonusImage;
     private Bonus sigLeft,sigRight,father;
@@ -28,19 +30,30 @@ public class Bonus {
      * @param name
      * @param path 
      */
-     public Bonus(int weight, int id, String name,String path) {
+     public Bonus(int weight, int id, String name,String path,AudioClip sound) {
         this.weight = weight;
         this.id = id;
         this.name = name;
+        this.sound=sound;
         sigLeft=null;
         sigRight=null;
-     
+        
         try{
         this.bonusImage = ImageIO.read(new File(path));
         }catch(IOException e){}
     }
     //<editor-fold desc="All getter and setter here" defaultstate="collapsed">
 
+    public void setSound(AudioClip sound)
+    {
+        this.sound = sound;
+    }    
+
+    public AudioClip getSound()
+    {
+        return sound;
+    }
+    
     public int getWeight() {
         return weight;
     }
@@ -94,4 +107,5 @@ public class Bonus {
     public void setFather(Bonus previous) {
        this.father=previous;
     }
+    
 }
