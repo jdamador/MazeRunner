@@ -46,7 +46,7 @@ public class GameWindows extends javax.swing.JFrame
             clip = AudioSystem.getClip();
               clip.open(audioInputStream);
               FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-              gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+              //gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
         } catch (LineUnavailableException ex) {
             
         } catch (IOException ex) {
