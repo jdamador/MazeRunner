@@ -80,18 +80,18 @@ public class HandleMovement implements Runnable
             frame.getBonus().getSound().play();
             /*If character #1*/
             if (name.equals("Character 1")) {
-                NewMazeController.move2.setSleep(2500);
+                NewMazeController.move2.setSleep(3000);
                 if (NewMazeController.move3 != null) {
-                    NewMazeController.move3.setSleep(2500);
+                    NewMazeController.move3.setSleep(3000);
                 }
             } else /*If character #2*/ if (name.equals("Character 2")) {
-                NewMazeController.move1.setSleep(2500);
+                NewMazeController.move1.setSleep(3000);
                 if (NewMazeController.move3 != null) {
-                    NewMazeController.move3.setSleep(2500);
+                    NewMazeController.move3.setSleep(3000);
                 }
             } else /*If character #3*/ if (name.equals("Character 3")) {
-                NewMazeController.move1.setSleep(2500);
-                NewMazeController.move2.setSleep(2500);
+                NewMazeController.move1.setSleep(3000);
+                NewMazeController.move2.setSleep(3000);
             }
            frame.setBonus(null);
         } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {

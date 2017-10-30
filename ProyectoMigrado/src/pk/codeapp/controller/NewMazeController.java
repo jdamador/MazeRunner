@@ -39,7 +39,7 @@ public class NewMazeController
         mark();
         /*Add link*/
         makeLinks();
-        depth(endMaze);
+        //depth(endMaze);
         /*Set bonus positions*/
         initializeBonus();
         /*initicialize characters in their positions*/
@@ -362,9 +362,6 @@ public class NewMazeController
         reco.setMark(true);
         Link aux = reco.getNextLink();
         while (aux != null) {
-
-            System.out.println("Origin: " + reco.getName() + " Destiny: " + aux.getDestiny().getName());
-
             depth(aux.getDestiny());
             aux = aux.getNextLink();
 
