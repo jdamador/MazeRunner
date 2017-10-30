@@ -25,7 +25,11 @@ public class NewCharacterController {
     /*List of Routes*/
     private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
     private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
+     private ArrayList<Frame> listRouteAuxTeleport = new ArrayList(); //Auxiliary list to know the short route of Teleport2
+    private ArrayList<Frame> listRouteShortTeleport = new ArrayList(); //Principal list to know the short route of Teleport2
     /*Root graph */
+    private Frame teletrasportation1;
+    private Frame teletrasportation2;
     private Frame graphRoot;
     private Frame backup;
     private Frame destiny;
@@ -48,10 +52,16 @@ public class NewCharacterController {
         int contRoads = contRoadToWin-1;
         for (int i = 0; i < contRoads; i++) {
             if (therIsSomethingBadThere()) {
+                if(teletrasportation1!=null && teletrasportation2!=null){
+                    cutList(teletrasportation1);
+                     shortRouteJumpsForTeletrasportation2(backup, destiny);
+                     for (int j = 0; j < listRouteShortTeleport.size(); j++) {
+                    listRouteShort.add(listRouteShortTeleport.get(j));}
+                }else{
                 markRoad();
                 listRouteShort.clear();
                 listRouteAux.clear();
-                shortRouteJumps(backup, destiny);
+                shortRouteJumps(backup, destiny);}
             }
         }
         if(listRouteShort.isEmpty()){
@@ -61,6 +71,18 @@ public class NewCharacterController {
             this.contRoad=0;
             this.contRoadAux=0;
             shortRouteWeight(backup,destiny);
+        }
+    }
+    public void cutList(Frame teletrasportation1){
+        int numCut=0;
+        for (int i = 0; i < listRouteShort.size(); i++) {
+            if(listRouteShort.get(i).equals(teletrasportation1))
+                numCut=i;
+        }
+        for (int i = 0; i < listRouteShort.size(); i++) {
+            if(i>numCut){ 
+                listRouteShort.remove(i);
+            }
         }
     }
     public void shortRouteWeight(Frame origin,Frame destination){
@@ -136,8 +158,8 @@ public class NewCharacterController {
     private boolean isBadTeleportation(Frame teleport1) {
         this.contTeletrasport1 = 0;
         this.contTeletrasport2 = 0;
-        Frame teletrasportation1 = teleport1;
-        Frame teletrasportation2 = searchTeleprotInGraph("Teleportation", teleport1);
+        teletrasportation1 = teleport1;
+        teletrasportation2 = searchTeleprotInGraph("Teleportation", teleport1);
         if (teletrasportation1 != null && teletrasportation2 != null) {
             teleportationDistance(teletrasportation1, 0, "Teleportation1");
             teleportationDistance(teletrasportation2, 0, "Teleportation2");
@@ -226,7 +248,6 @@ public class NewCharacterController {
         }
         while (aux != null) {
             if (aux.getDestiny().equals(destination)) {
-
                 if ((listRouteShort.isEmpty()) || (listRouteAux.size() < listRouteShort.size())) {
                     listRouteShort.clear();
                     for (int i = 0; i < listRouteAux.size(); i++) {
@@ -245,6 +266,47 @@ public class NewCharacterController {
         }
     }
 
+      /**
+     * Search the short route for teleport 2
+     *
+     * @param origin
+     * @param destination
+     */
+    public void shortRouteJumpsForTeletrasportation2(Frame origin, Frame destination) {
+
+        if (origin.isMark() | origin == null) {
+            return;
+        }
+        if (origin.equals(destination)) {
+            return;
+        }
+        origin.setMark(true);
+        listRouteAuxTeleport.add(origin);
+        Link aux = origin.getNextLink();
+
+        if (aux == null) {
+            listRouteAuxTeleport.remove(listRouteAuxTeleport.size() - 1);
+            return;
+        }
+        while (aux != null) {
+            if (aux.getDestiny().equals(destination)) {
+                if ((listRouteShortTeleport.isEmpty()) || (listRouteAuxTeleport.size() < listRouteShortTeleport.size())) {
+                    listRouteShortTeleport.clear();
+                    for (int i = 0; i < listRouteAuxTeleport.size(); i++) {
+                        listRouteShortTeleport.add(listRouteAuxTeleport.get(i));
+                    }
+                    listRouteShortTeleport.add(destination);
+                }
+            }
+            shortRouteJumps(aux.getDestiny(), destination);
+            aux = aux.getNextLink();
+            if (aux == null) {
+                origin.setMark(false);
+                listRouteAuxTeleport.remove(listRouteAuxTeleport.size() - 1);
+                return;
+            }
+        }
+    }
     public Frame searchTeleprotInGraph(String search, Frame notSearch) {
         Frame reco = graphRoot;
         while (reco != null) {
