@@ -5,9 +5,6 @@ package pk.codeapp;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-import pk.codeapp.controller.MazeController;
 import pk.codeapp.view.GameWindows;
 
 /**

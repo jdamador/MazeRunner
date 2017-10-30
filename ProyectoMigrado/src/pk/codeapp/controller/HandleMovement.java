@@ -57,7 +57,6 @@ public class HandleMovement implements Runnable
                 Bonus bonus = walk.get(i).getBonus();
                 validate(bonus, walk.get(i));
             }
-            System.out.println(sleep + " " + name);
             Thread.sleep(sleep);
         }
     }
@@ -65,7 +64,7 @@ public class HandleMovement implements Runnable
     public void validate(Bonus bonus, Frame frame) throws InterruptedException
     {
         if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
-            sleep = 1000;
+            sleep-=300;                                                                                                                              ;
             frame.getBonus().getSound().play();
             frame.setBonus(null);
         } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {

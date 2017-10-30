@@ -178,27 +178,55 @@ public class NewMazeController
         }
     }
 
+    /**
+     * Set bonus in random position in the graph
+     */
     public void initializeBonus()
     {
-        int quantityBonus = getRandom(3, 6);
-        String[] beforePositions = new String[quantityBonus];
+        boolean isTeleport = false;
+        int quantityBonus = getRandom(3, 7);
+        String[] beforePositions = new String[quantityBonus+1];
         for (int i = 0; i < quantityBonus; i++) {
+
             boolean running = true;
             while (running) {
+                /*Get new position*/
                 int row = getRandom(0, 9);
                 int column = getRandom(0, 9);
+                /*Search position*/
                 if (!exist(row + "" + column, beforePositions)) {
+
                     Frame found = search(row + "" + column);
                     if (found.isAllow()) {
                         Bonus bonus = getBonus();
-                        found.setBonus(bonus);
-                        beforePositions[i] = row + "" + column;
-                        running = false;
+                        if (bonus.getName().equals("Teleportation")) {   
+                            if (!isTeleport) {
+                                found.setBonus(bonus);
+                                isTeleport = true;
+                                while (true) {
+                                    int newRow = getRandom(0, 9);
+                                    int newColumn = getRandom(0, 9);
+                                    if (!exist(newRow + "" + newColumn, beforePositions)) {
+                                        Frame newFound = search(newRow + "" + newColumn);
+                                        if (newFound.isAllow()) {
+                                            newFound.setBonus(bonus);
+                                            beforePositions[i] = newRow + "" + newColumn;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        } else {
+                            found.setBonus(bonus);
+                            beforePositions[i] = row + "" + column;
+                            running = false;
+                        }
 
                     }
                 }
             }
-
         }
     }
 

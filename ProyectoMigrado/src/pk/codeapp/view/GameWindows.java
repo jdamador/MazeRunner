@@ -16,7 +16,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import pk.codeapp.controller.DrawMapController;
-import pk.codeapp.controller.MazeController;
 import pk.codeapp.controller.NewMazeController;
 
 public class GameWindows extends javax.swing.JFrame
@@ -46,7 +45,7 @@ public class GameWindows extends javax.swing.JFrame
             clip = AudioSystem.getClip();
               clip.open(audioInputStream);
               FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-              //gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+              gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
         } catch (LineUnavailableException ex) {
             
         } catch (IOException ex) {

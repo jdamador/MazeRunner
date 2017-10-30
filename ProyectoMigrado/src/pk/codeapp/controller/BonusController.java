@@ -101,9 +101,8 @@ public class BonusController
         String[] sounds={"src/pk/codeapp/view/tools/acceleration.wav","src/pk/codeapp/view/tools/teleport.wav","src/pk/codeapp/view/tools/timesleep.wav",
        "src/pk/codeapp/view/tools/slow.wav","src/pk/codeapp/view/tools/change.wav","src/pk/codeapp/view/tools/random.wav"};
         for (int i = 0; i < 6; i++) {
-            int id = getRandom(6);
             int weight = getRandom(100);
-            if (searchInTree(id) == null) {
+            if (searchInTree(i) == null) {
                 URL u = null;
                 try {
                     u = new File(sounds[i]).toURL();
@@ -112,7 +111,7 @@ public class BonusController
                 }
                 AudioClip sound = Applet.newAudioClip(u);
                 
-                insertIntoTree(weight, id, names[i], path[i],sound);
+                insertIntoTree(weight, i, names[i], path[i],sound);
             }
         }
     }
@@ -151,7 +150,6 @@ public class BonusController
     {
         Bonus reco = bonusRoot;
         while (reco != null) {
-
             if (reco.getId() == id) {
                 return reco;
             } else {
