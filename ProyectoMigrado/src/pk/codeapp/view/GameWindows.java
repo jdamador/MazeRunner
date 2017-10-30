@@ -28,7 +28,6 @@ public class GameWindows extends javax.swing.JFrame
         URL u = null;
         try {
             u = audio.toURL();
-            
         } catch (MalformedURLException ex) {
             
         }

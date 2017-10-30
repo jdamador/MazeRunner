@@ -17,7 +17,7 @@ import pk.codeapp.model.Frame;
  */
 public class HandleMovement implements Runnable
 {
-
+    private int sleep=1650;
     private ArrayList<Frame> walk;
     private JLabel lblImage;
 
@@ -31,7 +31,7 @@ public class HandleMovement implements Runnable
     {
         for (int i = 0; i < walk.size(); i++) {
             lblImage.setLocation(walk.get(i).getRow()*80, walk.get(i).getColumn()*80);
-            Thread.sleep(1100);
+            Thread.sleep(sleep);
 
         }
     }
