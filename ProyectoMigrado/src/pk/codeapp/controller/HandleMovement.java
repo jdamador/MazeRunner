@@ -65,7 +65,7 @@ public class HandleMovement implements Runnable
                     NewMazeController.positionCharacter1=walk.get(index);
                 }else if(name.equals("Character 2")){
                      NewMazeController.positionCharacter2=walk.get(index);
-                }else if(name.equals("Character 2")){
+                }else if(name.equals("Character 3")){
                       NewMazeController.positionCharacter3=walk.get(index);
                 }
                 lblImage.setLocation(walk.get(index).getRow() * 80, walk.get(index).getColumn() * 80);
