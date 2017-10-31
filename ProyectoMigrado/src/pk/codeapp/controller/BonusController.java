@@ -111,7 +111,7 @@ public class BonusController
      */
     public void readTreeInPostOrden()
     {
-        bonusFile.delete();
+        bonusFile.delete(); 
         readTreeInPostOrden(bonusRoot);
     }
 
