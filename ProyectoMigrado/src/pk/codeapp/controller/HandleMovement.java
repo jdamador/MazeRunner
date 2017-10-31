@@ -5,6 +5,10 @@
  */
 package pk.codeapp.controller;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -20,12 +24,15 @@ import pk.codeapp.model.Frame;
 public class HandleMovement implements Runnable
 {
 
+    /*Bonus controller*/
+    private BonusController bonusController = new BonusController();
     private int sleep = 1650;
     private ArrayList<Frame> walk;
     private JLabel lblImage;
     private String name;
     private NewMazeController master;
     private Frame character;
+    public boolean running = true;
 
     /**
      * Default
@@ -50,57 +57,91 @@ public class HandleMovement implements Runnable
      */
     public void mover() throws InterruptedException
     {
-        for (int i = 0; i < walk.size(); i++) {
-            character = walk.get(i);
-            lblImage.setLocation(walk.get(i).getRow() * 80, walk.get(i).getColumn() * 80);
-            if (walk.get(i).getBonus() != null) {
-                Bonus bonus = walk.get(i).getBonus();
-                validate(bonus, walk.get(i));
+        int index = 0;
+        while (running) {
+            if (index < walk.size()) {
+                character = walk.get(index);
+                lblImage.setLocation(walk.get(index).getRow() * 80, walk.get(index).getColumn() * 80);
+                if (walk.get(index).getBonus() != null) {
+                    Bonus bonus = walk.get(index).getBonus();
+                    validate(bonus, walk.get(index));
+                }
+                Thread.sleep(sleep);
+                index++;
+            } else {
+                break;
             }
-            Thread.sleep(sleep);
         }
     }
 
     public void validate(Bonus bonus, Frame frame) throws InterruptedException
     {
+        URL u = null;
+        try {
+            u = new File(bonus.getSound()).toURL();
+        } catch (Exception ex) {
+
+        }
+        AudioClip sound = Applet.newAudioClip(u);
         if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
-            sleep-=300;                                                                                                                              ;
-            frame.getBonus().getSound().play();
+            sleep -= 300;;
+            sound.play();
             frame.setBonus(null);
         } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {
-           frame.getBonus().getSound().play();
+            sound.play();
             frame.setBonus(null);
         } else /*Wait N seconds*/ if (bonus.getName().equals("Wait N seconds")) {
-            frame.getBonus().getSound().play();
+            sound.play();
             int timeSleep = getRandom(3000, 4000);
             Thread.sleep(timeSleep - sleep);
-            frame.getBonus().getSound().stop();
+            sound.play();
             frame.setBonus(null);
         } else /*Slow down the other players*/ if (bonus.getName().equals("Slow down the other players")) {
-            frame.getBonus().getSound().play();
+            sound.play();
             /*If character #1*/
             if (name.equals("Character 1")) {
-                NewMazeController.move2.setSleep(3000);
+                NewMazeController.move2.setSleep(NewMazeController.move3.sleep += 300);
                 if (NewMazeController.move3 != null) {
-                    NewMazeController.move3.setSleep(3000);
+                    NewMazeController.move3.setSleep(NewMazeController.move3.sleep += 300);
                 }
             } else /*If character #2*/ if (name.equals("Character 2")) {
-                NewMazeController.move1.setSleep(3000);
+                NewMazeController.move1.setSleep(NewMazeController.move3.sleep += 300);
                 if (NewMazeController.move3 != null) {
-                    NewMazeController.move3.setSleep(3000);
+                    NewMazeController.move3.setSleep(NewMazeController.move3.sleep += 300);
                 }
             } else /*If character #3*/ if (name.equals("Character 3")) {
-                NewMazeController.move1.setSleep(3000);
-                NewMazeController.move2.setSleep(3000);
+                NewMazeController.move1.setSleep(NewMazeController.move3.sleep += 300);
+                NewMazeController.move2.setSleep(NewMazeController.move3.sleep += 300);
             }
-           frame.setBonus(null);
-        } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {
-            //master.stopAndRestar();
-        } else /*Random*/ if (bonus.getName().equals("Random")) {
-            frame.getBonus().getSound().play();
             frame.setBonus(null);
+        } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {
+            frame.setBonus(null);
+            NewMazeController.move1.running = false;
+            NewMazeController.move2.running = false;
+            if (NewMazeController.move3 != null) {
+                NewMazeController.move3.running = false;
+            }
+            master.setObjectiveLocation();
+            master.startMovement();
+        } else /*Random*/ if (bonus.getName().equals("Random")) {
+            sound.play();
+            Bonus randomBonus = getBonus();
+            frame.setBonus(randomBonus);
+            Thread.sleep(500);
+            validate(randomBonus, frame);
         }
 
+    }
+
+    public Bonus getBonus()
+    {
+        while (true) {
+            int numBonus = getRandom(0, 5);
+            Bonus bonus = bonusController.searchInTree(numBonus);
+            if (!bonus.getName().equals("Teleportation")) {
+                return bonus;
+            }
+        }
     }
 
     /**

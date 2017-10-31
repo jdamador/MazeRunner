@@ -184,7 +184,7 @@ public class NewMazeController
     public void initializeBonus()
     {
         boolean isTeleport = false;
-        int quantityBonus = getRandom(3, 7);
+        int quantityBonus = getRandom(3, 5);
         String[] beforePositions = new String[quantityBonus+1];
         for (int i = 0; i < quantityBonus; i++) {
 
@@ -242,7 +242,7 @@ public class NewMazeController
         new NewMazeController().generateMap();
     }
 
-    private Bonus getBonus()
+    public Bonus getBonus()
     {
         int numBonus = getRandom(0, 5);
         return bonusController.searchInTree(numBonus);

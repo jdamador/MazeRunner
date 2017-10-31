@@ -68,12 +68,20 @@ public class DrawMapController extends JPanel
 //                        g.drawString(reco.getName() + "", (int) calculatePosition(XY).getPosX() + 25, (int) calculatePosition(XY).getPosY() + 40);
 
                         if (reco.getBonus() != null) {
-                            
-                            g.drawImage(reco.getBonus().getBonusImage(), calculatePosition(XY).getPosX()+5, calculatePosition(XY).getPosY(), this);
+                            BufferedImage img = null;
+                            try {
+                                img = ImageIO.read(new File(reco.getBonus().getBonusImage()));
+                            } catch (IOException e) {
+                                
+                            }
+                            if (img != null) {
+                                g.drawImage(img, calculatePosition(XY).getPosX() + 5, calculatePosition(XY).getPosY(), this);
+                            }
+
                         }
                         break;
                     }
-                    reco=reco.getNextFrame();
+                    reco = reco.getNextFrame();
                 }
             }
         }
