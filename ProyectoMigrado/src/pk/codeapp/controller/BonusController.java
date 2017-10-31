@@ -31,7 +31,7 @@ public class BonusController
     private File bonusFile = new File("src/pk/codeapp/model/data/bonusFile.ser");
     private Bonus bonusRoot;
     private Random randomGenerator = new Random();
-
+  
     /**
      * Default constructor initialize the root in null
      *
@@ -183,6 +183,11 @@ public class BonusController
     public void insertIntoTree(int weight, int id, String name, String path, String sound)
     {
         Bonus bonus = new Bonus(weight, id, name, path, sound);
+        if(bonus.getName().equals("Wait N seconds"))
+            bonus.setIsGood(false);
+        else
+            bonus.setIsGood(true);
+        
         if (exist(bonus.getId()) == null) {
             if (bonusRoot == null) {
                 bonusRoot = bonus;
