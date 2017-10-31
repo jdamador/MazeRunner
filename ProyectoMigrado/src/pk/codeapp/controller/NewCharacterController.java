@@ -84,8 +84,21 @@ public class NewCharacterController {
                     for (int i = 0; i < listForTeleport.size(); i++) {
 
                         listRouteShort.add(listForTeleport.get(i));
+                    }
+                } else {
+                    clearAll();
+                    for (int i = 1; i < backUpList.size()-1; i++) {
+                        markInGraph(backUpList.get(i));
+                    }
                     
-                    }}
+                    shortRouteWeight(backup, destiny);
+                    if(listRouteShort.isEmpty())
+                         for (int i = 0; i < listForTeleport.size(); i++) {
+
+                        listRouteShort.add(listForTeleport.get(i));
+                    }
+                    
+                }
 
             }
         }
