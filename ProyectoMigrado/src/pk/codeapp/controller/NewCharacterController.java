@@ -18,10 +18,23 @@ public class NewCharacterController
 {
 
     /*Cont of the Methods*/
+<<<<<<< HEAD
  /*List of Routes*/
     private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
     private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
     private ArrayList<Frame> realRoute = new ArrayList(); //Principal list to know the short route
+=======
+    private int contTeletrasport1 = 0;
+    private int contTeletrasport2 = 0;
+    private int contRoadToWin = 0;
+    private int contRoad = 0;
+    private int contRoadAux = 0;
+    /*List of Routes*/
+    private ArrayList<Frame> listRouteAux = new ArrayList(); //Auxiliary list to know the short route
+    private ArrayList<Frame> listRouteShort = new ArrayList(); //Principal list to know the short route
+    private ArrayList<Frame> listRouteAuxTeleport = new ArrayList(); //Auxiliary list to know the short route of Teleport2
+    private ArrayList<Frame> listRouteShortTeleport = new ArrayList(); //Principal list to know the short route of Teleport2
+>>>>>>> developer
     /*Root graph */
     private Frame graphRoot;
     private Frame backup;
@@ -45,6 +58,7 @@ public class NewCharacterController
         /*Clean Marks*/
         cleanMark();
         /*Search the short route*/
+<<<<<<< HEAD
         shortRouteJumps(backup, destiny);
         bakupList();
         isTelepotation();
@@ -63,24 +77,47 @@ public class NewCharacterController
         while (temp != null) {
             temp.setMark(false);
             temp = temp.getNextFrame();
+=======
+        shortRouteWeight(backup, destiny);
+        System.out.println("Origen: "+backup.getName());
+        int contRoads = contRoadToWin-1;
+        System.out.println("Contador de caminos: "+contRoads);
+        for (int i = 0; i < contRoads; i++) {
+            
+>>>>>>> developer
         }
-    }
 
+    }
+<<<<<<< HEAD
+
+=======
+>>>>>>> developer
     /**
      * Search the short route
      *
      * @param origin
      * @param destination
      */
+<<<<<<< HEAD
     public void shortRouteJumps(Frame origin, Frame destination)
     {
 
+=======
+    public void shortRouteWeight(Frame origin, Frame destination) {
+>>>>>>> developer
         if (origin.isMark() | origin == null) {
             return;
         }
         if (origin.equals(destination)) {
             return;
         }
+<<<<<<< HEAD
+=======
+        if (origin.getBonus()!=null) {
+            if(origin.getBonus().isIsGood()==false)
+                contRoadAux += origin.getBonus().getWeight();
+        }
+>>>>>>> developer
         origin.setMark(true);
         listRouteAux.add(origin);
         Link aux = origin.getNextLink();
@@ -91,15 +128,25 @@ public class NewCharacterController
         }
         while (aux != null) {
             if (aux.getDestiny().equals(destination)) {
+<<<<<<< HEAD
                 if ((listRouteShort.isEmpty()) || (listRouteAux.size() < listRouteShort.size())) {
+=======
+                this.contRoadToWin++;
+                if ((contRoad==0) || (contRoadAux<contRoad)){
+>>>>>>> developer
                     listRouteShort.clear();
                     for (int i = 0; i < listRouteAux.size(); i++) {
                         listRouteShort.add(listRouteAux.get(i));
                     }
                     listRouteShort.add(destination);
+<<<<<<< HEAD
+=======
+                    contRoad = contRoadAux;
+                    contRoadAux = 0;
+>>>>>>> developer
                 }
             }
-            shortRouteJumps(aux.getDestiny(), destination);
+            shortRouteWeight(aux.getDestiny(), destination);
             aux = aux.getNextLink();
             if (aux == null) {
                 origin.setMark(false);
@@ -109,6 +156,7 @@ public class NewCharacterController
         }
     }
 
+<<<<<<< HEAD
     public ArrayList<Frame> getListRouteShort()
     {
         return realRoute;
@@ -228,5 +276,22 @@ public class NewCharacterController
     {
         listRouteAux.clear();
         listRouteShort.clear();
+=======
+    /**
+     * Clean mark for each frame
+     */
+    public void cleanMark() {
+        Frame temp = graphRoot;
+        if (graphRoot == null) {
+            return;
+        }
+        while (temp != null) {
+            temp.setMark(false);
+            temp = temp.getNextFrame();
+        }
+    }
+    public ArrayList<Frame> getListRouteShort() {
+        return listRouteShort;
+>>>>>>> developer
     }
 }

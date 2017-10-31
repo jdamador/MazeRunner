@@ -24,6 +24,7 @@ public class Bonus implements Serializable{
     private String name;
     private String bonusImage;
     private Bonus sigLeft,sigRight,father;
+    private boolean isGood;
     /**
      * Create the instance of the class with:
      * @param weight
@@ -96,6 +97,14 @@ public class Bonus implements Serializable{
     }
      //</editor-fold>
 
+    public boolean isIsGood() {
+        return isGood;
+    }
+
+    public void setIsGood(boolean isGood) {
+        this.isGood = isGood;
+    }
+    
     public void setFather(Bonus previous) {
        this.father=previous;
     }
