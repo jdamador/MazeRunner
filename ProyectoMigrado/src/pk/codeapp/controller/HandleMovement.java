@@ -61,6 +61,13 @@ public class HandleMovement implements Runnable
         while (running) {
             if (index < walk.size()) {
                 character = walk.get(index);
+                if(name.equals("Character 1")){
+                    NewMazeController.positionCharacter1=walk.get(index);
+                }else if(name.equals("Character 2")){
+                     NewMazeController.positionCharacter2=walk.get(index);
+                }else if(name.equals("Character 2")){
+                      NewMazeController.positionCharacter3=walk.get(index);
+                }
                 lblImage.setLocation(walk.get(index).getRow() * 80, walk.get(index).getColumn() * 80);
                 if (walk.get(index).getBonus() != null) {
                     Bonus bonus = walk.get(index).getBonus();
@@ -84,7 +91,7 @@ public class HandleMovement implements Runnable
         }
         AudioClip sound = Applet.newAudioClip(u);
         if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
-            sleep -= 300;;
+            sleep -= 500;;
             sound.play();
             frame.setBonus(null);
         } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {

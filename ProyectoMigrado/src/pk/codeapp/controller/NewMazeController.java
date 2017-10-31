@@ -20,9 +20,9 @@ public class NewMazeController
 
     private Random randomGenerator = new Random();
     static Frame startMaze, endMaze;
-    private Frame positionCharacter1;
-    private Frame positionCharacter2;
-    private Frame positionCharacter3;
+    static Frame positionCharacter1;
+    static Frame positionCharacter2;
+    static Frame positionCharacter3;
     private Frame cup;
     /*Bonus controller*/
     private BonusController bonusController = new BonusController();
