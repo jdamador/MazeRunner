@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import pk.codeapp.model.Bonus;
 
@@ -31,7 +32,8 @@ public class BonusController
     private File bonusFile = new File("src/pk/codeapp/model/data/bonusFile.ser");
     private Bonus bonusRoot;
     private Random randomGenerator = new Random();
-  
+    private ArrayList<Bonus> listBonus = new ArrayList();
+
     /**
      * Default constructor initialize the root in null
      *
@@ -40,8 +42,11 @@ public class BonusController
     public BonusController()
     {
         bonusRoot = null;
-        createBonus();
-        readTreeInPostOrden();
+//        createBonus();
+//        readTreeInPostOrden();
+//        writeBinaryFile();
+        chargeBonus();
+
     }
 
     /**
@@ -49,15 +54,21 @@ public class BonusController
      *
      * @param aux
      */
-    public void writeBinaryFile(Bonus aux)
+    public void writeBinaryFile()
     {
+        if (bonusFile.exists()) {
+            bonusFile.delete();
+        }
         FileOutputStream file = null;
         ObjectOutputStream output = null;
         try {
-            file = new FileOutputStream(bonusFile, true);
-            output = new ObjectOutputStream(file);
-            if (aux != null) {
-                output.writeObject(aux);
+            for (int i = 0; i < listBonus.size(); i++) {
+                file = new FileOutputStream(bonusFile);
+
+                output = new ObjectOutputStream(file);
+                if (listBonus.get(i) != null) {
+                    output.writeObject(listBonus.get(i));
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -72,24 +83,21 @@ public class BonusController
         }
     }
 
-    /**
-     * Charge bonus from bonus file
-     */
     public void chargeBonus()
     {
         //Read user from binary file
+
         try {
             FileInputStream saveFile = new FileInputStream(bonusFile);
-            ObjectInputStream save;
-            try {
-                save = new ObjectInputStream(saveFile);
-                bonusRoot = (Bonus) save.readObject();
-            } catch (EOFException e) {
-                //e.printStackTrace();
-            }
+            ObjectInputStream save= new ObjectInputStream(saveFile);
+            bonusRoot=(Bonus)save.readObject();
             saveFile.close();
-        } catch (Exception exc) {
+            
+        } catch (Exception ex) {
+
         }
+        //
+
     }
 
     /**
@@ -102,7 +110,7 @@ public class BonusController
         if (reco != null) {
             readTreeInPostOrden(reco.getSigLeft());
             readTreeInPostOrden(reco.getSigRight());
-            writeBinaryFile(reco);
+            listBonus.add(reco);
         }
     }
 
@@ -111,7 +119,6 @@ public class BonusController
      */
     public void readTreeInPostOrden()
     {
-        bonusFile.delete(); 
         readTreeInPostOrden(bonusRoot);
     }
 
@@ -183,11 +190,12 @@ public class BonusController
     public void insertIntoTree(int weight, int id, String name, String path, String sound)
     {
         Bonus bonus = new Bonus(weight, id, name, path, sound);
-        if(bonus.getName().equals("Wait N seconds"))
+        if (bonus.getName().equals("Wait N seconds")) {
             bonus.setIsGood(false);
-        else
+        } else {
             bonus.setIsGood(true);
-        
+        }
+
         if (exist(bonus.getId()) == null) {
             if (bonusRoot == null) {
                 bonusRoot = bonus;

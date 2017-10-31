@@ -65,7 +65,7 @@ public class HandleMovement implements Runnable
                     NewMazeController.positionCharacter1=walk.get(index);
                 }else if(name.equals("Character 2")){
                      NewMazeController.positionCharacter2=walk.get(index);
-                }else if(name.equals("Character 2")){
+                }else if(name.equals("Character 3")){
                       NewMazeController.positionCharacter3=walk.get(index);
                 }
                 lblImage.setLocation(walk.get(index).getRow() * 80, walk.get(index).getColumn() * 80);
@@ -73,6 +73,7 @@ public class HandleMovement implements Runnable
                     Bonus bonus = walk.get(index).getBonus();
                     validate(bonus, walk.get(index));
                 }
+                
                 Thread.sleep(sleep);
                 index++;
             } else {
@@ -107,18 +108,20 @@ public class HandleMovement implements Runnable
             sound.play();
             /*If character #1*/
             if (name.equals("Character 1")) {
-                NewMazeController.move2.setSleep(NewMazeController.move3.sleep += 300);
+                NewMazeController.move2.setSleep(NewMazeController.move2.sleep += 300);
+                
                 if (NewMazeController.move3 != null) {
                     NewMazeController.move3.setSleep(NewMazeController.move3.sleep += 300);
                 }
+                
             } else /*If character #2*/ if (name.equals("Character 2")) {
-                NewMazeController.move1.setSleep(NewMazeController.move3.sleep += 300);
+                NewMazeController.move1.setSleep(NewMazeController.move1.sleep += 300);
                 if (NewMazeController.move3 != null) {
                     NewMazeController.move3.setSleep(NewMazeController.move3.sleep += 300);
                 }
             } else /*If character #3*/ if (name.equals("Character 3")) {
-                NewMazeController.move1.setSleep(NewMazeController.move3.sleep += 300);
-                NewMazeController.move2.setSleep(NewMazeController.move3.sleep += 300);
+                NewMazeController.move1.setSleep(NewMazeController.move1.sleep += 300);
+                NewMazeController.move2.setSleep(NewMazeController.move2.sleep += 300);
             }
             frame.setBonus(null);
         } else /*Change location target*/ if (bonus.getName().equals("Change location target")) {
