@@ -92,7 +92,7 @@ public class HandleMovement implements Runnable
         }
         AudioClip sound = Applet.newAudioClip(u);
         if /*Acceleration*/ (bonus.getName().equals("Acceleration")) {
-            sleep -= 500;;
+            sleep -= 700;
             sound.play();
             frame.setBonus(null);
         } else /*Teleportation*/ if (bonus.getName().equals("Teleportation")) {
