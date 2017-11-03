@@ -46,6 +46,7 @@ public class NewCharacterController {
     public void controllerMethods() {
         /*Clean Marks*/
         cleanMark();
+        clearAll();
         listRouteShortTeleport.clear();
         checkRouteTeleports();
         /*Search the short route*/
