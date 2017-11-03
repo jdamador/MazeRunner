@@ -23,7 +23,7 @@ public class HandleMovement implements Runnable {
 
     /*Bonus controller*/
     private BonusController bonusController = new BonusController();
-    private int sleep = 2000;
+    private int sleep = 1650;
     private ArrayList<Frame> walk;
     private JLabel lblImage;
     private String name;
