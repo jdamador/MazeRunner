@@ -5,6 +5,7 @@
  */
 package pk.codeapp.controller;
 
+import java.util.ArrayList;
 import java.util.Random;
 import pk.codeapp.model.Bonus;
 import pk.codeapp.model.Frame;
@@ -15,8 +16,7 @@ import pk.codeapp.view.GameWindows;
  *
  * @author Daniel Amador
  */
-public class NewMazeController
-{
+public class NewMazeController {
 
     private Random randomGenerator = new Random();
     static Frame startMaze, endMaze;
@@ -30,8 +30,7 @@ public class NewMazeController
     /**
      * Defaullt constructor
      */
-    public NewMazeController()
-    {
+    public NewMazeController() {
         this.startMaze = null;
         /*Generate Frames*/
         generateMap();
@@ -62,8 +61,7 @@ public class NewMazeController
      * @param row
      * @param column
      */
-    public void addFrame(String name, boolean token, int row, int column)
-    {
+    public void addFrame(String name, boolean token, int row, int column) {
         Frame frame = new Frame(name, token, row, column);
         frame.setAllow(false);
         if (startMaze == null) {
@@ -79,8 +77,7 @@ public class NewMazeController
     /**
      * Generate Frames
      */
-    public void generateMap()
-    {
+    public void generateMap() {
         /*Adding element in the matrix*/
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -92,8 +89,7 @@ public class NewMazeController
     /**
      * Print the matrix in console
      */
-    public void printMatrix()
-    {
+    public void printMatrix() {
         Frame reco = startMaze;
         while (reco != null) {
             if (reco.isAllow()) {
@@ -106,8 +102,7 @@ public class NewMazeController
     /**
      * generate positions to make links between two frames
      */
-    public void makeLinks()
-    {
+    public void makeLinks() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Frame actual = search(i + "" + j);
@@ -137,8 +132,7 @@ public class NewMazeController
      * @param name
      * @return
      */
-    public Frame search(String name)
-    {
+    public Frame search(String name) {
         Frame reco = startMaze;
         while (reco != null) {
             if (reco.getName().equals(name)) {
@@ -157,8 +151,7 @@ public class NewMazeController
      * @param weight
      * @return
      */
-    public boolean addLink(Frame origen, Frame destiny, int weight)
-    {
+    public boolean addLink(Frame origen, Frame destiny, int weight) {
         Link link = new Link(weight);
         link.setDestiny(destiny);
         if (origen.getNextLink() == null) {
@@ -181,14 +174,17 @@ public class NewMazeController
     /**
      * Set bonus in random position in the graph
      */
-    public void initializeBonus()
-    {
+    public void initializeBonus() {
         boolean isTeleport = false;
+
         int quantityBonus = getRandom(3, 5);
-        String[] beforePositions = new String[quantityBonus+1];
+
+        ArrayList<String> beforePositions = new ArrayList();
+
         for (int i = 0; i < quantityBonus; i++) {
 
             boolean running = true;
+
             while (running) {
                 /*Get new position*/
                 int row = getRandom(0, 9);
@@ -197,21 +193,28 @@ public class NewMazeController
                 if (!exist(row + "" + column, beforePositions)) {
 
                     Frame found = search(row + "" + column);
-                    if (found.isAllow()) {
+
+                    if (found.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
                         Bonus bonus = getBonus();
-                        if (bonus.getName().equals("Teleportation")) {   
+                        if (bonus.getName().equals("Teleportation")) {
                             if (!isTeleport) {
                                 found.setBonus(bonus);
+                                System.out.println("First"+row+" "+column);
                                 isTeleport = true;
-                                while (true) {
+                                boolean searching = true;
+                                while (searching) {
+                                    System.out.println("Searching ");
                                     int newRow = getRandom(0, 9);
                                     int newColumn = getRandom(0, 9);
                                     if (!exist(newRow + "" + newColumn, beforePositions)) {
                                         Frame newFound = search(newRow + "" + newColumn);
-                                        if (newFound.isAllow()) {
+                                        if (newFound.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
                                             newFound.setBonus(bonus);
-                                            beforePositions[i] = newRow + "" + newColumn;
-                                            break;
+                                            System.out.println("Second "+newRow+" "+newColumn);
+                                            beforePositions.add(newRow + "" + newColumn);
+                                            beforePositions.add(row + "" + column);
+                                            searching = false;
+                                           
                                         }
                                     }
                                 }
@@ -220,7 +223,7 @@ public class NewMazeController
 
                         } else {
                             found.setBonus(bonus);
-                            beforePositions[i] = row + "" + column;
+                            beforePositions.add(row + "" + column);
                             running = false;
                         }
 
@@ -230,30 +233,26 @@ public class NewMazeController
         }
     }
 
-    public int getRandom(int minimum, int maximum)
-    {
+    public int getRandom(int minimum, int maximum) {
         Random rand = new Random();
         int randomNum = rand.nextInt((maximum - minimum) + 1) + minimum;
         return randomNum;
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new NewMazeController().generateMap();
     }
 
-    public Bonus getBonus()
-    {
+    public Bonus getBonus() {
         int numBonus = getRandom(0, 5);
         return bonusController.searchInTree(numBonus);
     }
 
-    public boolean exist(String search, String[] beforePositions)
-    {
+    public boolean exist(String search, ArrayList<String> beforePositions) {
         boolean flag = false;
-        for (int i = 0; i < beforePositions.length; i++) {
-            if (beforePositions[i] != null) {
-                if (search.equals(beforePositions[i])) {
+        for (int i = 0; i < beforePositions.size(); i++) {
+            if (beforePositions.get(i) != null) {
+                if (search.equals(beforePositions.get(i))) {
                     flag = true;
                 }
             };
@@ -264,8 +263,7 @@ public class NewMazeController
     /**
      * Set Characters in their appropriate position
      */
-    public void InitializeCharacters()
-    {
+    public void InitializeCharacters() {
 
         int numCharacters = getRandom(2, 3);
 
@@ -281,9 +279,8 @@ public class NewMazeController
      *
      * @param limit
      */
-    private void setCharactersInMaze(int limit)
-    {
-        String[] beforePositions = new String[limit];
+    private void setCharactersInMaze(int limit) {
+        ArrayList<String> beforePositions =  new ArrayList();
 
         for (int i = 0; i < limit; i++) {
             boolean running = true;
@@ -298,7 +295,7 @@ public class NewMazeController
 
                             setChacterLocation(i, row, column, found);
 
-                            beforePositions[i] = row + "" + column;
+                           beforePositions.add( row + "" + column);
                             running = false;
                         }
 
@@ -317,8 +314,7 @@ public class NewMazeController
      * @param column
      * @param found
      */
-    public void setChacterLocation(int option, int row, int column, Frame found)
-    {
+    public void setChacterLocation(int option, int row, int column, Frame found) {
         switch (option) {
             case 0: {
                 positionCharacter1 = found;
@@ -338,8 +334,7 @@ public class NewMazeController
         }
     }
 
-    public void setObjectiveLocation()
-    {
+    public void setObjectiveLocation() {
         while (true) {
 
             int row = getRandom(0, 9);
@@ -353,8 +348,7 @@ public class NewMazeController
         }
     }
 
-    public void depth(Frame reco)
-    {
+    public void depth(Frame reco) {
 
         if (reco == null | reco.isMark()) {
             return;
@@ -369,8 +363,7 @@ public class NewMazeController
     }
 
     //<editor-fold defaultstate="collapsed" desc="Generate marks">
-    public int getRandom(int limit)
-    {
+    public int getRandom(int limit) {
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
@@ -378,8 +371,7 @@ public class NewMazeController
     /**
      * make marks in if move is allow or if is denied
      */
-    public void mark()
-    {
+    public void mark() {
         int walk = 1;
         for (int i = 0; i < 10; i++) {
             if (i == 0) {
@@ -430,8 +422,7 @@ public class NewMazeController
     static NewCharacterController controler, controler1, controler2;
     Thread thread1, thread2, thread3;
 
-    public void startMovement()
-    {
+    public void startMovement() {
         controler = new NewCharacterController(positionCharacter1, startMaze, cup);
         move1 = new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1, "Character 1", this, positionCharacter1);
         thread1 = new Thread(move1);

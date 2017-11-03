@@ -17,10 +17,10 @@ public class RunApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-
+        /**
+         * Setup, run the application 
+         */
         GameWindows windowGame = new GameWindows();
         windowGame.setVisible(true);
     }
-    
 }

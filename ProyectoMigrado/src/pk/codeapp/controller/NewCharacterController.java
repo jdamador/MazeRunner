@@ -173,7 +173,7 @@ public class NewCharacterController {
         }
         while (aux != null) {
             if (aux.getDestiny().equals(destination)) {
-                System.out.println("Destination");
+               
                 if (contRoad == 0 | contRoadAux < contRoad) {
                     listRouteShort.clear();
                     for (int i = 0; i < listRouteAux.size(); i++) {
