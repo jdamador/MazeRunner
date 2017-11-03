@@ -194,7 +194,7 @@ public class NewMazeController {
 
                     Frame found = search(row + "" + column);
 
-                    if (found.isAllow()) {
+                    if (found.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
                         Bonus bonus = getBonus();
                         if (bonus.getName().equals("Teleportation")) {
                             if (!isTeleport) {
@@ -208,7 +208,7 @@ public class NewMazeController {
                                     int newColumn = getRandom(0, 9);
                                     if (!exist(newRow + "" + newColumn, beforePositions)) {
                                         Frame newFound = search(newRow + "" + newColumn);
-                                        if (newFound.isAllow()) {
+                                        if (newFound.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
                                             newFound.setBonus(bonus);
                                             System.out.println("Second "+newRow+" "+newColumn);
                                             beforePositions.add(newRow + "" + newColumn);
