@@ -75,6 +75,7 @@ public class HandleMovement implements Runnable {
                 Thread.sleep(sleep);
                 index++;
             } else {
+                stop();
                 break;
             }
         }
@@ -104,6 +105,7 @@ public class HandleMovement implements Runnable {
             frame.setBonus(null);
             if (isTeleporting) {
                 stop();
+                reload();
             }
             isTeleporting=true;
         } else /*Wait N seconds*/ if (bonus.getName().equals("Wait N seconds")) {
@@ -136,6 +138,7 @@ public class HandleMovement implements Runnable {
             frame.setBonus(null);
             master.setObjectiveLocation();
             stop();
+            reload();
         } else /*Random*/ if (bonus.getName().equals("Random")) {
           
             Bonus randomBonus = getBonus();
@@ -189,7 +192,10 @@ public class HandleMovement implements Runnable {
         if (NewMazeController.move3 != null) {
             NewMazeController.move3.running = false;
         }
-        master.startMovement();
+    }
+    
+    public void reload(){
+         master.startMovement();
     }
 
 }

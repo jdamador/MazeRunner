@@ -290,7 +290,7 @@ public class NewMazeController {
 
                 if (!exist(row + "" + column, beforePositions)) {
                     Frame found = search(row + "" + column);
-                    if (found.isAllow()) {
+                    if (found.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
                         if (found.getBonus() == null) {
 
                             setChacterLocation(i, row, column, found);
