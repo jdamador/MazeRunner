@@ -1,16 +1,12 @@
 package pk.codeapp.controller;
-
 import pk.codeapp.model.Dupla;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import pk.codeapp.model.Frame;
 
@@ -63,9 +59,7 @@ public class DrawMapController extends JPanel
                         } else {
                             g.drawImage(imageWall, calculatePosition(XY).getPosX(), calculatePosition(XY).getPosY(), this);
                         }
-//                        g.setColor(java.awt.Color.YELLOW);
-//                        g.setFont(new Font("Vendara", Font.PLAIN, 15));
-//                        g.drawString(reco.getName() + "", (int) calculatePosition(XY).getPosX() + 25, (int) calculatePosition(XY).getPosY() + 40);
+                        
 
                         if (reco.getBonus() != null) {
                             BufferedImage img = null;
@@ -79,6 +73,9 @@ public class DrawMapController extends JPanel
                             }
 
                         }
+                        g.setColor(java.awt.Color.YELLOW);
+                        g.setFont(new Font("Vendara", Font.PLAIN, 15));
+                        g.drawString(reco.getName() + "", (int) calculatePosition(XY).getPosX() + 25, (int) calculatePosition(XY).getPosY() + 40);
                         break;
                     }
                     reco = reco.getNextFrame();

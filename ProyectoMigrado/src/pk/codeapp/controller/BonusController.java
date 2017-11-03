@@ -5,17 +5,12 @@
  */
 package pk.codeapp.controller;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import pk.codeapp.model.Bonus;
@@ -42,6 +37,7 @@ public class BonusController
     public BonusController()
     {
         bonusRoot = null;
+        
 //        createBonus();
 //        readTreeInPostOrden();
 //        writeBinaryFile();
@@ -53,6 +49,12 @@ public class BonusController
      * Receive the node to write the information in binary file
      *
      * @param aux
+     */
+    
+    //<editor-fold  desc="Write and read from binary file" defaultstate="collapsed">
+    
+    /**
+     * Write in binary file all elements from tree
      */
     public void writeBinaryFile()
     {
@@ -82,24 +84,22 @@ public class BonusController
             }
         }
     }
-
+    /**
+     * Read from binary file the tree's  root
+     */
     public void chargeBonus()
     {
         //Read user from binary file
-
         try {
             FileInputStream saveFile = new FileInputStream(bonusFile);
             ObjectInputStream save= new ObjectInputStream(saveFile);
             bonusRoot=(Bonus)save.readObject();
-            saveFile.close();
-            
+            saveFile.close();  
         } catch (Exception ex) {
-
         }
-        //
-
     }
-
+    //</editor-fold>
+    
     /**
      * This method is in charge of read each element of the tree;
      *
@@ -121,7 +121,7 @@ public class BonusController
     {
         readTreeInPostOrden(bonusRoot);
     }
-
+    
     /**
      * Method that create elements in the tree
      */
@@ -139,11 +139,11 @@ public class BonusController
             }
         }
     }
+    
 
     /**
      * Search in the tree to find if is already exist Receive this parameters
      *
-     * @param aux
      * @param id
      * @return true if exist and false if not
      */
@@ -152,12 +152,6 @@ public class BonusController
         return exist(id);
     }
 
-    /**
-     * Add a new element in their specific place
-     *
-     * @param newBonus
-     * @param root
-     */
     /**
      * Get a random num between 0 and the limit
      *
@@ -169,7 +163,11 @@ public class BonusController
         int randomInt = randomGenerator.nextInt(limit);
         return randomInt;
     }
-
+    /**
+     * Read tree and return bonus if this exist and  null if isn't
+     * @param id
+     * @return 
+     */
     public Bonus exist(int id)
     {
         Bonus reco = bonusRoot;
@@ -186,7 +184,14 @@ public class BonusController
         }
         return null;
     }
-
+    /**
+     * Add  new element in the tree, receive this parameters
+     * @param weight
+     * @param id
+     * @param name
+     * @param path
+     * @param sound 
+     */
     public void insertIntoTree(int weight, int id, String name, String path, String sound)
     {
         Bonus bonus = new Bonus(weight, id, name, path, sound);
