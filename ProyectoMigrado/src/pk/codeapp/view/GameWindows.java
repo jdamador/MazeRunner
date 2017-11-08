@@ -62,8 +62,7 @@ public class GameWindows extends javax.swing.JFrame
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         imageCharacter2 = new javax.swing.JLabel();
@@ -98,7 +97,7 @@ public class GameWindows extends javax.swing.JFrame
         imageCharacter1.setBorder(new javax.swing.border.MatteBorder(null));
         imageCharacter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(imageCharacter1);
-        imageCharacter1.setBounds(200, 120, 80, 80);
+        imageCharacter1.setBounds(360, 40, 80, 80);
 
         objective.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         objective.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pk/codeapp/view/tools/trofeo.png"))); // NOI18N
