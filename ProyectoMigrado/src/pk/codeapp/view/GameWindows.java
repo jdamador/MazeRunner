@@ -16,7 +16,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import pk.codeapp.controller.DrawMapController;
-import pk.codeapp.controller.NewMazeController;
+import pk.codeapp.controller.MazeController;
 
 public class GameWindows extends javax.swing.JFrame
 {
@@ -25,7 +25,7 @@ public class GameWindows extends javax.swing.JFrame
      * Creates new form windowGame
      */
     DrawMapController mapGame;
-    NewMazeController maze;
+    MazeController maze;
     AudioClip sound;
     File audio = new File("src/pk/codeapp/view/tools/song.wav");
 
@@ -54,7 +54,7 @@ public class GameWindows extends javax.swing.JFrame
         clip.start();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-        maze = new NewMazeController();
+        maze = new MazeController();
         mapGame = new DrawMapController();
         this.add(mapGame);
 

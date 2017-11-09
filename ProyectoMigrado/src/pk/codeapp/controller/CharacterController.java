@@ -14,7 +14,7 @@ import pk.codeapp.model.Link;
  * @author Daniel Amador
  * @author Jose Pablo Brenes
  */
-public class NewCharacterController {
+public class CharacterController {
 
     /*Cont of the Methods*/
     private int contTeletrasport1 = 0;
@@ -33,7 +33,7 @@ public class NewCharacterController {
     private Frame backup;
     private Frame destiny;
 
-    public NewCharacterController(Frame characterLocation, Frame graphRoot, Frame destiny) {
+    public CharacterController(Frame characterLocation, Frame graphRoot, Frame destiny) {
         this.backup = characterLocation;
         this.graphRoot = graphRoot;
         this.destiny = destiny;
@@ -125,7 +125,7 @@ public class NewCharacterController {
      * @return
      */
     private Frame searchTeleportInGraph(Frame temp) {
-        Frame reco = NewMazeController.startMaze;
+        Frame reco = MazeController.startMaze;
         while (reco != null) {
             if (reco.getBonus() != null) {
                 if (reco.getBonus().getName().equals("Teleportation") & reco != temp) {

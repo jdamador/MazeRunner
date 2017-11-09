@@ -18,7 +18,7 @@ public class DrawMapController extends JPanel
 {
 
     private int size = 80;
-    Frame startMaze = NewMazeController.startMaze;
+    Frame startMaze = MazeController.startMaze;
     BufferedImage imageWall;
     BufferedImage imageFloor;
 
