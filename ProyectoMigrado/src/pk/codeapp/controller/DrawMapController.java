@@ -73,10 +73,10 @@ public class DrawMapController extends JPanel
                             }
 
                         }
-                        g.setColor(java.awt.Color.YELLOW);
-                        g.setFont(new Font("Vendara", Font.PLAIN, 15));
-                        g.drawString(reco.getName() + "", (int) calculatePosition(XY).getPosX() + 25, (int) calculatePosition(XY).getPosY() + 40);
-                        break;
+//                        g.setColor(java.awt.Color.YELLOW);
+//                        g.setFont(new Font("Vendara", Font.PLAIN, 15));
+//                        g.drawString(reco.getName() + "", (int) calculatePosition(XY).getPosX() + 25, (int) calculatePosition(XY).getPosY() + 40);
+//                        break;
                     }
                     reco = reco.getNextFrame();
                 }
