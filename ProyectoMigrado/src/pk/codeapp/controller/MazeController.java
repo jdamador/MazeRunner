@@ -336,7 +336,6 @@ public class MazeController {
 
     public void setObjectiveLocation() {
         while (true) {
-
             int row = getRandom(0, 9);
             int column = getRandom(0, 9);
             Frame auxFrame = search(row + "" + column);

@@ -46,9 +46,10 @@ public class HandleMovement implements Runnable {
         this.master = master;
         this.character = character;
     }
+    int index;
 
     public void mover() throws InterruptedException {
-        int index = 0;
+        index = 0;
         while (running) {
             if (index < walk.size()) {
                 /*Change the location*/
@@ -59,12 +60,11 @@ public class HandleMovement implements Runnable {
                 if (walk.get(index).getBonus() != null) {
                     Bonus bonus = walk.get(index).getBonus();
                     validate(bonus, walk.get(index));
-                    walk.get(index).setBonus(null);
                 } else {
                     /*make a sleep*/
                     Thread.sleep(sleep);
-                    index++;
                 }
+                index++;
             } else {
                 stop();
                 break;
@@ -82,17 +82,32 @@ public class HandleMovement implements Runnable {
         sound.play();
         if (bonus.getName().equals("Acceleration")) {
             sleep -= 700;
+            frame.setBonus(null);
+            Thread.sleep(sleep);
         } else if (bonus.getName().equals("Wait N seconds")) {
+            frame.setBonus(null);
             Thread.sleep(getRandom(3000, 4000));
         } else if (bonus.getName().equals("Slow down the other players")) {
+            frame.setBonus(null);
             slowOtherCharacter(); //increase the sleep in the other thread
+            Thread.sleep(sleep);
         } else if (bonus.getName().equals("Change location target")) {
-            changeLocationTarge();
+            frame.setBonus(null);
+            reload();
+            Thread.sleep(sleep);
         } else if (bonus.getName().equals("Random")) {
+            frame.setBonus(null);
             Bonus b = getBonus();
-            Thread.sleep(500);
             frame.setBonus(b);
+            Thread.sleep(500);
             validate(b, frame);
+            
+        } else if (bonus.getName().equals("Teleportation")) {
+            frame.setBonus(null);
+            lblImage.setLocation(walk.get(index + 1).getRow() * 80, walk.get(index + 1).getColumn() * 80);
+            character = walk.get(index);
+            setNewPosition(character);
+            restar();
         }
     }
 
@@ -120,10 +135,12 @@ public class HandleMovement implements Runnable {
         return randomNum;
     }
 
+    // set new time to wait in each loop
     public void setSleep() {
-        this.sleep += 700;
+        this.sleep += 1000;
     }
 
+    // main method called by thread
     @Override
     public void run() {
         try {
@@ -133,6 +150,7 @@ public class HandleMovement implements Runnable {
         }
     }
 
+    // set condition in other thread  false to stop the proccess
     public void stop() {
         MazeController.move1.running = false;
         MazeController.move2.running = false;
@@ -141,10 +159,7 @@ public class HandleMovement implements Runnable {
         }
     }
 
-    public void reload() {
-        master.startMovement();
-    }
-
+    // add more time sleep in each loops
     private void slowOtherCharacter() {
         if (name.equals("Character 1")) {
             MazeController.move2.setSleep();
@@ -162,19 +177,28 @@ public class HandleMovement implements Runnable {
         }
     }
 
-    private void changeLocationTarge() {
-        master.setObjectiveLocation();
-        master.startMovement();
+    // change the objective's location and reload the route
+    private void restar() {
         stop();
+        master.startMovement();
+
     }
 
+    private void reload() {
+        stop();
+        master.setObjectiveLocation();
+        master.startMovement();
+
+    }
+
+    // backup the new position of character
     private void setNewPosition(Frame frame) {
         if (name.equals("Character 1")) {
-            MazeController.positionCharacter1=frame;
+            MazeController.positionCharacter1 = frame;
         } else if (name.equals("Character 2")) {
-            MazeController.positionCharacter2=frame;
+            MazeController.positionCharacter2 = frame;
         } else if (name.equals("Character 3")) {
-            MazeController.positionCharacter3=frame;
+            MazeController.positionCharacter3 = frame;
         }
     }
 
