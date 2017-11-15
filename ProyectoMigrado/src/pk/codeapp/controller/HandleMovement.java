@@ -50,6 +50,8 @@ public class HandleMovement implements Runnable {
 
     public void mover() throws InterruptedException {
         index = 0;
+        
+        Thread.sleep(500);
         while (running) {
             if (index < walk.size()) {
                 /*Change the location*/
@@ -80,35 +82,34 @@ public class HandleMovement implements Runnable {
         }
         AudioClip sound = Applet.newAudioClip(u);
         sound.play();
+        
         if (bonus.getName().equals("Acceleration")) {
             sleep -= 700;
-            frame.setBonus(null);
             Thread.sleep(sleep);
         } else if (bonus.getName().equals("Wait N seconds")) {
-            frame.setBonus(null);
             Thread.sleep(getRandom(3000, 4000));
         } else if (bonus.getName().equals("Slow down the other players")) {
-            frame.setBonus(null);
             slowOtherCharacter(); //increase the sleep in the other thread
             Thread.sleep(sleep);
         } else if (bonus.getName().equals("Change location target")) {
             frame.setBonus(null);
             reload();
-            Thread.sleep(sleep);
         } else if (bonus.getName().equals("Random")) {
             frame.setBonus(null);
             Bonus b = getBonus();
             frame.setBonus(b);
             Thread.sleep(500);
             validate(b, frame);
-            
+
         } else if (bonus.getName().equals("Teleportation")) {
             frame.setBonus(null);
             lblImage.setLocation(walk.get(index + 1).getRow() * 80, walk.get(index + 1).getColumn() * 80);
-            character = walk.get(index);
+            character = walk.get(index+1);
             setNewPosition(character);
+            walk.get(index+1).setBonus(null);
             restar();
         }
+        frame.setBonus(null);
     }
 
     public Bonus getBonus() {
@@ -185,8 +186,8 @@ public class HandleMovement implements Runnable {
     }
 
     private void reload() {
-        stop();
         master.setObjectiveLocation();
+        stop();
         master.startMovement();
 
     }

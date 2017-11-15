@@ -49,22 +49,25 @@ public class CharacterController {
         clearAll();
         listRouteShortTeleport.clear();
         checkRouteTeleports();
+        cleanMark();
+        clearAll();
         /*Search the short route*/
         shortRouteWeight(backup, destiny);
+       
         if (!listRouteShortTeleport.isEmpty()) {
-            if (listRouteShortTeleport.size()<listRouteShort.size()) {
+            if (listRouteShortTeleport.size() < listRouteShort.size()) {
                 clearAll();
-                for (int i = 0; i <listRouteShortTeleport.size(); i++) {
+                for (int i = 0; i < listRouteShortTeleport.size(); i++) {
                     listRouteShort.add(listRouteShortTeleport.get(i));
                 }
-            }else{
+            } else {
                 cleanMark();
                 clearAll();
                 teletrasportation1.getBonus().setIsGood(false);
                 teletrasportation2.getBonus().setIsGood(false);
                 shortRouteWeight(backup, destiny);
                 for (int i = 0; i < listRouteShort.size(); i++) {
-                    if(listRouteShort.get(i)==teletrasportation1 || listRouteShort.get(i )== teletrasportation2){
+                    if (listRouteShort.get(i) == teletrasportation1 || listRouteShort.get(i) == teletrasportation2) {
                         clearAll();
                         for (int j = 0; j < listRouteShortTeleport.size(); j++) {
                             listRouteShort.add(listRouteShortTeleport.get(i));
@@ -90,23 +93,39 @@ public class CharacterController {
             clearAll();
             cleanMark();
             shortRouteWeight(teletrasportation2, destiny);
-            /*listRouteShort is shorter than listTeleport = teletrasportation2 is near to Win*/
+
             if (listRouteShort.size() < listRouteShortTeleport.size()) {
                 listRouteShortTeleport.clear();
+
+                for (int i = 0; i < listRouteShort.size(); i++) { // BackUp teleport 2 in Lista Teleport 
+                    listRouteShortTeleport.add(listRouteShort.get(i));
+                }
                 clearAll();
                 cleanMark();
                 shortRouteWeight(backup, teletrasportation1);
-                for (int i = 0; i < listRouteShort.size(); i++) {
+                for (int i = 0; i < listRouteShortTeleport.size(); i++) {
+                    listRouteShort.add(listRouteShortTeleport.get(i)); // Lista ruta 1  por lista ruta 2 
+                }
+                listRouteShortTeleport.clear();
+
+                // Here the route of teleport this in ListRouteShort
+                for (int i = 0; i < listRouteShort.size(); i++) { // Pass all Frames to list Teleport
                     listRouteShortTeleport.add(listRouteShort.get(i));
                 }
+
+            } else {
                 clearAll();
                 cleanMark();
-                shortRouteWeight(teletrasportation2, destiny);
-                for (int i = 0; i < listRouteShort.size(); i++) {
+                shortRouteWeight(backup, teletrasportation2);
+                for (int i = 0; i < listRouteShortTeleport.size(); i++) {
+                    listRouteShort.add(listRouteShortTeleport.get(i));
+                }
+                listRouteShortTeleport.clear();
+
+                // Here the route of teleport this in ListRouteShort
+                for (int i = 0; i < listRouteShort.size(); i++) { // Pass all Frames to list Teleport
                     listRouteShortTeleport.add(listRouteShort.get(i));
                 }
-                clearAll();
-                cleanMark();
             }
         }
     }
@@ -174,7 +193,7 @@ public class CharacterController {
         }
         while (aux != null) {
             if (aux.getDestiny().equals(destination)) {
-               
+
                 if (contRoad == 0 | contRoadAux < contRoad) {
                     listRouteShort.clear();
                     for (int i = 0; i < listRouteAux.size(); i++) {

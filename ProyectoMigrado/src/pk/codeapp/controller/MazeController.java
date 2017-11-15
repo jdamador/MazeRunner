@@ -39,15 +39,14 @@ public class MazeController {
         /*Add link*/
         makeLinks();
         //depth(endMaze);
-        /*Set bonus positions*/
-        initializeBonus();
+
         /*initicialize characters in their positions*/
         InitializeCharacters();
-        /*Print matrix*/
-        //printMatrix();
+        /*Set bonus positions*/
+        initializeBonus();
         /*Set objective*/
         setObjectiveLocation();
-
+        whatIs();
         /*Call character movement method*/
         startMovement();
 
@@ -175,46 +174,35 @@ public class MazeController {
      * Set bonus in random position in the graph
      */
     public void initializeBonus() {
-        boolean isTeleport = false;
-
         int quantityBonus = getRandom(3, 5);
-
-        ArrayList<String> beforePositions = new ArrayList();
-
+        boolean cantTele = true;
         for (int i = 0; i < quantityBonus; i++) {
-
             boolean running = true;
-
             while (running) {
                 /*Get new position*/
+
                 int row = getRandom(0, 9);
                 int column = getRandom(0, 9);
                 /*Search position*/
-                if (!exist(row + "" + column, beforePositions)) {
-
-                    Frame found = search(row + "" + column);
-
-                    if (found.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
+                Frame found = search(row + "" + column);
+                if (found.getBonus() == null) {
+                    if (found.isAllow() == true && found != positionCharacter1 && found != positionCharacter2 && found != positionCharacter3) {
                         Bonus bonus = getBonus();
                         if (bonus.getName().equals("Teleportation")) {
-                            if (!isTeleport) {
+                            if (cantTele) {
                                 found.setBonus(bonus);
-                                System.out.println("First"+row+" "+column);
-                                isTeleport = true;
+                                System.out.println("First row: "+row+" Column" +column );
                                 boolean searching = true;
                                 while (searching) {
-                                    System.out.println("Searching ");
-                                    int newRow = getRandom(0, 9);
-                                    int newColumn = getRandom(0, 9);
-                                    if (!exist(newRow + "" + newColumn, beforePositions)) {
-                                        Frame newFound = search(newRow + "" + newColumn);
-                                        if (newFound.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
+                                    int x = getRandom(0, 9);
+                                    int y = getRandom(0, 9);
+                                    Frame newFound = search(x + "" + y);
+                                    if (newFound.getBonus() == null) {
+                                        if (newFound.isAllow() == true && found != positionCharacter1 && found != positionCharacter2 && found != positionCharacter3) {
                                             newFound.setBonus(bonus);
-                                            System.out.println("Second "+newRow+" "+newColumn);
-                                            beforePositions.add(newRow + "" + newColumn);
-                                            beforePositions.add(row + "" + column);
+                                            System.out.println("Second row: "+x+" Column " +y );
                                             searching = false;
-                                           
+                                            cantTele = false;
                                         }
                                     }
                                 }
@@ -223,11 +211,11 @@ public class MazeController {
 
                         } else {
                             found.setBonus(bonus);
-                            beforePositions.add(row + "" + column);
                             running = false;
                         }
 
                     }
+
                 }
             }
         }
@@ -246,18 +234,6 @@ public class MazeController {
     public Bonus getBonus() {
         int numBonus = getRandom(0, 5);
         return bonusController.searchInTree(numBonus);
-    }
-
-    public boolean exist(String search, ArrayList<String> beforePositions) {
-        boolean flag = false;
-        for (int i = 0; i < beforePositions.size(); i++) {
-            if (beforePositions.get(i) != null) {
-                if (search.equals(beforePositions.get(i))) {
-                    flag = true;
-                }
-            };
-        }
-        return flag;
     }
 
     /**
@@ -280,30 +256,25 @@ public class MazeController {
      * @param limit
      */
     private void setCharactersInMaze(int limit) {
-        ArrayList<String> beforePositions =  new ArrayList();
+        ArrayList<String> beforePositions = new ArrayList();
 
         for (int i = 0; i < limit; i++) {
             boolean running = true;
             while (running) {
                 int row = getRandom(0, 9);
                 int column = getRandom(0, 9);
-
-                if (!exist(row + "" + column, beforePositions)) {
-                    Frame found = search(row + "" + column);
-                    if (found.isAllow()==true&&found!=positionCharacter1&&found!=positionCharacter2&&found!=positionCharacter2) {
+                Frame found = search(row + "" + column);
+                if (found.getBonus() == null) {
+                    if (found.isAllow() && found != positionCharacter1 && found != positionCharacter2 && found != positionCharacter3) {
                         if (found.getBonus() == null) {
-
                             setChacterLocation(i, row, column, found);
-
-                           beforePositions.add( row + "" + column);
+                            beforePositions.add(row + "" + column);
                             running = false;
                         }
-
                     }
                 }
             }
         }
-
     }
 
     /**
@@ -419,6 +390,7 @@ public class MazeController {
     //</editor-fold>
     static HandleMovement move1, move2, move3;
     private CharacterController controler, controler1, controler2;
+
     public void startMovement() {
         controler = new CharacterController(positionCharacter1, startMaze, cup);
         move1 = new HandleMovement(controler.getListRouteShort(), GameWindows.imageCharacter1, "Character 1", this, positionCharacter1);
@@ -429,17 +401,20 @@ public class MazeController {
         if (positionCharacter3 != null) {
             controler2 = new CharacterController(positionCharacter3, startMaze, cup);
             move3 = new HandleMovement(controler2.getListRouteShort(), GameWindows.imageCharacter3, "Character 3", this, positionCharacter3);
-             new Thread(move3).start();
+            new Thread(move3).start();
         }
 
     }
 
-//    public void stopAndRestar()
-//    {
-//        setObjectiveLocation();
-//        move1.stop();
-//        move2.stop();
-//        move3.stop();
-//        startMovement();
-//    }
+    private void whatIs() {
+        try {
+            System.out.println("Character 1 row: "+ positionCharacter1.getRow() +" column " +  positionCharacter1.getColumn() );
+            System.out.println("Character 2 row: "  + positionCharacter2.getRow()+ " column " + positionCharacter2.getColumn());
+            System.out.println("Character 3 row: "  + positionCharacter3.getRow()+ " column " + positionCharacter3.getColumn());
+
+        }catch(Exception e){
+            
+        }
+    }
+
 }

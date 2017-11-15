@@ -26,19 +26,33 @@ public class GameWindows extends javax.swing.JFrame
      */
     DrawMapController mapGame;
     MazeController maze;
-    AudioClip sound;
-    String audio= "src/pk/codeapp/view/tools/song.wav";
+     AudioClip sound;
+    File audio = new File("src/pk/codeapp/view/tools/song.wav");
+    
 
     public GameWindows()
     {
         initComponents();
-        URL u = null;
-        try {
-            u = new File(audio).toURL();
-        } catch (Exception ex) {
-        }
-        AudioClip sound = Applet.newAudioClip(u);
-        sound.play();
+//           AudioInputStream audioInputStream = null;
+//        try {
+//            audioInputStream = AudioSystem.getAudioInputStream(audio);
+//        } catch (UnsupportedAudioFileException ex) {
+//          
+//        } catch (IOException ex) { 
+//           
+//        }
+//        Clip clip = null;
+//        try {
+//            clip = AudioSystem.getClip();
+//              clip.open(audioInputStream);
+//              FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+//              gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+//        } catch (LineUnavailableException ex) {
+//            
+//        } catch (IOException ex) {
+//           
+//        }
+//        clip.start();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         maze = new MazeController();
