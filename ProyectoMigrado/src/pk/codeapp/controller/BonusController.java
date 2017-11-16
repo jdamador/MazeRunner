@@ -124,21 +124,21 @@ public class BonusController
     /**
      * Method that create elements in the tree
      */
-    public void createBonus()
-    {
-        String[] names = {"Acceleration", "Teleportation", "Wait N seconds", "Slow down the other players", "Change location target", "Random"};
-        String[] path = {"src/pk/codeapp/view/tools/Acceleration.png", "src/pk/codeapp/view/tools/teletransport.png", "src/pk/codeapp/view/tools/wait.png",
-            "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/change.png", "src/pk/codeapp/view/tools/random.png"};
-        String[] sounds = {"src/pk/codeapp/view/tools/acceleration.wav", "src/pk/codeapp/view/tools/teleport.wav", "src/pk/codeapp/view/tools/timesleep.wav",
-            "src/pk/codeapp/view/tools/slow.wav", "src/pk/codeapp/view/tools/change.wav", "src/pk/codeapp/view/tools/random.wav"};
-        for (int i = 0; i < 6; i++) {
-            int weight = getRandom(100);
-            if (searchInTree(i) == null) {
-                insertIntoTree(weight, i, names[i], path[i], sounds[i]);
-            }
-        }
-    }
-    
+//    public void createBonus()
+//    {
+//        String[] names = {"Acceleration", "Teleportation", "Wait N seconds", "Slow down the other players", "Change location target", "Random"};
+//        String[] path = {"src/pk/codeapp/view/tools/Acceleration.png", "src/pk/codeapp/view/tools/teletransport.png", "src/pk/codeapp/view/tools/wait.png",
+//            "src/pk/codeapp/view/tools/slow.png", "src/pk/codeapp/view/tools/change.png", "src/pk/codeapp/view/tools/random.png"};
+//        String[] sounds = {"src/pk/codeapp/view/tools/acceleration.wav", "src/pk/codeapp/view/tools/teleport.wav", "src/pk/codeapp/view/tools/timesleep.wav",
+//            "src/pk/codeapp/view/tools/slow.wav", "src/pk/codeapp/view/tools/change.wav", "src/pk/codeapp/view/tools/random.wav"};
+//        for (int i = 0; i < 6; i++) {
+//            int weight = getRandom(100);
+//            if (searchInTree(i) == null) {
+//                insertIntoTree(weight, i, names[i], path[i], sounds[i]);
+//            }
+//        }
+//    }
+//    
 
     /**
      * Search in the tree to find if is already exist Receive this parameters

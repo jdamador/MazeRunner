@@ -46,7 +46,7 @@ public class MazeController {
         initializeBonus();
         /*Set objective*/
         setObjectiveLocation();
-        whatIs();
+       
         /*Call character movement method*/
         startMovement();
 
@@ -406,15 +406,5 @@ public class MazeController {
 
     }
 
-    private void whatIs() {
-        try {
-            System.out.println("Character 1 row: "+ positionCharacter1.getRow() +" column " +  positionCharacter1.getColumn() );
-            System.out.println("Character 2 row: "  + positionCharacter2.getRow()+ " column " + positionCharacter2.getColumn());
-            System.out.println("Character 3 row: "  + positionCharacter3.getRow()+ " column " + positionCharacter3.getColumn());
-
-        }catch(Exception e){
-            
-        }
-    }
 
 }

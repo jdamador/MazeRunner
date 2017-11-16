@@ -129,7 +129,9 @@ public class CharacterController {
             }
         }
     }
-
+    /**
+     * Clear marks and clean the array
+     */
     private void clearAll() {
         listRouteAux.clear();
         this.contRoad = 0;
@@ -235,7 +237,7 @@ public class CharacterController {
             temp = temp.getNextFrame();
         }
     }
-
+    
     public ArrayList<Frame> getListRouteShort() {
         return listRouteShort;
     }

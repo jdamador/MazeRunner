@@ -47,7 +47,10 @@ public class HandleMovement implements Runnable {
         this.character = character;
     }
     int index;
-
+    /**
+     * Method that is in charge of movement
+     * @throws InterruptedException 
+     */
     public void mover() throws InterruptedException {
         index = 0;
         Thread.sleep(1000);
@@ -183,7 +186,9 @@ public class HandleMovement implements Runnable {
         master.startMovement();
 
     }
-
+    /**
+     * Change the objective position and reestar movement
+     */
     private void reload() {
         master.setObjectiveLocation();
         stop();
