@@ -50,8 +50,7 @@ public class HandleMovement implements Runnable {
 
     public void mover() throws InterruptedException {
         index = 0;
-        
-        Thread.sleep(500);
+        Thread.sleep(1000);
         while (running) {
             if (index < walk.size()) {
                 /*Change the location*/

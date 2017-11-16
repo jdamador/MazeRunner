@@ -1,7 +1,6 @@
 package pk.codeapp.controller;
 import pk.codeapp.model.Dupla;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
