@@ -33,26 +33,26 @@ public class GameWindows extends javax.swing.JFrame
     public GameWindows()
     {
         initComponents();
-//           AudioInputStream audioInputStream = null;
-//        try {
-//            audioInputStream = AudioSystem.getAudioInputStream(audio);
-//        } catch (UnsupportedAudioFileException ex) {
-//          
-//        } catch (IOException ex) { 
-//           
-//        }
-//        Clip clip = null;
-//        try {
-//            clip = AudioSystem.getClip();
-//              clip.open(audioInputStream);
-//              FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-//              gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-//        } catch (LineUnavailableException ex) {
-//            
-//        } catch (IOException ex) {
-//           
-//        }
-//        clip.start();
+           AudioInputStream audioInputStream = null;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(audio);
+        } catch (UnsupportedAudioFileException ex) {
+          
+        } catch (IOException ex) { 
+           
+        }
+        Clip clip = null;
+        try {
+            clip = AudioSystem.getClip();
+              clip.open(audioInputStream);
+              FloatControl gainControl= (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+              gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+        } catch (LineUnavailableException ex) {
+            
+        } catch (IOException ex) {
+           
+        }
+        clip.start();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
         maze = new MazeController();
